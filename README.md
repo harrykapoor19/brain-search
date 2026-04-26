@@ -20,6 +20,12 @@ books/ articles/ notes/ wiki/ tweets/
 
 1. **Ingest** — an LLM reads your documents and extracts 5–12 structured *units* per file: key arguments, claims, insights, definitions — whatever matters for search. Not raw chunks. Distilled meaning.
 
+   For long documents (books, reports), the script first tries to detect chapter/section headings and splits there — so each chapter goes to the LLM as one complete unit. If no chapter structure is found, it falls back to paragraph-aware character chunking. The terminal output tells you which path was taken:
+   ```
+   detected 13 chapters → 13 sections      ← chapter-aware (books)
+   no chapters detected → 6 paragraph chunks  ← fallback (articles)
+   ```
+
 2. **Embed** — each unit is converted to 256 numbers (a vector) by Gemini's embedding model. Similar ideas get similar numbers. This is what enables semantic search.
 
 3. **Search** — you type a question, it gets embedded the same way, and the browser computes cosine similarity against all stored vectors in ~5ms. Top 12 results appear instantly.
@@ -35,11 +41,13 @@ git clone https://github.com/harrykapoor19/brain-search
 cd brain-search
 
 # Set API keys (one-time)
+# Works with standard API keys (sk-ant-...) and Claude Max OAuth tokens (sk-ant-oat...)
 export ANTHROPIC_API_KEY=sk-ant-...
 export GEMINI_API_KEY=AIza...
 
-# Point at your documents
+# Point at a folder or a single file
 python3 scripts/ingest.py ~/my-books --run --schema books
+python3 scripts/ingest.py ~/Documents/TheMomTest.pdf --run --schema books  # single file
 python3 scripts/embed.py
 python3 scripts/search.py
 ```
@@ -174,10 +182,10 @@ Everything runs locally. No database. No vector store. No cloud infra. The entir
 ## Search UI Features
 
 - **Type filters** — filter by insight/argument/fact/etc.
-- **Similarity score** — % match shown on each result  
+- **Similarity score** — % match shown on each result
 - **Tag suggestions** — auto-populated from your corpus
 - **Source attribution** — which file each result came from
-- **Dark mode** — easy on the eyes for long sessions
+- **Light mode** — cream/amber design, readable in any lighting
 
 ---
 
@@ -189,8 +197,11 @@ For personal knowledge bases under ~5000 units, a flat JSON file + browser-side 
 **Why Gemini for embeddings and not OpenAI?**  
 Gemini's embedding API has a free tier (1500 requests/day). OpenAI charges per token. For personal use, Gemini is free indefinitely.
 
-**Why extract units instead of chunking?**  
-Chunking preserves raw text verbatim — a chunk of "he argues that..." has no idea what argument it refers to. LLM extraction distills the actual claim. Search quality is significantly better, especially for books and long documents.
+**Why extract units instead of raw chunking?**  
+Raw chunking splits text arbitrarily — a chunk mid-sentence has no idea what argument it belongs to. LLM extraction distills the actual claim. Search quality is significantly better, especially for books.
+
+**How does it handle a 300-page book?**  
+It first detects chapter headings (`Chapter 1`, `Part II`, `## Title`, etc.) and splits there — so each chapter goes to the LLM as one complete, self-contained unit. If no chapter structure exists, it falls back to paragraph-aware 6,000-char chunks with 500-char overlap. A 300-page book typically becomes 13–20 chapter sections, each yielding 8–12 units → ~150–200 searchable claims total.
 
 **Can I use this with GPT-4 instead of Claude?**  
 Edit the `call_llm()` function in `ingest.py` to point at any OpenAI-compatible endpoint.
