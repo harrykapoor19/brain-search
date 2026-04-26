@@ -38,7 +38,14 @@ parser.add_argument('--model', default='claude-haiku-4-5-20251001')
 parser.add_argument('--out', default='search_data', help='Output folder')
 args = parser.parse_args()
 
-DOCS_DIR = Path(args.folder).expanduser().resolve()
+_input = Path(args.folder).expanduser().resolve()
+# Accept either a single file or a folder
+if _input.is_file():
+    DOCS_DIR  = _input.parent
+    _single   = _input
+else:
+    DOCS_DIR  = _input
+    _single   = None
 OUT_DIR  = Path(args.out)
 UNITS_OUT = OUT_DIR / 'units.json'
 
@@ -102,6 +109,17 @@ def call_llm(prompt, text, model):
     ANTHROPIC_KEY = os.environ.get('ANTHROPIC_API_KEY', '')
     if not ANTHROPIC_KEY:
         raise Exception("No ANTHROPIC_API_KEY")
+    is_oauth = ANTHROPIC_KEY.startswith("sk-ant-oat")
+    headers = {
+        "anthropic-version": "2023-06-01",
+        "content-type": "application/json",
+    }
+    if is_oauth:
+        headers["Authorization"] = f"Bearer {ANTHROPIC_KEY}"
+        headers["anthropic-beta"] = "oauth-2025-04-20"
+    else:
+        headers["x-api-key"] = ANTHROPIC_KEY
+
     payload = json.dumps({
         "model": model,
         "max_tokens": 2000,
@@ -111,11 +129,7 @@ def call_llm(prompt, text, model):
     req = urllib.request.Request(
         "https://api.anthropic.com/v1/messages",
         data=payload,
-        headers={
-            "x-api-key": ANTHROPIC_KEY,
-            "anthropic-version": "2023-06-01",
-            "content-type": "application/json",
-        },
+        headers=headers,
         method="POST"
     )
     for attempt in range(5):
@@ -142,7 +156,10 @@ def call_llm(prompt, text, model):
 
 # Discover documents
 extensions = {'.md', '.txt', '.pdf'}
-docs = sorted([f for f in DOCS_DIR.rglob('*') if f.suffix.lower() in extensions and not f.name.startswith('.')])
+if _single:
+    docs = [_single]
+else:
+    docs = sorted([f for f in DOCS_DIR.rglob('*') if f.suffix.lower() in extensions and not f.name.startswith('.')])
 
 extract_prompt = args.prompt if args.schema == 'custom' and args.prompt else SCHEMAS[args.schema]
 
