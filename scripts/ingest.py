@@ -104,41 +104,55 @@ def chunk_text(text, max_chars=6000):
         start = end - 500
     return chunks
 
-# Matches chapter/part/section headings in books and markdown headers
-CHAPTER_RE = re.compile(
-    r'(?m)^\s*(?:'
-    r'(?:Chapter|CHAPTER|Appendix|APPENDIX)\s+(?:\d+|[IVXLCDM]+|One|Two|Three|Four|Five|Six|Seven|Eight|Nine|Ten|Eleven|Twelve|Thirteen|Fourteen|Fifteen|Sixteen|Seventeen|Eighteen|Nineteen|Twenty)[^\n]*'
-    r'|(?:Part|PART|Section|SECTION)\s+(?:\d+|[IVXLCDM]+)[^\n]*'
-    r'|#{1,3}\s+\S[^\n]*'
-    r')\s*$'
-)
+DETECT_PROMPT = """Analyze this document sample. Identify its type and the repeating unit that separates sections.
 
-def split_by_sections(text, max_chars=12000):
-    """Split at chapter/section headings. Falls back to chunk_text if no structure found.
-    Returns (sections_list, number_of_chapter_headings_detected)."""
-    matches = list(CHAPTER_RE.finditer(text))
-    if len(matches) < 2:
-        return chunk_text(text), 0
+Return JSON only — no explanation:
+{
+  "doc_type": "book|tweets|transcript|newsletter|article|notes|other",
+  "section_label": "chapter|tweet|episode|issue|post|note|section",
+  "split_regex": "multiline regex matching the START of each new section, or null if no repeating structure"
+}
 
-    sections = []
-    positions = [m.start() for m in matches] + [len(text)]
+Rules:
+- split_regex must anchor to line start — use (?m)^
+- Return null if this is a single continuous document (one article, one essay)
+- Be conservative: only return a regex if confident it finds 3+ matches in the sample"""
 
-    # Include substantial preamble (front matter, preface) before first heading
-    preamble = text[:positions[0]].strip()
-    if len(preamble) > 300:
-        sections.extend(chunk_text(preamble, max_chars) if len(preamble) > max_chars else [preamble])
+def detect_and_split(text, model, max_chars=12000):
+    """One LLM call on a sample to detect document type and split pattern.
+    Returns (sections, doc_type, section_label, n_detected)."""
+    try:
+        result = call_llm(DETECT_PROMPT, text[:4000], model)
+        if not isinstance(result, dict):
+            result = {}
+    except Exception:
+        result = {}
 
-    for i in range(len(matches)):
-        section = text[positions[i]:positions[i + 1]].strip()
-        if not section:
-            continue
-        if len(section) <= max_chars:
-            sections.append(section)
-        else:
-            # Chapter is too long — split it further
-            sections.extend(chunk_text(section, max_chars))
+    doc_type     = result.get('doc_type', 'document')
+    section_label = result.get('section_label', 'chunk')
+    split_regex  = result.get('split_regex')
 
-    return (sections if sections else chunk_text(text)), len(matches)
+    if split_regex:
+        try:
+            pattern = re.compile(split_regex, re.MULTILINE)
+            matches = list(pattern.finditer(text))
+            if len(matches) >= 2:
+                sections = []
+                positions = [m.start() for m in matches] + [len(text)]
+                preamble = text[:positions[0]].strip()
+                if len(preamble) > 300:
+                    sections.extend(chunk_text(preamble, max_chars) if len(preamble) > max_chars else [preamble])
+                for i in range(len(matches)):
+                    section = text[positions[i]:positions[i + 1]].strip()
+                    if not section:
+                        continue
+                    sections.extend(chunk_text(section, max_chars) if len(section) > max_chars else [section])
+                if sections:
+                    return sections, doc_type, section_label, len(matches)
+        except re.error:
+            pass
+
+    return chunk_text(text), doc_type, 'chunk', 0
 
 def call_llm(prompt, text, model):
     ANTHROPIC_KEY = os.environ.get('ANTHROPIC_API_KEY', '')
@@ -243,16 +257,15 @@ for doc in pending:
         print(f"    skipped — too short or unreadable")
         continue
 
-    chunks, n_chapters = split_by_sections(text)
-    if n_chapters:
-        print(f"    detected {n_chapters} chapter{'s' if n_chapters != 1 else ''} → {len(chunks)} section{'s' if len(chunks) != 1 else ''}")
-    elif len(chunks) > 1:
-        print(f"    no chapters detected → {len(chunks)} paragraph chunks")
+    chunks, doc_type, section_label, n_detected = detect_and_split(text, args.model)
+    if n_detected:
+        print(f"    {doc_type} → {n_detected} {section_label}s ({len(chunks)} total)")
+    else:
+        print(f"    {doc_type} → {len(chunks)} paragraph chunks")
     doc_units = []
 
-    unit_label = 'section' if n_chapters else 'chunk'
     for i, chunk in enumerate(chunks):
-        label = f"{unit_label} {i+1}/{len(chunks)}" if len(chunks) > 1 else ""
+        label = f"{section_label} {i+1}/{len(chunks)}" if len(chunks) > 1 else ""
         try:
             units = call_llm(extract_prompt, chunk, args.model)
             if not isinstance(units, list):

@@ -20,10 +20,11 @@ books/ articles/ notes/ wiki/ tweets/
 
 1. **Ingest** — an LLM reads your documents and extracts 5–12 structured *units* per file: key arguments, claims, insights, definitions — whatever matters for search. Not raw chunks. Distilled meaning.
 
-   For long documents (books, reports), the script first tries to detect chapter/section headings and splits there — so each chapter goes to the LLM as one complete unit. If no chapter structure is found, it falls back to paragraph-aware character chunking. The terminal output tells you which path was taken:
+   Before extracting, the script makes one cheap LLM call on a sample of the document to figure out what it is and how it should be split. It returns a regex for the natural unit boundary — chapter headings for books, tweet separators for dumps, speaker turns for transcripts, date headers for newsletters. The detected structure is then applied to the whole document. If no repeating structure is found, it falls back to paragraph-aware character chunking.
    ```
-   detected 13 chapters → 13 sections      ← chapter-aware (books)
-   no chapters detected → 6 paragraph chunks  ← fallback (articles)
+   book → 13 chapters (13 total)          ← LLM detected chapter headings
+   tweets → 10,000 tweets (10,000 total)  ← LLM detected tweet boundaries
+   article → 6 paragraph chunks           ← no structure, fallback
    ```
 
 2. **Embed** — each unit is converted to 256 numbers (a vector) by Gemini's embedding model. Similar ideas get similar numbers. This is what enables semantic search.
@@ -200,8 +201,8 @@ Gemini's embedding API has a free tier (1500 requests/day). OpenAI charges per t
 **Why extract units instead of raw chunking?**  
 Raw chunking splits text arbitrarily — a chunk mid-sentence has no idea what argument it belongs to. LLM extraction distills the actual claim. Search quality is significantly better, especially for books.
 
-**How does it handle a 300-page book?**  
-It first detects chapter headings (`Chapter 1`, `Part II`, `## Title`, etc.) and splits there — so each chapter goes to the LLM as one complete, self-contained unit. If no chapter structure exists, it falls back to paragraph-aware 6,000-char chunks with 500-char overlap. A 300-page book typically becomes 13–20 chapter sections, each yielding 8–12 units → ~150–200 searchable claims total.
+**How does it handle a 300-page book or 10,000 tweets?**  
+Before extraction, one cheap LLM call reads a ~4,000-char sample and figures out the document type and natural unit boundary — returning a regex. A book → split by chapter headings. A tweet dump → split by tweet separator. A transcript → split by speaker turns. A newsletter archive → split by issue date. No hardcoded rules per type — it figures it out on the fly. If no repeating structure is found, it falls back to paragraph-aware 6,000-char chunks.
 
 **Can I use this with GPT-4 instead of Claude?**  
 Edit the `call_llm()` function in `ingest.py` to point at any OpenAI-compatible endpoint.
