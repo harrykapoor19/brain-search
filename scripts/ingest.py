@@ -91,19 +91,54 @@ def read_file(path):
     return None
 
 def chunk_text(text, max_chars=6000):
-    """Split long text into overlapping chunks."""
+    """Split long text into overlapping chunks at paragraph boundaries."""
     if len(text) <= max_chars:
         return [text]
     chunks, start = [], 0
     while start < len(text):
         end = min(start + max_chars, len(text))
-        # Try to break at paragraph boundary
         boundary = text.rfind('\n\n', start, end)
         if boundary > start + 2000:
             end = boundary
         chunks.append(text[start:end])
-        start = end - 500  # 500-char overlap
+        start = end - 500
     return chunks
+
+# Matches chapter/part/section headings in books and markdown headers
+CHAPTER_RE = re.compile(
+    r'(?m)^\s*(?:'
+    r'(?:Chapter|CHAPTER|Appendix|APPENDIX)\s+(?:\d+|[IVXLCDM]+|One|Two|Three|Four|Five|Six|Seven|Eight|Nine|Ten|Eleven|Twelve|Thirteen|Fourteen|Fifteen|Sixteen|Seventeen|Eighteen|Nineteen|Twenty)[^\n]*'
+    r'|(?:Part|PART|Section|SECTION)\s+(?:\d+|[IVXLCDM]+)[^\n]*'
+    r'|#{1,3}\s+\S[^\n]*'
+    r')\s*$'
+)
+
+def split_by_sections(text, max_chars=12000):
+    """Split at chapter/section headings. Falls back to chunk_text if no structure found.
+    Returns (sections_list, number_of_chapter_headings_detected)."""
+    matches = list(CHAPTER_RE.finditer(text))
+    if len(matches) < 2:
+        return chunk_text(text), 0
+
+    sections = []
+    positions = [m.start() for m in matches] + [len(text)]
+
+    # Include substantial preamble (front matter, preface) before first heading
+    preamble = text[:positions[0]].strip()
+    if len(preamble) > 300:
+        sections.extend(chunk_text(preamble, max_chars) if len(preamble) > max_chars else [preamble])
+
+    for i in range(len(matches)):
+        section = text[positions[i]:positions[i + 1]].strip()
+        if not section:
+            continue
+        if len(section) <= max_chars:
+            sections.append(section)
+        else:
+            # Chapter is too long — split it further
+            sections.extend(chunk_text(section, max_chars))
+
+    return (sections if sections else chunk_text(text)), len(matches)
 
 def call_llm(prompt, text, model):
     ANTHROPIC_KEY = os.environ.get('ANTHROPIC_API_KEY', '')
@@ -124,7 +159,7 @@ def call_llm(prompt, text, model):
         "model": model,
         "max_tokens": 2000,
         "system": "You are a precise knowledge extractor. Output only valid JSON arrays. No markdown fences.",
-        "messages": [{"role": "user", "content": f"{prompt}\n\nDocument:\n---\n{text[:6000]}\n---"}]
+        "messages": [{"role": "user", "content": f"{prompt}\n\nDocument:\n---\n{text[:15000]}\n---"}]
     }).encode()
     req = urllib.request.Request(
         "https://api.anthropic.com/v1/messages",
@@ -208,11 +243,16 @@ for doc in pending:
         print(f"    skipped — too short or unreadable")
         continue
 
-    chunks = chunk_text(text)
+    chunks, n_chapters = split_by_sections(text)
+    if n_chapters:
+        print(f"    detected {n_chapters} chapter{'s' if n_chapters != 1 else ''} → {len(chunks)} section{'s' if len(chunks) != 1 else ''}")
+    elif len(chunks) > 1:
+        print(f"    no chapters detected → {len(chunks)} paragraph chunks")
     doc_units = []
 
+    unit_label = 'section' if n_chapters else 'chunk'
     for i, chunk in enumerate(chunks):
-        label = f"chunk {i+1}/{len(chunks)}" if len(chunks) > 1 else ""
+        label = f"{unit_label} {i+1}/{len(chunks)}" if len(chunks) > 1 else ""
         try:
             units = call_llm(extract_prompt, chunk, args.model)
             if not isinstance(units, list):

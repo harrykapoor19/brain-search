@@ -27,6 +27,13 @@ python3 /path/to/brain-search/scripts/ingest.py <docs_folder> --run --schema <sc
 - `tweets` — claims, stances, predictions
 - `general` (default) — works for anything
 
+**How long documents are split:**
+The ingest script automatically detects chapter/section headings (e.g. "Chapter 1", "Part II", "## Heading") and splits there first — each chapter goes to the LLM as one unit. If no chapter structure is found, or a chapter is >12,000 chars, it falls back to paragraph-aware character chunking. The terminal output tells you which path was taken:
+```
+detected 13 chapters → 13 sections      ← chapter-aware
+no chapters detected → 47 paragraph chunks  ← fallback
+```
+
 **Examples:**
 ```bash
 python3 scripts/ingest.py ~/second-brain/raw/books --run --schema books
