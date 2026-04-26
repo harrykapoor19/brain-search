@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>brain-search</title>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:-apple-system,'Inter',sans-serif;background:#0f0f0f;color:#e8e8e8;min-height:100vh}
+
+  .header{padding:40px 48px 0;display:flex;align-items:baseline;gap:12px}
+  .header h1{font-size:20px;font-weight:700;letter-spacing:-0.5px}
+  .header h1 span{color:#6ee7b7}
+  .corpus-name{font-size:13px;color:#555;font-weight:400}
+  .count{font-size:12px;color:#444;margin-left:auto}
+
+  .search-wrap{padding:20px 48px;position:sticky;top:0;background:#0f0f0f;z-index:10;border-bottom:1px solid #1f1f1f}
+  input[type=text]{
+    width:100%;padding:14px 18px;font-size:16px;
+    border:1.5px solid #2a2a2a;border-radius:10px;
+    background:#171717;color:#e8e8e8;outline:none;
+    font-family:inherit;transition:border 0.15s
+  }
+  input::placeholder{color:#444}
+  input:focus{border-color:#6ee7b7}
+  .status{font-size:12px;color:#555;margin-top:8px;min-height:18px}
+
+  .suggestions{display:flex;gap:8px;flex-wrap:wrap;padding:16px 48px}
+  .sug{font-size:12px;background:#171717;border:1px solid #2a2a2a;border-radius:20px;padding:5px 13px;cursor:pointer;color:#666;transition:all 0.15s}
+  .sug:hover{background:#6ee7b7;color:#0f0f0f;border-color:#6ee7b7}
+
+  .results{padding:16px 48px 48px;display:grid;gap:12px;max-width:860px}
+
+  .card{background:#171717;border:1px solid #1f1f1f;border-radius:10px;padding:18px 22px;transition:border-color 0.15s,box-shadow 0.15s}
+  .card:hover{border-color:#6ee7b7;box-shadow:0 0 0 1px #6ee7b7}
+
+  .card-top{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+  .type-badge{font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:0.8px;padding:2px 8px;border-radius:4px}
+  .type-insight,.type-general{background:#1e3a2f;color:#6ee7b7}
+  .type-argument,.type-thesis{background:#2d1f3d;color:#c084fc}
+  .type-fact,.type-finding,.type-evidence{background:#1e2a3a;color:#60a5fa}
+  .type-example{background:#3a2a1e;color:#fb923c}
+  .type-framework{background:#3a1e2a;color:#f472b6}
+  .type-definition{background:#2a3a1e;color:#a3e635}
+  .type-prediction,.type-stance{background:#3a2a1e;color:#fbbf24}
+  .type-critique{background:#3a1e1e;color:#f87171}
+
+  .card-title{font-size:16px;font-weight:700;flex:1;color:#e8e8e8}
+  .score{font-size:13px;font-weight:700;color:#6ee7b7}
+
+  .card-summary{font-size:14px;color:#888;line-height:1.65;margin-bottom:10px}
+
+  .card-footer{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+  .tag{font-size:11px;background:#1a1a1a;color:#555;border:1px solid #252525;padding:2px 8px;border-radius:4px}
+  .source{font-size:11px;color:#444;margin-left:auto;font-style:italic}
+
+  .empty{padding:60px 0;text-align:center;color:#444;font-size:15px}
+  .empty strong{display:block;font-size:20px;color:#555;margin-bottom:8px}
+  .empty code{background:#171717;padding:4px 10px;border-radius:6px;font-size:13px;color:#6ee7b7}
+
+  .spinner{display:inline-block;width:13px;height:13px;border:2px solid #2a2a2a;border-top-color:#6ee7b7;border-radius:50%;animation:spin 0.6s linear infinite;vertical-align:middle;margin-right:6px}
+  @keyframes spin{to{transform:rotate(360deg)}}
+
+  .filter-bar{display:flex;gap:6px;flex-wrap:wrap;padding:0 48px 12px}
+  .filter{font-size:11px;padding:3px 10px;border-radius:20px;border:1px solid #2a2a2a;background:transparent;color:#555;cursor:pointer;transition:all 0.15s}
+  .filter.active,.filter:hover{background:#6ee7b7;color:#0f0f0f;border-color:#6ee7b7}
+</style>
+</head>
+<body>
+
+<div class="header">
+  <h1>brain<span>-search</span></h1>
+  <span class="corpus-name" id="corpus-name"></span>
+  <span class="count" id="count">Loading…</span>
+</div>
+
+<div class="search-wrap">
+  <input type="text" id="q" placeholder="Search your knowledge base…" autocomplete="off" autofocus>
+  <div class="status" id="status"></div>
+</div>
+
+<div class="suggestions" id="suggestions"></div>
+<div class="filter-bar" id="filters"></div>
+<div class="results" id="results">
+  <div class="empty">
+    <strong>Ready to search</strong>
+    Natural language — finds meaning, not just keywords
+  </div>
+</div>
+
+<script>
+let _cache = null, _timer = null, _activeFilter = null;
+
+async function loadEmbeddings() {
+  if (_cache) return _cache;
+  const r = await fetch('/embeddings.json');
+  if (!r.ok) { const e = await r.json(); throw new Error(e.error || r.status); }
+  _cache = await r.json();
+
+  document.getElementById('count').textContent = `${_cache.length} units indexed`;
+
+  // Discover unique source files for corpus name
+  const sources = [...new Set(_cache.map(e => e.source_file).filter(Boolean))];
+  if (sources.length === 1) document.getElementById('corpus-name').textContent = sources[0];
+  else if (sources.length > 1) document.getElementById('corpus-name').textContent = `${sources.length} documents`;
+
+  // Build type filters
+  const types = [...new Set(_cache.map(e => e.type).filter(Boolean))];
+  if (types.length > 1) {
+    const bar = document.getElementById('filters');
+    bar.innerHTML = types.map(t =>
+      `<button class="filter" onclick="setFilter('${t}',this)">${t}</button>`
+    ).join('') + `<button class="filter" onclick="setFilter(null,this)">all</button>`;
+  }
+
+  // Populate suggestions from top tags
+  const tagCounts = {};
+  _cache.forEach(e => (e.tags || []).forEach(t => tagCounts[t] = (tagCounts[t]||0)+1));
+  const topTags = Object.entries(tagCounts).sort((a,b)=>b[1]-a[1]).slice(0,6).map(([t])=>t);
+  if (topTags.length) {
+    document.getElementById('suggestions').innerHTML =
+      topTags.map(t => `<span class="sug" onclick="setQ(this)">${t}</span>`).join('');
+  }
+
+  return _cache;
+}
+
+function setFilter(type, el) {
+  _activeFilter = type;
+  document.querySelectorAll('.filter').forEach(b => b.classList.remove('active'));
+  if (el) el.classList.add('active');
+  const q = document.getElementById('q').value;
+  if (q.length >= 3) runSearch(q);
+}
+
+function cosine(a, b) {
+  let dot=0,na=0,nb=0;
+  for(let i=0;i<a.length;i++){dot+=a[i]*b[i];na+=a[i]*a[i];nb+=b[i]*b[i]}
+  return dot/(Math.sqrt(na)*Math.sqrt(nb)||1);
+}
+
+function setQ(el) {
+  document.getElementById('q').value = el.textContent;
+  runSearch(el.textContent);
+}
+
+function renderCard(e) {
+  const pct = Math.round((e._sim||0)*100);
+  const type = (e.type||'insight').toLowerCase().replace(/\s+/g,'-');
+  const tags = (e.tags||[]).slice(0,3).map(t=>`<span class="tag">${t}</span>`).join('');
+  const source = e.source_file ? `<span class="source">${e.source_file}</span>` : '';
+  return `<div class="card">
+    <div class="card-top">
+      <span class="type-badge type-${type}">${e.type||'insight'}</span>
+      <span class="card-title">${e.title||'Untitled'}</span>
+      <span class="score">${pct}%</span>
+    </div>
+    <div class="card-summary">${e.summary||''}</div>
+    <div class="card-footer">${tags}${source}</div>
+  </div>`;
+}
+
+async function runSearch(q) {
+  q = (q||'').trim();
+  const el = document.getElementById('results');
+  const st = document.getElementById('status');
+  if (q.length < 2) {
+    el.innerHTML = '<div class="empty"><strong>Ready to search</strong>Natural language — finds meaning, not just keywords</div>';
+    st.innerHTML = ''; return;
+  }
+  st.innerHTML = '<span class="spinner"></span>Searching…';
+  try {
+    const [embResp, embs] = await Promise.all([
+      fetch('/embed', {method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({text:q})}),
+      loadEmbeddings(),
+    ]);
+    if (!embResp.ok) { const e=await embResp.json(); throw new Error(e.error||embResp.status); }
+    const {vector: qv} = await embResp.json();
+
+    let pool = embs;
+    if (_activeFilter) pool = embs.filter(e => e.type === _activeFilter);
+
+    const scored = pool
+      .map(e => ({...e, _sim: cosine(qv, e.vector)}))
+      .sort((a,b) => b._sim - a._sim)
+      .slice(0, 12);
+
+    const filterNote = _activeFilter ? ` · filter: ${_activeFilter}` : '';
+    st.innerHTML = `${scored.length} results for "<strong>${q}</strong>"${filterNote}`;
+    el.innerHTML = scored.map(renderCard).join('');
+  } catch(err) {
+    st.innerHTML = '';
+    el.innerHTML = `<div class="empty"><strong>Search failed</strong>${err.message}<br><br>Make sure the server is running: <code>python3 scripts/search.py</code></div>`;
+  }
+}
+
+const input = document.getElementById('q');
+input.addEventListener('input', e => { clearTimeout(_timer); _timer = setTimeout(()=>runSearch(e.target.value), 350); });
+input.addEventListener('keydown', e => { if(e.key==='Enter'){clearTimeout(_timer);runSearch(e.target.value);} });
+
+loadEmbeddings().catch(err => {
+  document.getElementById('count').textContent = 'No embeddings found';
+  document.getElementById('results').innerHTML =
+    `<div class="empty"><strong>No embeddings found</strong>Run: <code>python3 scripts/ingest.py &lt;folder&gt; --run</code><br>then: <code>python3 scripts/embed.py</code></div>`;
+});
+</script>
+</body>
+</html>
