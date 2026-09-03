@@ -1,0 +1,574 @@
+<title>Automated Ads Market Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600;9..144,700&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --ground:#F4F3EF; --surface:#FFFFFF; --surface-2:#FAF9F6;
+  --ink:#17181B; --ink-2:#3D3F45; --muted:#6A6C73; --faint:#9B9CA1;
+  --rule:#E0DED8; --rule-strong:#C9C6BE;
+  --accent:#00706A; --accent-soft:#E3F0EE;
+  --series-1:#008C84; --series-2:#C2851F;
+  --good:#2C6E4A; --critical:#A8372C; --critical-soft:#F6E9E7;
+  --shadow:0 1px 2px rgba(23,24,27,.05),0 8px 24px rgba(23,24,27,.05);
+  --measure:68ch;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#121311; --surface:#1A1A19; --surface-2:#212220;
+    --ink:#EDECE7; --ink-2:#C9C8C2; --muted:#95958F; --faint:#6E6E69;
+    --rule:#2E2F2C; --rule-strong:#43443F;
+    --accent:#46B5AC; --accent-soft:#16302E;
+    --series-1:#2FA79E; --series-2:#C0882A;
+    --good:#5FAE83; --critical:#D9705F; --critical-soft:#2C1B18;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.28);
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#121311; --surface:#1A1A19; --surface-2:#212220;
+  --ink:#EDECE7; --ink-2:#C9C8C2; --muted:#95958F; --faint:#6E6E69;
+  --rule:#2E2F2C; --rule-strong:#43443F;
+  --accent:#46B5AC; --accent-soft:#16302E;
+  --series-1:#2FA79E; --series-2:#C0882A;
+  --good:#5FAE83; --critical:#D9705F; --critical-soft:#2C1B18;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px rgba(0,0,0,.28);
+}
+*{box-sizing:border-box}
+body{
+  background:var(--ground); color:var(--ink);
+  font-family:"Public Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+  font-size:16px; line-height:1.62; margin:0;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1120px; margin:0 auto; padding:0 24px}
+.col{max-width:var(--measure)}
+h1,h2,h3,h4{font-family:Fraunces,Georgia,"Times New Roman",serif; text-wrap:balance; margin:0}
+h1{font-size:clamp(2.1rem,5.2vw,3.5rem); font-weight:700; line-height:1.06; letter-spacing:-.02em}
+h2{font-size:clamp(1.5rem,3vw,2.05rem); font-weight:600; line-height:1.15; letter-spacing:-.01em}
+h3{font-size:1.16rem; font-weight:600; line-height:1.3}
+h4{font-size:1rem; font-weight:600}
+p{margin:0 0 1.05em}
+a{color:var(--accent); text-decoration:underline; text-underline-offset:2px; text-decoration-thickness:1px}
+a:hover{text-decoration-thickness:2px}
+a:focus-visible,button:focus-visible{outline:2px solid var(--accent); outline-offset:3px; border-radius:2px}
+.eyebrow{
+  font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace;
+  font-size:.7rem; letter-spacing:.13em; text-transform:uppercase;
+  color:var(--muted); font-weight:500;
+}
+.mono{font-family:"IBM Plex Mono",ui-monospace,SFMono-Regular,Menlo,monospace; font-variant-numeric:tabular-nums}
+
+/* header */
+header.masthead{border-bottom:1px solid var(--rule); background:var(--surface)}
+.masthead-inner{padding:56px 0 44px; display:flex; flex-direction:column; gap:22px}
+.kicker{display:flex; flex-wrap:wrap; gap:10px 18px; align-items:baseline}
+.dek{font-size:1.16rem; color:var(--ink-2); max-width:60ch; margin:0}
+.thesis{
+  border-left:3px solid var(--accent); padding:2px 0 2px 18px;
+  font-size:1.02rem; color:var(--ink-2); max-width:62ch; margin:0;
+}
+nav.toc{display:flex; flex-wrap:wrap; gap:6px 8px; padding-top:4px}
+nav.toc a{
+  font-family:"IBM Plex Mono",monospace; font-size:.74rem; letter-spacing:.04em;
+  text-decoration:none; color:var(--ink-2);
+  border:1px solid var(--rule-strong); border-radius:999px; padding:5px 12px;
+  transition:background .15s,border-color .15s;
+}
+nav.toc a:hover{background:var(--accent-soft); border-color:var(--accent); color:var(--accent)}
+
+/* stat strip */
+.stats{
+  display:grid; grid-template-columns:repeat(auto-fit,minmax(168px,1fr));
+  border-top:1px solid var(--rule); border-bottom:1px solid var(--rule);
+  background:var(--surface-2);
+}
+.stat{padding:20px 22px; border-right:1px solid var(--rule); display:flex; flex-direction:column; gap:3px}
+.stat:last-child{border-right:none}
+.stat .v{font-family:Fraunces,Georgia,serif; font-size:1.72rem; font-weight:600; line-height:1.05; font-variant-numeric:tabular-nums}
+.stat .k{font-size:.82rem; color:var(--muted); line-height:1.35}
+
+section{padding:56px 0; border-bottom:1px solid var(--rule)}
+section:last-of-type{border-bottom:none}
+.sec-head{display:flex; flex-direction:column; gap:9px; margin-bottom:26px}
+
+/* chart */
+.figure{background:var(--surface); border:1px solid var(--rule); border-radius:6px; box-shadow:var(--shadow); padding:22px; margin:30px 0}
+.fig-title{font-family:Fraunces,Georgia,serif; font-size:1.06rem; font-weight:600; margin:0 0 3px}
+.fig-sub{font-size:.85rem; color:var(--muted); margin:0 0 16px}
+.legend{display:flex; gap:18px; flex-wrap:wrap; margin:0 0 14px}
+.legend span{display:inline-flex; align-items:center; gap:7px; font-size:.83rem; color:var(--ink-2)}
+.swatch{width:11px; height:11px; border-radius:2px; display:inline-block}
+.chart-scroll{overflow-x:auto}
+#chart{display:block; min-width:520px; width:100%; height:auto}
+.tip{
+  position:fixed; pointer-events:none; opacity:0; transition:opacity .12s;
+  background:var(--surface); border:1px solid var(--rule-strong); border-radius:5px;
+  box-shadow:var(--shadow); padding:8px 11px; font-size:.82rem; z-index:40; max-width:250px;
+}
+.tip strong{display:block; font-size:.88rem; margin-bottom:2px}
+.tip .tv{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; color:var(--ink-2)}
+
+/* tables */
+.tbl-wrap{overflow-x:auto; border:1px solid var(--rule); border-radius:6px; background:var(--surface); margin:22px 0; box-shadow:var(--shadow)}
+table{border-collapse:collapse; width:100%; min-width:660px; font-size:.875rem}
+th,td{text-align:left; padding:10px 14px; border-bottom:1px solid var(--rule); vertical-align:top}
+thead th{
+  font-family:"IBM Plex Mono",monospace; font-size:.68rem; letter-spacing:.09em;
+  text-transform:uppercase; color:var(--muted); font-weight:500;
+  background:var(--surface-2); position:sticky; top:0; border-bottom:1px solid var(--rule-strong);
+}
+tbody tr:last-child td{border-bottom:none}
+tbody tr:hover{background:var(--surface-2)}
+td.num{font-family:"IBM Plex Mono",monospace; font-variant-numeric:tabular-nums; white-space:nowrap}
+td.co{font-weight:600; white-space:nowrap}
+.pill{
+  display:inline-block; font-family:"IBM Plex Mono",monospace; font-size:.68rem;
+  padding:2px 7px; border-radius:3px; letter-spacing:.03em; white-space:nowrap;
+  border:1px solid var(--rule-strong); color:var(--muted);
+}
+.pill.dead{background:var(--critical-soft); border-color:var(--critical); color:var(--critical)}
+.pill.exit{background:var(--accent-soft); border-color:var(--accent); color:var(--accent)}
+.adlinks{white-space:nowrap; font-family:"IBM Plex Mono",monospace; font-size:.72rem}
+.adlinks a{margin-right:7px}
+
+/* founder tiers */
+.tier-lead{display:flex; align-items:baseline; gap:12px; margin:34px 0 4px; flex-wrap:wrap}
+.tier-lead h3{font-size:1.3rem}
+.verdict{
+  border-left:3px solid var(--accent); background:var(--surface);
+  border-top:1px solid var(--rule); border-right:1px solid var(--rule); border-bottom:1px solid var(--rule);
+  border-radius:0 6px 6px 0; padding:22px 24px; margin:18px 0; box-shadow:var(--shadow);
+}
+.verdict .who{display:flex; flex-wrap:wrap; gap:8px 14px; align-items:baseline; margin-bottom:10px}
+.verdict .who h4{font-family:Fraunces,Georgia,serif; font-size:1.18rem}
+.verdict .role{font-size:.86rem; color:var(--muted)}
+.verdict p{font-size:.95rem; margin-bottom:.85em}
+.verdict p:last-child{margin-bottom:0}
+.tag{
+  font-family:"IBM Plex Mono",monospace; font-size:.68rem; letter-spacing:.05em;
+  color:var(--accent); border:1px solid var(--accent); border-radius:3px; padding:1px 7px;
+}
+.why{font-weight:600; color:var(--ink)}
+.risk{color:var(--muted); font-size:.9rem !important}
+ul.tier2{list-style:none; padding:0; margin:16px 0; display:grid; gap:1px; background:var(--rule); border:1px solid var(--rule); border-radius:6px; overflow:hidden}
+ul.tier2 li{background:var(--surface); padding:13px 18px; font-size:.92rem}
+ul.tier2 b{font-family:Fraunces,Georgia,serif; font-size:1rem}
+ul.plain{padding-left:1.15em; margin:14px 0}
+ul.plain li{margin-bottom:.5em}
+
+/* graveyard */
+.grave{border:1px solid var(--rule); border-left:3px solid var(--critical); border-radius:0 6px 6px 0; background:var(--surface); padding:20px 22px; margin:16px 0}
+.grave h4{margin-bottom:6px; display:flex; gap:10px; align-items:baseline; flex-wrap:wrap}
+.grave p{font-size:.93rem; margin-bottom:.6em; color:var(--ink-2)}
+.grave p:last-child{margin-bottom:0}
+
+.callout{background:var(--accent-soft); border:1px solid var(--accent); border-radius:6px; padding:20px 24px; margin:26px 0}
+.callout p{margin-bottom:.7em}
+.callout p:last-child{margin-bottom:0}
+.note{font-size:.87rem; color:var(--muted)}
+footer{padding:40px 0 64px; color:var(--muted); font-size:.86rem}
+@media (max-width:640px){
+  .masthead-inner{padding:38px 0 30px}
+  section{padding:40px 0}
+  .stat{padding:16px 18px}
+}
+@media (prefers-reduced-motion:reduce){*{transition:none !important; animation:none !important}}
+</style>
+
+<header class="masthead">
+  <div class="wrap masthead-inner">
+    <div class="kicker">
+      <span class="eyebrow">Market research</span>
+      <span class="eyebrow">3 September 2026</span>
+    </div>
+    <h1>Who's building the AI that runs your ads</h1>
+    <p class="dek">A map of the companies selling AI tools to businesses that advertise on Meta, Google and TikTok — by segment, with funding, valuations, founders and an investor's verdict.</p>
+    <p class="thesis">The organising fact: Meta's Advantage+ passed a <strong>$75B annual revenue run rate</strong> in Q2 2026, and Meta intends to let a business supply a URL, a budget and a bank account by the end of the year. Creative generation, targeting and budget optimization — the three things most of these companies charge for — are becoming free platform features.</p>
+    <nav class="toc">
+      <a href="#squeeze">The squeeze</a>
+      <a href="#smb">SMB self-serve</a>
+      <a href="#creative">GenAI creative</a>
+      <a href="#enterprise">Enterprise</a>
+      <a href="#b2b">B2B</a>
+      <a href="#commerce">Commerce &amp; apps</a>
+      <a href="#agentic">Agentic buyers</a>
+      <a href="#bet">Who I'd bet on</a>
+      <a href="#graveyard">The graveyard</a>
+    </nav>
+  </div>
+</header>
+
+<div class="stats" role="list">
+  <div class="stat" role="listitem"><span class="v">$75B</span><span class="k">Meta Advantage+ annual run rate, Q2 2026</span></div>
+  <div class="stat" role="listitem"><span class="v">9M+</span><span class="k">Small businesses using a Meta genAI creative tool</span></div>
+  <div class="stat" role="listitem"><span class="v">71%</span><span class="k">Google advertisers on Performance Max</span></div>
+  <div class="stat" role="listitem"><span class="v">$142B</span><span class="k">US AI-controlled ad spend by 2030, from $35B in 2025</span></div>
+  <div class="stat" role="listitem"><span class="v">$5.5M</span><span class="k">What Marin Software's assets sold for after dissolution</span></div>
+</div>
+
+<main class="wrap">
+
+<section id="squeeze">
+  <div class="sec-head">
+    <span class="eyebrow">The competitive reality</span>
+    <h2>Everyone here is building on someone else's land</h2>
+  </div>
+  <div class="col">
+    <p>The independent ad-tech market is not competing with itself. It is competing with the free automation shipped by the platforms whose inventory it resells. Advantage+ alone, at a $75B run rate, is roughly ten times larger than the entire independent software market shown below — and it is a feature, not a company.</p>
+  </div>
+
+  <div class="figure">
+    <p class="fig-title">Annualized revenue: platform ad automation vs independent software</p>
+    <p class="fig-sub">Each dot is one company; each gridline is 10&times;. Latest disclosed or estimated figure, 2025–26.</p>
+    <div class="legend">
+      <span><i class="swatch" style="background:var(--series-1)"></i> Platform / walled garden</span>
+      <span><i class="swatch" style="background:var(--series-2)"></i> Independent software</span>
+    </div>
+    <div class="chart-scroll">
+      <svg id="chart" viewBox="0 0 760 430" role="img" aria-label="Dot plot on a logarithmic scale comparing annualized revenue. Meta Advantage+ at 75 billion dollars and AppLovin at 6.83 billion dollars are platforms; the largest independents are Higgsfield at 700 million, StackAdapt at 500 million, MNTN at 290 million, HeyGen at 200 million, Smartly at 101 million, Skai at 79 million, Motion at 50 million and Triple Whale at 21.6 million."></svg>
+    </div>
+    <p class="note" style="margin:12px 0 0">Meta figure is an Advantage+ revenue run rate, not a software licence line. AppLovin is trailing-twelve-month total revenue. Independent figures mix disclosed ARR and third-party estimates — see the caveats.</p>
+  </div>
+
+  <div class="col">
+    <h3 style="margin-bottom:10px">The five positions that survive</h3>
+    <p>Ground the platforms structurally cannot or will not take:</p>
+    <ul class="plain">
+      <li><strong>Cross-platform.</strong> Meta will never optimize your TikTok budget against your Meta budget.</li>
+      <li><strong>Creative volume and originality.</strong> Platforms remix your assets. They do not invent concepts, actors or campaigns.</li>
+      <li><strong>Independent measurement.</strong> A platform grading its own homework is a permanent conflict of interest.</li>
+      <li><strong>Workflow, governance and scale.</strong> Bulk launch, QA, approvals, multi-account agency operations.</li>
+      <li><strong>Embedded and vertical distribution.</strong> Merchants inside Shopify or WooCommerce, and franchise networks, that platform self-serve funnels never reach.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="smb">
+  <div class="sec-head">
+    <span class="eyebrow">Segment · bootstrapped profitability beats venture scale here</span>
+    <h2>SMB and self-serve ad management</h2>
+  </div>
+  <div class="col">
+    <p>Tools a small business or small agency buys directly, usually under $500 a month. The pattern is stark: bootstrapped incumbents run profitably at $3M–$24M, while every venture-backed pure-play is stuck under $5M ARR. Both large outcomes came from leaving the category — WordStream sold into a local-media roll-up, AdCreative.ai into an ad-tech acquirer.</p>
+  </div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Company</th><th>Raised</th><th>Valuation</th><th>Revenue</th><th>Status</th><th>Ad libraries</th></tr></thead>
+    <tbody>
+      <tr><td class="co">AdCreative.ai</td><td class="num">undisclosed seed</td><td class="num">$38.7M exit</td><td class="num">€24.3M (2024)</td><td><span class="pill exit">Appier, Mar 2025</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=AdCreative.ai&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=adcreative.ai">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=AdCreative.ai">LI</a></td></tr>
+      <tr><td class="co">Optmyzr</td><td class="num">$0 bootstrapped</td><td class="num">—</td><td class="num">$14.6M ARR (2023)</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=Optmyzr&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=optmyzr.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Optmyzr">LI</a></td></tr>
+      <tr><td class="co">Madgicx</td><td class="num">~$0 (disputed)</td><td class="num">$20.5M est.</td><td class="num">$6.8M ARR est.</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=Madgicx&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=madgicx.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Madgicx">LI</a></td></tr>
+      <tr><td class="co">Opteo</td><td class="num">$0 bootstrapped</td><td class="num">—</td><td class="num">$3.6M ARR est.</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=Opteo&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=opteo.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Opteo">LI</a></td></tr>
+      <tr><td class="co">Bïrch (Revealbot)</td><td class="num">$0 bootstrapped</td><td class="num">—</td><td class="num">$2.8M ARR est.</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=Birch%20Revealbot&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=bir.ch">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Birch%20Revealbot">LI</a></td></tr>
+      <tr><td class="co">Blaze.ai</td><td class="num">~$45–50M via Almanac</td><td class="num">—</td><td class="num">~$10M (2025)</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=Blaze.ai&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=blaze.ai">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Blaze.ai">LI</a></td></tr>
+      <tr><td class="co">Hunch</td><td class="num">~$4.3M</td><td class="num">$25.7M est.</td><td class="num">$8.6M ARR est.</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=Hunch%20Ads&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=hunchads.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Hunch">LI</a></td></tr>
+      <tr><td class="co">Alison.ai</td><td class="num">$18.4M</td><td class="num">—</td><td class="num">$7.9M ARR est.</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=Alison.ai&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=alison.ai">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Alison.ai">LI</a></td></tr>
+      <tr><td class="co">Zocket</td><td class="num">$3.47M</td><td class="num">—</td><td class="num">n/a</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=Zocket&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=zocket.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Zocket">LI</a></td></tr>
+      <tr><td class="co">WordStream / LocaliQ</td><td class="num">—</td><td class="num">$150M exit</td><td class="num">~$450M+ segment</td><td><span class="pill exit">Gannett, 2018</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=LocaliQ&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=localiq.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=LocaliQ">LI</a></td></tr>
+      <tr><td class="co">Adext AI</td><td class="num">$3–8M</td><td class="num">$20M (2016)</td><td class="num">$1.3M (2024)</td><td><span class="pill dead">Ceased 2024</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=Adext%20AI&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=adext.ai">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Adext">LI</a></td></tr>
+    </tbody>
+  </table></div>
+  <div class="col"><p class="note">Notable founders: <strong>Frederick Vallaeys</strong> (Optmyzr) was one of Google's first ~500 employees and spent a decade on AdWords, including Quality Score. <strong>Larry Kim</strong> built WordStream to a $150M exit. <strong>Karthik Venkateswaran</strong> (Zocket) previously scaled GoBumpr to 400+ staff and sold it to TVS.</p></div>
+</section>
+
+<section id="creative">
+  <div class="sec-head">
+    <span class="eyebrow">Segment · the fastest growth and the biggest cheques</span>
+    <h2>Generative AI ad creative and UGC video</h2>
+  </div>
+  <div class="col">
+    <p>The healthiest part of the market, because creative volume is the one input the platforms genuinely cannot manufacture for you. Higgsfield quadrupled its valuation in eight months. HeyGen reached $200M ARR having burned roughly $25M — about <strong>$2.70 of ARR per dollar of equity raised</strong>, better capital efficiency than Zoom or Datadog at IPO.</p>
+  </div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Company</th><th>Raised</th><th>Valuation</th><th>Revenue</th><th>Status</th><th>Ad libraries</th></tr></thead>
+    <tbody>
+      <tr><td class="co">Higgsfield AI</td><td class="num">~$530M+</td><td class="num">$5.4B (Aug 2026)</td><td class="num">~$700M annualized</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=Higgsfield&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=higgsfield.ai">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Higgsfield">LI</a></td></tr>
+      <tr><td class="co">HeyGen</td><td class="num">$74.6M</td><td class="num">$500M (2024)</td><td class="num">$200M ARR (Jun 2026)</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=HeyGen&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=heygen.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=HeyGen">LI</a></td></tr>
+      <tr><td class="co">Mirage (Captions)</td><td class="num">$175M+</td><td class="num">$500M (2024)</td><td class="num">$28.4M in-app TTM</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=Captions&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=captions.ai">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Captions">LI</a></td></tr>
+      <tr><td class="co">Motion</td><td class="num">$42M</td><td class="num">—</td><td class="num">~$50M ARR (Aug 2025)</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=Motion+app&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=motionapp.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Motion">LI</a></td></tr>
+      <tr><td class="co">Waymark</td><td class="num">$129M</td><td class="num">—</td><td class="num">n/a</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=Waymark&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=waymark.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Waymark">LI</a></td></tr>
+      <tr><td class="co">Creatify</td><td class="num">$23M</td><td class="num">—</td><td class="num">$9M ARR (May 2025)</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=Creatify&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=creatify.ai">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Creatify">LI</a></td></tr>
+      <tr><td class="co">Arcads</td><td class="num">$16M</td><td class="num">—</td><td class="num">$15M ARR, profitable</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=Arcads&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=arcads.ai">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Arcads">LI</a></td></tr>
+      <tr><td class="co">Pencil</td><td class="num">~$2.8M pre-exit</td><td class="num">undisclosed</td><td class="num">$23M ARR est.</td><td><span class="pill exit">Brandtech, 2023</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=Pencil%20AI&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=trypencil.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Pencil">LI</a></td></tr>
+      <tr><td class="co">Omneky</td><td class="num">$13M+</td><td class="num">$80M (2025)</td><td class="num">$8.3M ARR est.</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=Omneky&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=omneky.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Omneky">LI</a></td></tr>
+      <tr><td class="co">VidMob</td><td class="num">$208.9M</td><td class="num">$54.8M est.</td><td class="num">$18.3M ARR est.</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=VidMob&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=vidmob.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=VidMob">LI</a></td></tr>
+      <tr><td class="co">Poolday.ai</td><td class="num">$8.7M</td><td class="num">—</td><td class="num">$1.4M ARR</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=Poolday&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=poolday.ai">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Poolday">LI</a></td></tr>
+      <tr><td class="co">Icon</td><td class="num">$9.2M</td><td class="num">—</td><td class="num">$5M ARR claimed</td><td><span class="pill dead">Collapsed 2026</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=Icon.com&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=icon.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Icon.com">LI</a></td></tr>
+    </tbody>
+  </table></div>
+  <div class="col"><p class="note">VidMob is the cautionary line in this table: $208.9M raised against roughly $18.3M estimated ARR and a $54.8M implied valuation. That is a down-round profile.</p></div>
+</section>
+
+<section id="enterprise">
+  <div class="sec-head">
+    <span class="eyebrow">Segment · consolidation, PE ownership and one liquidation</span>
+    <h2>Enterprise and mid-market cross-channel</h2>
+  </div>
+  <div class="col">
+    <p>Where the money already is, and where the commoditization is most visible. Marin Software — once Nasdaq-listed and a leader in search ad management — approved a plan of dissolution in April 2025 and sold its assets for $5.5M. That is the base case for undifferentiated tooling.</p>
+  </div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Company</th><th>Raised</th><th>Valuation</th><th>Revenue</th><th>Status</th><th>Ad libraries</th></tr></thead>
+    <tbody>
+      <tr><td class="co">StackAdapt</td><td class="num">$537M</td><td class="num">$2.5B (Feb 2025)</td><td class="num">$500M+</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=StackAdapt&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=stackadapt.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=StackAdapt">LI</a></td></tr>
+      <tr><td class="co">MNTN</td><td class="num">IPO May 2025</td><td class="num">~$886M mkt cap</td><td class="num">$290.1M FY2025</td><td><span class="pill exit">NYSE: MNTN</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=MNTN&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=mountain.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=MNTN">LI</a></td></tr>
+      <tr><td class="co">Smartly</td><td class="num">$22.8M + €200M buyout</td><td class="num">$299.3M est.</td><td class="num">$101M ARR est.</td><td><span class="pill exit">Providence Equity</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=Smartly&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=smartly.io">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Smartly">LI</a></td></tr>
+      <tr><td class="co">Pixis</td><td class="num">$209M</td><td class="num">—</td><td class="num">n/a</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=Pixis&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=pixis.ai">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Pixis">LI</a></td></tr>
+      <tr><td class="co">Skai (Kenshoo)</td><td class="num">Sequoia, Bain-backed</td><td class="num">—</td><td class="num">$78.9M ARR est.</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=Skai&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=skai.io">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Skai">LI</a></td></tr>
+      <tr><td class="co">Fluency</td><td class="num">$40M (first round)</td><td class="num">—</td><td class="num">$3B media spend powered</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=Fluency&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=fluency.inc">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Fluency">LI</a></td></tr>
+      <tr><td class="co">Persado</td><td class="num">$120M+</td><td class="num">—</td><td class="num">n/a</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=Persado&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=persado.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Persado">LI</a></td></tr>
+      <tr><td class="co">Celtra</td><td class="num">$25.2M</td><td class="num">—</td><td class="num">n/a</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=Celtra&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=celtra.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Celtra">LI</a></td></tr>
+      <tr><td class="co">Albert.ai</td><td class="num">—</td><td class="num">asset sale</td><td class="num">—</td><td><span class="pill dead">Zoomd, 2022</span></td><td class="adlinks">—</td></tr>
+      <tr><td class="co">Marin Software</td><td class="num">was Nasdaq-listed</td><td class="num">$5.5M asset sale</td><td class="num">—</td><td><span class="pill dead">Dissolved 2025</span></td><td class="adlinks">—</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="b2b">
+  <div class="sec-head">
+    <span class="eyebrow">Segment · the least disrupted, because the hard problem is identity</span>
+    <h2>B2B advertising automation</h2>
+  </div>
+  <div class="col">
+    <p>Meta's automation does not help you reach forty named buyers at one target account. The hard problem in B2B is identity and intent data, not creative generation — which is why this segment is the most insulated from platform absorption, and the least exciting in growth terms.</p>
+  </div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Company</th><th>Raised</th><th>Last round</th><th>What it does</th><th>Ad libraries</th></tr></thead>
+    <tbody>
+      <tr><td class="co">Metadata.io</td><td class="num">$58M+</td><td class="num">$40M B, Next47</td><td>Autonomous B2B paid-social experiments</td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=Metadata&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=metadata.io">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Metadata">LI</a></td></tr>
+      <tr><td class="co">HockeyStack</td><td class="num">$50M</td><td class="num">$20M A, Bessemer</td><td>B2B revenue intelligence and attribution</td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=HockeyStack&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=hockeystack.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=HockeyStack">LI</a></td></tr>
+      <tr><td class="co">Dreamdata</td><td class="num">n/a</td><td class="num">$55M, Oct 2025</td><td>B2B attribution across paid channels</td><td class="adlinks"><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=dreamdata.io">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Dreamdata">LI</a></td></tr>
+      <tr><td class="co">Primer</td><td class="num">$12M+</td><td class="num">$12M A, Craft</td><td>B2B audience matching into ad platforms</td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=Primer&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=sayprimer.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Primer">LI</a></td></tr>
+      <tr><td class="co">Influ2</td><td class="num">~$11.4M</td><td class="num">$8M A, Rally</td><td>Person-based ads to named buyers</td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=Influ2&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=influ2.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Influ2">LI</a></td></tr>
+      <tr><td class="co">RollWorks</td><td class="num">NextRoll</td><td class="num">—</td><td>Account-based advertising, ~$13–60K/yr</td><td class="adlinks"><a href="https://www.linkedin.com/ad-library/search?keyword=RollWorks">LI</a></td></tr>
+      <tr><td class="co">Demandbase</td><td class="num">—</td><td class="num">—</td><td>Mid-enterprise ABM, ~$40–250K/yr</td><td class="adlinks"><a href="https://www.linkedin.com/ad-library/search?keyword=Demandbase">LI</a></td></tr>
+      <tr><td class="co">6sense</td><td class="num">—</td><td class="num">—</td><td>Enterprise ABM, ~$80K–$1M+/yr</td><td class="adlinks"><a href="https://www.linkedin.com/ad-library/search?keyword=6sense">LI</a></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="commerce">
+  <div class="sec-head">
+    <span class="eyebrow">Segment · where a third walled garden just appeared</span>
+    <h2>Commerce, marketplaces, apps and local</h2>
+  </div>
+  <div class="col">
+    <p>The structural news here is AppLovin. Its AXON engine opened to all global advertisers in June 2026 after a referral-only launch, aiming at a retail ad market it sizes near $170B. A $104B company is now a third destination for direct-response budget alongside Meta and Google.</p>
+  </div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Company</th><th>Raised</th><th>Valuation</th><th>Revenue</th><th>Status</th><th>Ad libraries</th></tr></thead>
+    <tbody>
+      <tr><td class="co">AppLovin</td><td class="num">public</td><td class="num">~$104B mkt cap</td><td class="num">$6.83B TTM</td><td><span class="pill exit">Nasdaq: APP</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=AppLovin&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=applovin.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=AppLovin">LI</a></td></tr>
+      <tr><td class="co">Moloco</td><td class="num">~$500M</td><td class="num">$1.5–2.0B</td><td class="num">~$400M (2025)</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=Moloco&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=moloco.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Moloco">LI</a></td></tr>
+      <tr><td class="co">Pacvue</td><td class="num">$0 — no VC</td><td class="num">nine-figure exit</td><td class="num">n/a</td><td><span class="pill exit">Assembly, 2021</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=Pacvue&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=pacvue.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Pacvue">LI</a></td></tr>
+      <tr><td class="co">Teikametrics</td><td class="num">$65M</td><td class="num">—</td><td class="num">n/a</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=Teikametrics&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=teikametrics.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Teikametrics">LI</a></td></tr>
+      <tr><td class="co">Triple Whale</td><td class="num">$55.4M</td><td class="num">—</td><td class="num">$21.6M (2025)</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=Triple+Whale&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=triplewhale.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Triple%20Whale">LI</a></td></tr>
+      <tr><td class="co">Northbeam</td><td class="num">~$30M</td><td class="num">—</td><td class="num">$25B spend tracked</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=Northbeam&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=northbeam.io">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Northbeam">LI</a></td></tr>
+      <tr><td class="co">Proxima</td><td class="num">$12M</td><td class="num">—</td><td class="num">400%+ growth</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=Proxima&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=proxima.ai">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Proxima">LI</a></td></tr>
+      <tr><td class="co">Eulerity</td><td class="num">n/a</td><td class="num">—</td><td class="num">n/a</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=ALL&amp;q=Eulerity&amp;search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&amp;domain=eulerity.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Eulerity">LI</a></td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section id="agentic">
+  <div class="sec-head">
+    <span class="eyebrow">Segment · $110.5M across five deals, median round $20.5M</span>
+    <h2>The new agentic media buyers</h2>
+  </div>
+  <div class="col">
+    <p>The 2024–26 cohort promising an autonomous AI media buyer that plans, creates, launches and optimizes without a human. More capital-dense than the marketing-content AI category despite the same deal count — which tells you investors believe the buying layer is where the value sits.</p>
+  </div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Company</th><th>Amount</th><th>Stage</th><th>Date</th><th>Lead</th><th>What it is</th></tr></thead>
+    <tbody>
+      <tr><td class="co">MAI</td><td class="num">$25M</td><td class="num">Seed</td><td class="num">Oct 2025</td><td>Kleiner Perkins</td><td>AI agents running performance marketing for SMBs</td></tr>
+      <tr><td class="co">Brandlight</td><td class="num">$30M</td><td class="num">Series A</td><td class="num">Feb 2026</td><td>n/a</td><td>AI-search brand visibility</td></tr>
+      <tr><td class="co">Koah</td><td class="num">$20.5M</td><td class="num">Series A</td><td class="num">Feb 2026</td><td>Theory Ventures</td><td>Ads inside AI applications</td></tr>
+      <tr><td class="co">Bluefish</td><td class="num">$20M</td><td class="num">Series A</td><td class="num">Aug 2025</td><td>NEA</td><td>Generative engine optimization, ~80% Fortune 500</td></tr>
+      <tr><td class="co">Spangle AI</td><td class="num">$15M</td><td class="num">Series A</td><td class="num">Jan 2026</td><td>Theory Ventures</td><td>n/a</td></tr>
+    </tbody>
+  </table></div>
+  <div class="col">
+    <p class="note">The platforms are shipping agents too. PubMatic's AgenticOS cut campaign setup time 87% in an early December 2025 deployment with Butler/Till. In the week before Cannes Lions in June 2026, at least eight major platforms shipped autonomous buying agents or the verification infrastructure they need.</p>
+  </div>
+</section>
+
+<section id="bet">
+  <div class="sec-head">
+    <span class="eyebrow">The verdict</span>
+    <h2>Which founders I'd bet on</h2>
+  </div>
+  <div class="col">
+    <p>My filter is one question. <strong class="why">When Meta or Google ships your feature for free, do you still have a business?</strong> Distribution, brand and even revenue are weak evidence. Prior experience of being run over by a platform — and a deliberate choice of ground the platform will not take — are strong evidence.</p>
+  </div>
+
+  <div class="tier-lead"><h3>Tier 1 — I would write the cheque</h3><span class="tag">4 founders</span></div>
+
+  <div class="verdict">
+    <div class="who"><h4>Yuchen Wu</h4><span class="role">Co-founder &amp; CEO, MAI</span><span class="tag">Best founder–market fit</span></div>
+    <p>Ten years, 2010–2020, as an engineering director at Google building the advertising system. Then VP of Engineering at Instacart. Tsinghua bachelor's, Northwestern PhD. Co-founder Jian Wang is also ex-Google and ex-Instacart. Founded December 2024; $25M seed led by Kleiner Perkins by October 2025; already managing millions of dollars of Google Ads spend monthly.</p>
+    <p><span class="why">Why I'd bet:</span> this is the single best founder–market fit in the dataset. He spent a decade building the machine everyone else is trying to out-guess from the outside. He knows which parts of the auction are opaque, which levers still matter after automation, and where the residual alpha lives. When an advertiser asks what he can do that Performance Max can't, he is one of a handful of people who can answer from first principles.</p>
+    <p class="risk">Risk: SMB is where platform automation lands hardest and cheapest, and SMB churn is brutal. He is fishing in the most contested pond.</p>
+  </div>
+
+  <div class="verdict">
+    <div class="who"><h4>Joshua Xu</h4><span class="role">Co-founder &amp; CEO, HeyGen</span><span class="tag">Best fundamentals</span></div>
+    <p>CMU master's in CS, former lead engineer at Snapchat. $200M ARR as of June 2026, doubled in eight months, having burned roughly $25M of $74M raised — about $2.70 of ARR per dollar of equity, better than Zoom or Datadog at IPO.</p>
+    <p><span class="why">Why I'd bet:</span> these are the best fundamentals in the market and it isn't close. Growing at that rate while cash-flow break-even means the product sells itself and the unit economics work without a subsidy. HeyGen also sits on the right side of the platform question — Meta will remix your existing assets, but it will not give you a consistent synthetic spokesperson in forty languages.</p>
+    <p class="risk">Risk: video model quality is converging fast and the frontier labs are a real threat. Defensibility has to come from workflow and likeness rights, not raw generation.</p>
+  </div>
+
+  <div class="verdict">
+    <div class="who"><h4>Alex Mashrabov</h4><span class="role">Founder &amp; CEO, Higgsfield AI</span><span class="tag">Right person, hard price</span></div>
+    <p>His mother designed rockets for the Soviet space program. He started programming at 10 and was ranked top-3 globally in competitive programming by 20. He co-founded AI Factory, acquired by Snap for $166M in 2020, whose technology became the backbone of Snapchat's face filters and Cameos — then spent three years as Snap's Director of Generative AI shipping MyAI to hundreds of millions of users. Left in September 2023 to found Higgsfield.</p>
+    <p><span class="why">Why I'd bet on the person:</span> an exit to a platform, then running generative AI inside that platform at consumer scale, is close to perfect preparation for building consumer-scale generative video. The results follow: ~$700M annualized revenue, 30M users, and a valuation path of $1.0B → $1.3B → $5.4B in under a year.</p>
+    <p class="risk">The catch is the price. At $5.4B on roughly $700M of consumption revenue you are underwriting continued hypergrowth in a category where switching costs are low and credit-based revenue can decay as fast as it compounds. I'd back Mashrabov without hesitation; I'd think hard about this entry.</p>
+  </div>
+
+  <div class="verdict">
+    <div class="who"><h4>Reza Khadjavi</h4><span class="role">Co-founder &amp; CEO, Motion</span><span class="tag">Best risk-adjusted</span></div>
+    <p>The most instructive story in the market. He co-founded Shoelace in 2015, one of the first apps automating Facebook advertising for Shopify merchants. In 2018 Facebook and Shopify deepened their direct integration and erased the gap Shoelace existed to bridge. In his words: <em>"The writing was on the wall that the market didn't really need a product like ours anymore."</em> By 2020 gross monthly revenue churn hit 9%, nearly double the SaaS average. He chose to pivot rather than die — <em>"it eventually came down to pivoting to an agency or death… I decided: let's choose to live"</em> — and rebuilt the company into Motion.</p>
+    <p><span class="why">Why I'd bet:</span> he has already been killed once by exactly the force that threatens every company on this page, and he survived it and learned the lesson. Motion is deliberately positioned where the platforms have no incentive to go: cross-platform creative analytics for the human creative strategist. Roughly $50M ARR as of August 2025, from single-digit millions to eight figures within three months of launching AI Employees, on only $42M raised. That is a founder who chose his ground with scar tissue.</p>
+  </div>
+
+  <div class="tier-lead"><h3>Tier 2 — strong, would look hard</h3></div>
+  <ul class="tier2">
+    <li><b>Ikkjin Ahn</b> — Moloco. Early ML engineer on YouTube. Built ~$400M of revenue as the ranking engine for everyone who isn't Meta or Google. Superb pedigree; late-stage entry at $1.5–2.0B.</li>
+    <li><b>Melissa Burdick</b> — Pacvue. Ten years at Amazon, then bootstrapped to a nine-figure exit with <em>zero VC</em>. The purest capital-efficiency record here and a genuine category definer in retail media.</li>
+    <li><b>Romain Torres &amp; Dylan Fournier</b> — Arcads. ~$15M ARR, profitable, reportedly about 8 people, on a $16M seed. If those figures hold, the best hidden risk-adjusted bet in the set.</li>
+    <li><b>Eric Mayhew &amp; Mike Sullivan</b> — Fluency. Profitable since 2020, bootstrapped to $3B in media spend and 250,000 campaigns a month before taking a single round. Unglamorous ad-ops infrastructure, which is exactly why platforms won't touch it.</li>
+    <li><b>Vitaly Pecherskiy</b> — StackAdapt. Stepped up from COO to CEO in 2024; now runs a $500M+ revenue business at a $2.5B valuation.</li>
+    <li><b>Gil Allouche</b> — Metadata.io. Ex-VP Marketing at Qubole who built the tool for his own job. B2B is the segment least exposed to Meta's automation.</li>
+    <li><b>Frederick Vallaeys</b> — Optmyzr. Among Google's first ~500 employees, a decade on AdWords; bootstrapped to $15–24M with $5.3B in spend managed. Won't be a venture outcome; will still be here in ten years.</li>
+  </ul>
+
+  <div class="tier-lead"><h3>Tier 3 — I would pass</h3></div>
+  <ul class="plain">
+    <li><strong>Thin wrappers on Advantage+ or Performance Max.</strong> Most sub-$5M-ARR SMB self-serve tools. Their roadmap is written by Meta's product team.</li>
+    <li><strong>Companies whose raise vastly exceeds revenue.</strong> VidMob: $208.9M raised against ~$18.3M estimated ARR. The cap table is now the problem.</li>
+    <li><strong>Single-channel rules engines.</strong> Precisely what Marin Software was, and it liquidated for $5.5M.</li>
+    <li><strong>"Autonomous AI media buyer" with no platform-insider pedigree.</strong> See below.</li>
+  </ul>
+
+  <div class="callout">
+    <p><strong>If I could make only one bet: MAI at seed, Motion at growth.</strong> MAI has the best founder–market fit and the highest ceiling if agentic buying works at all. Motion is the best risk-adjusted position — a founder who already survived platform absorption, deliberately building on ground Meta has no reason to take, at ~$50M ARR on $42M raised.</p>
+    <p>Best pure business today, if you can get in: <strong>HeyGen</strong>. Nothing else combines $200M ARR, doubling in eight months, and cash-flow break-even.</p>
+  </div>
+</section>
+
+<section id="graveyard">
+  <div class="sec-head">
+    <span class="eyebrow">Due diligence · read before backing any agentic ad startup</span>
+    <h2>The graveyard</h2>
+  </div>
+  <div class="col"><p>Every pre-LLM "autonomous AI media buyer" is dead. This is the pattern the current cohort has to explain away.</p></div>
+
+  <div class="grave">
+    <h4>Icon <span class="pill dead">Collapsed, then inverted</span></h4>
+    <p>Founded 2024 by Kennan Davison (previously founder of Skio). Backed by Founders Fund with a $9.2M seed plus executives from OpenAI, Ramp, Flexport, Cognition and Pika. Paid <strong>$12M for the icon.com domain</strong> in April 2025. Claimed $5M ARR and 76 staff.</p>
+    <p>The autonomous "AI CMO" never worked reliably — users reported poor AI voice quality, a clunky interface and billing problems. The team vanished from LinkedIn by February 2026 and reporters declared it dead in March 2026. The site is now back online <strong>selling human-made UGC ads</strong> — "38 Human UGC ads (100% real / not AI)" — a complete inversion of the founding thesis. Note the shutdown was inferred by journalists; the company never announced one.</p>
+  </div>
+  <div class="grave">
+    <h4>Albert.ai <span class="pill dead">Asset sale, Mar 2022</span></h4>
+    <p>The best-known autonomous media buyer of its generation. Assets sold to Zoomd in a cash-and-stock transaction.</p>
+  </div>
+  <div class="grave">
+    <h4>Adext AI <span class="pill dead">Ceased operations 2024</span></h4>
+    <p>Raised at a $20M valuation in 2016 promising fully automated audience testing and budget reallocation. Its LinkedIn page now states the company ceased operations in 2024.</p>
+  </div>
+  <div class="col">
+    <p style="margin-top:22px">The lesson is not that agentic ad buying can't work. It is that the wrapper-around-an-API version doesn't, and that "we'll automate the media buyer" is a claim this market has heard and punished three times. Which is exactly why a decade inside Google's ad system matters more than a pitch deck.</p>
+  </div>
+</section>
+
+<section id="caveats">
+  <div class="sec-head"><span class="eyebrow">Method</span><h2>How to read these numbers</h2></div>
+  <div class="col">
+    <ul class="plain">
+      <li>Private-company revenue is largely modelled. Figures marked "est." come from Latka, Tracxn or Growjo and are frequently wrong by a wide margin, especially with usage-based pricing. Unmarked figures come from company announcements, SEC filings or credible press.</li>
+      <li>Valuations are last-round post-money unless noted — they reflect the date of the round, not today.</li>
+      <li>Two source conflicts worth flagging: a PitchBook-derived snippet claimed Proxima raised an $80M seed in January 2026, but the verifiable round is a $12M Series A from April 2024 led by Mucker Capital. Madgicx is listed as bootstrapped by Latka and Crunchbase while a Tracxn/PitchBook snippet names PeakSpan Capital as an investor.</li>
+      <li>Meta and LinkedIn ad-library links are keyword searches and will return other advertisers mentioning the same term; Google links are advertiser-domain lookups and are exact. An empty result usually means the company isn't currently advertising on that platform.</li>
+      <li>LinkedIn blocks automated profile fetching, so founder profile links in the full report are sometimes search links rather than direct profiles.</li>
+    </ul>
+  </div>
+</section>
+
+<footer class="wrap">
+  <p>Research compiled 3 September 2026 from company announcements, SEC filings, TechCrunch, AdExchanger, BetaKit, Sacra, Latka, Tracxn and Crunchbase. Full per-company notes with every source URL are committed alongside this page in <span class="mono">research/segments/</span>.</p>
+</footer>
+</main>
+
+<div class="tip" id="tip" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+  var DATA=[
+    {n:"Meta Advantage+",v:75,g:"platform",note:"annual revenue run rate, Q2 2026"},
+    {n:"AppLovin",v:6.83,g:"platform",note:"TTM revenue, Jun 2026"},
+    {n:"Higgsfield",v:0.70,g:"indie",note:"annualized, Jul 2026 (Sacra)"},
+    {n:"StackAdapt",v:0.50,g:"indie",note:"revenue, company-stated"},
+    {n:"MNTN",v:0.29,g:"indie",note:"FY2025 revenue, SEC"},
+    {n:"HeyGen",v:0.20,g:"indie",note:"ARR, Jun 2026"},
+    {n:"Smartly",v:0.101,g:"indie",note:"ARR est., 2025"},
+    {n:"Skai",v:0.079,g:"indie",note:"ARR est., 2025"},
+    {n:"Motion",v:0.05,g:"indie",note:"ARR, Aug 2025 (Sacra)"},
+    {n:"Triple Whale",v:0.0216,g:"indie",note:"revenue, 2025"}
+  ];
+  var W=760,H=430,L=132,R=54,T=16,B=44;
+  var pw=W-L-R, ph=H-T-B;
+  var row=ph/DATA.length;
+  var LMIN=-2, LMAX=2;
+  function x(v){ return L + (Math.log10(v)-LMIN)/(LMAX-LMIN)*pw; }
+  function fmt(v){ return v>=1 ? "$"+v.toFixed(v>=10?0:2).replace(/\.00$/,"")+"B" : "$"+Math.round(v*1000)+"M"; }
+
+  var svg=document.getElementById("chart");
+  var NS="http://www.w3.org/2000/svg";
+  function el(t,a){var e=document.createElementNS(NS,t);for(var k in a)e.setAttribute(k,a[k]);return e;}
+
+  // gridlines
+  [0.01,0.1,1,10,100].forEach(function(g){
+    var gx=x(g);
+    svg.appendChild(el("line",{x1:gx,y1:T,x2:gx,y2:T+ph,stroke:"var(--rule)","stroke-width":1}));
+    var lab=el("text",{x:gx,y:T+ph+18,"text-anchor":"middle",fill:"var(--faint)","font-size":"10.5","font-family":"IBM Plex Mono, monospace"});
+    lab.textContent = g>=1 ? "$"+g+"B" : "$"+(g*1000)+"M";
+    svg.appendChild(lab);
+  });
+  var axisLab=el("text",{x:L+pw/2,y:T+ph+38,"text-anchor":"middle",fill:"var(--muted)","font-size":"10.5","font-family":"IBM Plex Mono, monospace"});
+  axisLab.textContent="ANNUALIZED REVENUE — LOG SCALE";
+  svg.appendChild(axisLab);
+  svg.appendChild(el("line",{x1:L,y1:T,x2:L,y2:T+ph,stroke:"var(--rule-strong)","stroke-width":1}));
+
+  DATA.forEach(function(d,i){
+    var cy=T+i*row+row/2, cx=x(d.v);
+    var color=d.g==="platform"?"var(--series-1)":"var(--series-2)";
+    var g=el("g",{class:"dot-g",tabindex:"0",role:"img","aria-label":d.n+", "+fmt(d.v)+", "+d.note});
+    // recessive full-width track: position, not length, carries the value
+    g.appendChild(el("line",{x1:L,y1:cy,x2:L+pw,y2:cy,stroke:"var(--rule)","stroke-width":1,"stroke-dasharray":"1 4"}));
+    g.appendChild(el("circle",{cx:cx,cy:cy,r:7.5,fill:color,stroke:"var(--surface)","stroke-width":2}));
+    var nm=el("text",{x:L-11,y:cy+4,"text-anchor":"end",fill:"var(--ink-2)","font-size":"11.5","font-family":"Public Sans, sans-serif","font-weight":"500"});
+    nm.textContent=d.n; g.appendChild(nm);
+    var vl=el("text",{x:cx+13,y:cy+4,fill:"var(--muted)","font-size":"11","font-family":"IBM Plex Mono, monospace"});
+    vl.textContent=fmt(d.v); g.appendChild(vl);
+    var hit=el("rect",{x:L,y:cy-row/2,width:pw,height:row,fill:"transparent"});
+    g.appendChild(hit);
+    svg.appendChild(g);
+
+    var tip=document.getElementById("tip");
+    function show(e){
+      tip.innerHTML='<strong>'+d.n+'</strong><span class="tv">'+fmt(d.v)+'</span><br><span class="tv" style="font-size:.76rem">'+d.note+'</span>';
+      tip.style.opacity="1";
+      var r=(e.touches?e.touches[0]:e), px=(r.clientX||0)+14, py=(r.clientY||0)-10;
+      if(px+250>window.innerWidth) px=window.innerWidth-258;
+      tip.style.left=px+"px"; tip.style.top=Math.max(8,py)+"px";
+    }
+    function hide(){ tip.style.opacity="0"; }
+    g.addEventListener("mousemove",show);
+    g.addEventListener("mouseleave",hide);
+    g.addEventListener("focus",function(){
+      var bb=g.getBoundingClientRect();
+      show({clientX:bb.left+bb.width/2,clientY:bb.top});
+    });
+    g.addEventListener("blur",hide);
+  });
+})();
+</script>
