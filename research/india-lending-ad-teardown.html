@@ -1,0 +1,332 @@
+<title>Indian Lending Ad Teardown</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --paper:#fbfaf6; --surface:#ffffff; --sunk:#f3f0e8;
+  --ink:#17171d; --body:#3c3a38; --muted:#736e64;
+  --rule:#e0dbd0; --rule-soft:#ece8de;
+  --bank:#2f4b7c; --bank-soft:#dbe2ee;
+  --fin:#b96a1f; --fin-soft:#f4e4d1;
+  --other:#8a8578;
+  --good:#41684a; --warn:#a4622a; --crit:#8f3a35;
+  --shadow:0 1px 2px rgba(23,23,29,.05);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#131318; --surface:#1b1b21; --sunk:#202028;
+    --ink:#f0ece4; --body:#cfcac1; --muted:#948d81;
+    --rule:#32323c; --rule-soft:#262630;
+    --bank:#8fb0e0; --bank-soft:#26344c;
+    --fin:#e0a05c; --fin-soft:#3d2c1a;
+    --other:#8b8578; --good:#7fae87; --warn:#d09256; --crit:#d1736c;
+    --shadow:0 1px 2px rgba(0,0,0,.4);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#131318; --surface:#1b1b21; --sunk:#202028;
+  --ink:#f0ece4; --body:#cfcac1; --muted:#948d81;
+  --rule:#32323c; --rule-soft:#262630;
+  --bank:#8fb0e0; --bank-soft:#26344c;
+  --fin:#e0a05c; --fin-soft:#3d2c1a;
+  --other:#8b8578; --good:#7fae87; --warn:#d09256; --crit:#d1736c;
+  --shadow:0 1px 2px rgba(0,0,0,.4);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--paper);color:var(--body);font-family:Archivo,"Helvetica Neue",Arial,sans-serif;font-size:16px;line-height:1.62;-webkit-font-smoothing:antialiased}
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+.col{max-width:680px}
+h1,h2,h3{font-family:Fraunces,Georgia,serif;color:var(--ink);text-wrap:balance;margin:0}
+h1{font-size:clamp(2.3rem,5vw,3.7rem);font-weight:600;line-height:1.03;letter-spacing:-.022em}
+h2{font-size:clamp(1.5rem,2.6vw,2.05rem);font-weight:600;line-height:1.12;letter-spacing:-.014em}
+h3{font-size:1.1rem;font-weight:600;line-height:1.3}
+p{margin:0}
+a{color:inherit}
+.eyebrow{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.685rem;letter-spacing:.16em;text-transform:uppercase;color:var(--muted);font-weight:500}
+.mono{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums}
+header.mast{border-bottom:1px solid var(--rule);background:var(--surface)}
+.mast-in{display:flex;flex-direction:column;gap:24px;padding:54px 0 42px}
+.mast-meta{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:baseline}
+.stand{font-size:1.16rem;line-height:1.5;color:var(--body);max-width:64ch}
+.stand b{color:var(--ink);font-weight:600}
+nav.toc{position:sticky;top:0;z-index:20;background:var(--paper);border-bottom:1px solid var(--rule)}
+.toc-in{display:flex;overflow-x:auto}
+.toc a{flex:0 0 auto;padding:11px 15px;text-decoration:none;color:var(--muted);font-size:.78rem;font-weight:500;white-space:nowrap;border-bottom:2px solid transparent}
+.toc a:hover{color:var(--ink);border-bottom-color:var(--rule)}
+.toc a:focus-visible{outline:2px solid var(--bank);outline-offset:-2px}
+section{padding:54px 0;border-bottom:1px solid var(--rule-soft)}
+.sec-head{display:flex;flex-direction:column;gap:12px;margin-bottom:28px}
+.lede{font-size:1.01rem;color:var(--body);max-width:66ch}
+.note{border-left:3px solid var(--fin);background:var(--sunk);padding:16px 20px;font-size:.9rem;line-height:1.55}
+.note b{color:var(--ink)}
+.note.blue{border-left-color:var(--bank)}
+.chart{background:var(--surface);border:1px solid var(--rule);padding:24px;box-shadow:var(--shadow)}
+.brow{display:grid;grid-template-columns:190px 1fr;gap:14px;align-items:center;padding:7px 0}
+.brow + .brow{border-top:1px solid var(--rule-soft)}
+.blabel{font-size:.82rem;color:var(--ink);font-weight:500;line-height:1.25}
+.blabel span{display:block;color:var(--muted);font-weight:400;font-size:.74rem}
+.btrack{display:flex;align-items:center;gap:9px}
+.bbar{height:14px;min-width:2px}
+.bval{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;font-size:.75rem;color:var(--muted);flex:0 0 auto}
+.tw{overflow-x:auto;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.85rem}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+thead th{font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.09em;text-transform:uppercase;color:var(--muted);font-weight:600;background:var(--sunk);border-bottom:1px solid var(--rule)}
+tbody tr:last-child td{border-bottom:none}
+td.num,th.num{text-align:right;font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.name{font-weight:600;color:var(--ink);white-space:nowrap}
+tbody tr:hover{background:var(--sunk)}
+caption{caption-side:bottom;text-align:left;padding:10px 14px;font-size:.75rem;color:var(--muted);border-top:1px solid var(--rule-soft)}
+.pill{display:inline-block;padding:1px 7px;font-family:"IBM Plex Mono",monospace;font-size:.67rem;font-weight:600;white-space:nowrap}
+.p-fin{background:var(--fin-soft);color:var(--fin)}
+.p-bank{background:var(--bank-soft);color:var(--bank)}
+.p-dead{background:var(--sunk);color:var(--crit)}
+.watch{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.wcard{background:var(--surface);padding:24px;display:flex;flex-direction:column;gap:12px}
+.wnum{font-family:"IBM Plex Mono",monospace;font-size:.7rem;letter-spacing:.14em;color:var(--fin);font-weight:600}
+.wcard h3{font-size:1.05rem}
+.wmeta{display:flex;flex-wrap:wrap;gap:8px 14px;font-family:"IBM Plex Mono",monospace;font-size:.72rem;color:var(--muted)}
+.wcard p{font-size:.88rem;line-height:1.5}
+.wlink{margin-top:auto;padding-top:6px}
+.wlink a{font-family:"IBM Plex Mono",monospace;font-size:.78rem;color:var(--bank);text-decoration:none;border-bottom:1px solid var(--bank-soft);font-weight:600}
+.wlink a:hover{border-bottom-color:var(--bank)}
+.wlink a:focus-visible{outline:2px solid var(--bank);outline-offset:3px}
+.terr{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.tcard{background:var(--surface);padding:18px;display:flex;flex-direction:column;gap:8px}
+.tcard .own{font-family:"IBM Plex Mono",monospace;font-size:.72rem;color:var(--fin);font-weight:600;letter-spacing:.05em}
+.tcard .t{font-weight:600;color:var(--ink);font-size:.95rem}
+.tcard .d{font-size:.83rem;color:var(--muted);line-height:1.45}
+a.vid{font-family:"IBM Plex Mono",monospace;font-size:.72rem;color:var(--bank);text-decoration:none;border-bottom:1px solid var(--bank-soft);white-space:nowrap}
+a.vid:hover{border-bottom-color:var(--bank)}
+a.vid:focus-visible{outline:2px solid var(--bank);outline-offset:2px}
+.vlist{display:flex;flex-direction:column;gap:3px}
+footer{padding:38px 0 60px;color:var(--muted);font-size:.83rem;display:flex;flex-direction:column;gap:10px}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+@media(max-width:760px){.grid2{grid-template-columns:1fr}.brow{grid-template-columns:130px 1fr}.wrap{padding:0 18px}section{padding:38px 0}}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+
+<header class="mast"><div class="wrap mast-in">
+  <div class="mast-meta"><span class="eyebrow">Creative intelligence</span><span class="eyebrow">India &middot; September 2026</span></div>
+  <h1>Nobody advertises the loan</h1>
+  <p class="stand">Across 50-plus Indian lenders, almost none run a brand campaign about personal loans. Banks advertise <b>deposits and fraud awareness</b>. NBFCs advertise <b>gold loans</b>. The apps advertise <b>speed</b>, and one of them spent enough to buy <b>315 million views</b> on a film that never mentions credit. Here is what each player is actually selling, and the three films worth your time.</p>
+  <p class="eyebrow">Verified against YouTube &middot; view counts are real &middot; every link checked live</p>
+</div></header>
+
+<nav class="toc"><div class="wrap toc-in">
+  <a href="#watch">The three to watch</a>
+  <a href="#weight">Media weight</a>
+  <a href="#territory">Message territory</a>
+  <a href="#apps">What each app runs</a>
+  <a href="#banks">What each bank runs</a>
+  <a href="#dark">Who's gone dark</a>
+  <a href="#method">Method</a>
+</div></nav>
+<section id="watch">
+  <div class="wrap">
+    <div class="sec-head col">
+      <span class="eyebrow">01 &mdash; If you watch nothing else</span>
+      <h2>Three films, three different arguments</h2>
+      <p class="lede">Picked for what they teach about selling credit in India, not for craft alone. Each is verified live and carries its real view count.</p>
+    </div>
+    <div class="watch">
+      <div class="wcard">
+        <span class="wnum">01 / THE MONEY</span>
+        <h3>Navi &mdash; &ldquo;Hurrypur Auto Garage&rdquo;</h3>
+        <div class="wmeta"><span>315,528,884 views</span><span>4 months ago</span><span>Agency: Sideways</span></div>
+        <p>An autorickshaw breaks down and the repair becomes an F1 pit stop. Navi built a fictional town, <b>Hurrypur</b>, where everything is absurdly fast &mdash; a proprietary world that generates infinite films about one idea without repeating a joke.</p>
+        <p><b>Why it matters:</b> this is the biggest media buy in Indian fintech by an order of magnitude, and it is <b>for the UPI app, not the loan book</b>. Navi advertises payments to acquire users, then sells credit to them silently. Its loan creative is separate, functional, and unbranded.</p>
+        <div class="wlink"><a href="https://www.youtube.com/watch?v=OBnTk0mry20" target="_blank" rel="noopener">Watch &rarr;</a></div>
+      </div>
+      <div class="wcard">
+        <span class="wnum">02 / THE STRATEGY</span>
+        <h3>Kissht &mdash; &ldquo;When Sachin gets the hiccups&rdquo;</h3>
+        <div class="wmeta"><span>767,566 views</span><span>Aug 2026</span><span>Sachin Tendulkar</span></div>
+        <p>Every time Kissht approves a loan, Sachin Tendulkar gets hiccups &mdash; because so many people are thanking him at once. A joke about the brand&rsquo;s own approval speed.</p>
+        <p><b>Why it matters:</b> in February 2023 Kissht was <b>blocked by MeitY</b> in a sweep of apps with alleged Chinese links. It is Indian-owned and the block was revoked. Read the Tendulkar deal &mdash; he is ambassador <i>and</i> investor &mdash; as reputation repair: buy the most trusted man in India, then refuse solemnity. Post-crackdown lenders will copy this.</p>
+        <div class="wlink"><a href="https://www.youtube.com/watch?v=v3Db7PwJS3s" target="_blank" rel="noopener">Watch &rarr;</a></div>
+      </div>
+      <div class="wcard">
+        <span class="wnum">03 / THE INSIGHT</span>
+        <h3>Home Credit &mdash; &ldquo;#KhudParNirbhar&rdquo;</h3>
+        <div class="wmeta"><span>3,613,798 views</span><span>Aug 2026</span><span>No celebrity</span></div>
+        <p>Ten ordinary protagonists, direct to camera, opening on a 24-year-old woman in Kanpur buying her first scooter. Financial independence mapped onto national independence.</p>
+        <p><b>Why it matters:</b> Home Credit is the only lender arguing that <b>borrowing is self-reliance rather than dependence</b>. Its companion campaign, #LoanMilega, stages the family as a courtroom &mdash; &ldquo;Ghar Adalat&rdquo; &mdash; because it has correctly identified that the binding constraint on Indian household borrowing is <b>social, not financial</b>. The obstacle is the uncle at the table, not the interest rate.</p>
+        <div class="wlink"><a href="https://www.youtube.com/watch?v=xz5yMSJB0e4" target="_blank" rel="noopener">Watch &rarr;</a></div>
+      </div>
+    </div>
+    <p class="note" style="margin-top:22px"><b>The fourth, if you have time:</b> Muthoot FinCorp&rsquo;s <a href="https://www.youtube.com/watch?v=An5t-3plQ20" target="_blank" rel="noopener">&ldquo;SRK Brings Drama. We Bring the Gold Loan&rdquo;</a> (459,577 views). A businessman recruits Shah Rukh Khan to charm a loan manager &mdash; but the approval SMS lands before he can perform. It hires the ultimate symbol of influence in order to make him <i>redundant</i>. The argument is that you don&rsquo;t need to be somebody to get money, which is a real dignity proposition. Note the trick, though: gold loans are secured, so the lender can afford to be gracious. Piramal makes the <i>same</i> argument for unsecured lending, which is far harder.</p>
+  </div>
+</section>
+
+<section id="weight">
+  <div class="wrap">
+    <div class="sec-head col">
+      <span class="eyebrow">02 &mdash; Media weight</span>
+      <h2>Creative quality and money are completely decoupled</h2>
+      <p class="lede">YouTube view counts on lender ad films are overwhelmingly paid in-stream views, so they read as a proxy for media spend. Ranked, they expose who is actually buying attention &mdash; and the answer surprises.</p>
+    </div>
+    <div class="chart">
+      <div class="brow"><div class="blabel">Navi<span>Hurrypur Auto Garage &mdash; UPI</span></div><div class="btrack"><div class="bbar" style="width:100%;background:var(--fin)"></div><span class="bval">315.5M</span></div></div>
+      <div class="brow"><div class="blabel">Navi<span>Mr Funnybones 2 &mdash; personal loan</span></div><div class="btrack"><div class="bbar" style="width:54%;background:var(--fin)"></div><span class="bval">170.5M</span></div></div>
+      <div class="brow"><div class="blabel">Kissht<span>A YES for Sachin &mdash; personal loan</span></div><div class="btrack"><div class="bbar" style="width:32.3%;background:var(--fin)"></div><span class="bval">101.8M</span></div></div>
+      <div class="brow"><div class="blabel">Tata Capital<span>#SabShubhHoga &mdash; business loan</span></div><div class="btrack"><div class="bbar" style="width:25%;background:var(--bank)"></div><span class="bval">78.8M</span></div></div>
+      <div class="brow"><div class="blabel">Hero FinCorp<span>Deri Chhodo, Nariyal Phodo</span></div><div class="btrack"><div class="bbar" style="width:13.2%;background:var(--bank)"></div><span class="bval">41.5M</span></div></div>
+      <div class="brow"><div class="blabel">Hero FinCorp<span>AI Ki Asani Wala Loan</span></div><div class="btrack"><div class="bbar" style="width:9.2%;background:var(--bank)"></div><span class="bval">29.0M</span></div></div>
+      <div class="brow"><div class="blabel">Olyv<span>Ganguly &mdash; mid-month crisis</span></div><div class="btrack"><div class="bbar" style="width:8.2%;background:var(--fin)"></div><span class="bval">25.9M</span></div></div>
+      <div class="brow"><div class="blabel">Stashfin<span>The dream wedding you deserve</span></div><div class="btrack"><div class="bbar" style="width:6.9%;background:var(--fin)"></div><span class="bval">21.7M</span></div></div>
+      <div class="brow"><div class="blabel">Stashfin<span>The world will envy the traveler</span></div><div class="btrack"><div class="bbar" style="width:5.5%;background:var(--fin)"></div><span class="bval">17.4M</span></div></div>
+      <div class="brow"><div class="blabel">Piramal Finance<span>Neeyat &mdash; business loan</span></div><div class="btrack"><div class="bbar" style="width:5.5%;background:var(--bank)"></div><span class="bval">17.2M</span></div></div>
+      <div class="brow"><div class="blabel">Moneyview<span>Travel &amp; holidays loan</span></div><div class="btrack"><div class="bbar" style="width:3.2%;background:var(--fin)"></div><span class="bval">10.0M</span></div></div>
+      <div class="brow"><div class="blabel">Moneyview<span>Mann Hai Toh Money Hai &mdash; Ranbir Kapoor</span></div><div class="btrack"><div class="bbar" style="width:2.3%;background:var(--fin)"></div><span class="bval">7.1M</span></div></div>
+      <div class="brow"><div class="blabel">Home Credit<span>#KhudParNirbhar</span></div><div class="btrack"><div class="bbar" style="width:1.1%;background:var(--fin)"></div><span class="bval">3.6M</span></div></div>
+      <div class="brow"><div class="blabel">CRED<span>Kapil Dev &mdash; Great for the good</span></div><div class="btrack"><div class="bbar" style="width:1%;background:var(--fin)"></div><span class="bval">3.2M</span></div></div>
+      <div class="brow"><div class="blabel">Kotak Mahindra<span>Hausla Hai Toh Ho Jayega</span></div><div class="btrack"><div class="bbar" style="width:.6%;background:var(--bank)"></div><span class="bval">1.9M</span></div></div>
+      <div class="brow"><div class="blabel">mPokket<span>Naveen Polishetty &mdash; Keep Growing</span></div><div class="btrack"><div class="bbar" style="width:.32%;background:var(--fin)"></div><span class="bval">1.0M</span></div></div>
+      <div class="brow"><div class="blabel">Kissht<span>Sachin hiccups (7 days old)</span></div><div class="btrack"><div class="bbar" style="width:.24%;background:var(--fin)"></div><span class="bval">768K</span></div></div>
+      <div class="brow"><div class="blabel">Muthoot FinCorp<span>SRK &mdash; gold loan</span></div><div class="btrack"><div class="bbar" style="width:.15%;background:var(--bank)"></div><span class="bval">460K</span></div></div>
+      <div class="brow"><div class="blabel">HDFC Bank<span>XPRESS Personal Loan &mdash; &#8377;40L in 10 secs</span></div><div class="btrack"><div class="bbar" style="width:.5%;background:var(--crit)"></div><span class="bval">16,174</span></div></div>
+      <div class="brow"><div class="blabel">Fibe<span>Shaadi Full Size &mdash; flagship 2026 campaign</span></div><div class="btrack"><div class="bbar" style="width:.5%;background:var(--crit)"></div><span class="bval">11</span></div></div>
+      <p class="eyebrow" style="margin-top:16px">Bars scaled to 315.5M. Red bars are shown at minimum width &mdash; their true values are too small to plot.</p>
+    </div>
+    <div class="grid2" style="margin-top:22px">
+      <p class="note"><b>The Fibe anomaly.</b> Fibe&rsquo;s &ldquo;Jiyo Full Size&rdquo; is arguably the best creative idea in the category &mdash; aspirations literally shrink when money is short, a wedding horse shrinking mid-ceremony, resolved by flipping India&rsquo;s dread-phrase <i>&ldquo;Paisa kahan se aayega?&rdquo;</i> into <i>&ldquo;Paisa yahan se aayega.&rdquo;</i> It is AI-generated, and it has <b>11 views</b>. The sibling cuts have 14 and 26. A genuinely good idea with no media behind it is not a campaign; it is a portfolio piece.</p>
+      <p class="note blue"><b>The HDFC anomaly.</b> India&rsquo;s largest private bank promises <b>&#8377;40 lakh in 10 seconds with zero documentation</b> &mdash; to 16,174 people. Meanwhile its flagship brand investment is <b>Vigil Aunty</b>, a seven-episode comedy series on JioHotstar whose entire message is that fraudsters manufacture urgency, so <i>slow down</i>. The same bank tells you to hurry and to wait. That contradiction is the single most revealing thing in this dataset.</p>
+    </div>
+  </div>
+</section>
+<section id="territory">
+  <div class="wrap">
+    <div class="sec-head col">
+      <span class="eyebrow">03 &mdash; Message territory</span>
+      <h2>Who owns which claim</h2>
+      <p class="lede">Two things nobody does: <b>nobody leads on a low interest rate</b>, and <b>nobody says &ldquo;no CIBIL&rdquo; out loud</b>. That message has migrated entirely into emotional proxies &mdash; almost certainly because of regulatory sensitivity.</p>
+    </div>
+    <div class="terr">
+      <div class="tcard"><span class="own">CONTESTED &mdash; 3 BRANDS</span><span class="t">Speed</span><p class="d">Navi (Hurrypur), Kissht (5-minute approval), True Balance (&ldquo;fatafat&rdquo;). Three brands fighting over one undifferentiated claim.</p></div>
+      <div class="tcard"><span class="own">HOME CREDIT</span><span class="t">Family permission</span><p class="d">Uniquely owned. The Ghar Adalat courtroom and #KhudParNirbhar treat borrowing as a social negotiation, not a financial one.</p></div>
+      <div class="tcard"><span class="own">mPOKKET</span><span class="t">Anti-gatekeeping</span><p class="d">&ldquo;Life shouldn&rsquo;t be one long audition.&rdquo; Naveen Polishetty&rsquo;s real history of 1,000+ rejected auditions <i>is</i> the credit-policy argument. The tightest ambassador logic in the category.</p></div>
+      <div class="tcard"><span class="own">OLYV</span><span class="t">Rejection anxiety</span><p class="d">&ldquo;Salary achi hai&hellip; phir bhi loan reject?&rdquo; Recruits people <i>before</i> they are loan-eligible. The most under-exploited territory in Indian lending.</p></div>
+      <div class="tcard"><span class="own">FIBE / MONEYVIEW</span><span class="t">Anti-compromise</span><p class="d">Don&rsquo;t shrink your life. The strongest emotional territory &mdash; and Fibe currently has no media behind it.</p></div>
+      <div class="tcard"><span class="own">CRED</span><span class="t">Status &amp; absurdity</span><p class="d">Copied by everyone, owned by one. Rahul Dravid&rsquo;s &ldquo;Indiranagar ka gunda&rdquo; hit 4M views in four days and lifted sign-ups 6&ndash;7x. It is the origin text for the whole category&rsquo;s tone.</p></div>
+      <div class="tcard"><span class="own">SNAPMINT</span><span class="t">Price mechanic</span><p class="d">0% EMI without a credit card. No brand layer at all &mdash; its most considered video is a merchant case study, because it is a B2B2C distribution business in a consumer costume.</p></div>
+      <div class="tcard"><span class="own">NOW TABLE STAKES</span><span class="t">Trust &amp; anti-fraud</span><p class="d">KreditBee (Jaagte Raho), Moneyview, Home Credit, Stashfin, Olyv all run scam-awareness series. Post-crackdown, trust is a category defence, not a differentiator.</p></div>
+      <div class="tcard"><span class="own">PIRAMAL</span><span class="t">How we underwrite</span><p class="d">&ldquo;Hum kaagaz se zyaada, neeyat dekhte hain&rdquo; &mdash; we look at intent more than paperwork. The only major lender whose promise is about its <i>credit policy</i> rather than its speed.</p></div>
+    </div>
+    <p class="note" style="margin-top:22px"><b>The structural shift of 2026:</b> brand films are being displaced by always-on content marketing. Moneyview has run <b>no new celebrity film since the Ranbir Kapoor campaign</b> &mdash; its channel is now money-mule scam explainers and credit-on-UPI education. mPokket runs four named formats including a scripted web series about someone &#8377;50,000 short on a deadline. These lenders are behaving like studios, not advertisers. Partly this is the RBI and MeitY effect: the IT ministry told platforms to stop carrying fraudulent loan-app ads, and Google has taken enforcement action on roughly <b>3,500 loan apps</b> on Play Store in India.</p>
+  </div>
+</section>
+
+<section id="apps">
+  <div class="wrap">
+    <div class="sec-head col">
+      <span class="eyebrow">04 &mdash; The apps</span>
+      <h2>What each digital lender is running</h2>
+    </div>
+    <div class="tw"><table>
+      <caption>Every link verified live against YouTube. View counts from YouTube search metadata, September 2026.</caption>
+      <thead><tr><th>Player</th><th>What they&rsquo;re selling</th><th>Face</th><th>Films</th></tr></thead>
+      <tbody>
+        <tr><td class="name">Navi</td><td><b>Speed, via UPI not loans.</b> &ldquo;Hurrypur&rdquo; &mdash; a fictional fast town. Loans handled as unbranded performance creative. RCB partner, IPL 2026.</td><td>None now<br><span class="eyebrow">was MS Dhoni</span></td><td class="vlist"><a class="vid" href="https://www.youtube.com/watch?v=OBnTk0mry20" target="_blank" rel="noopener">Hurrypur Auto Garage &middot; 315.5M</a><a class="vid" href="https://www.youtube.com/watch?v=6BI9xmfMQ5Q" target="_blank" rel="noopener">Mr Funnybones 2 &middot; 170.5M</a><a class="vid" href="https://www.youtube.com/watch?v=sfqFNpY10ws" target="_blank" rel="noopener">Hurrypur Courtroom</a></td></tr>
+        <tr><td class="name">Kissht / RING</td><td><b>Speed + trust repair.</b> 5-minute approval as a joke about itself. Post-MeitY-block reputation rebuild.</td><td>Sachin Tendulkar<br><span class="eyebrow">also investor</span></td><td class="vlist"><a class="vid" href="https://www.youtube.com/watch?v=PvGcRb2_DjI" target="_blank" rel="noopener">A YES for Sachin &middot; 101.8M</a><a class="vid" href="https://www.youtube.com/watch?v=v3Db7PwJS3s" target="_blank" rel="noopener">Sachin hiccups &middot; 768K</a><a class="vid" href="https://www.youtube.com/watch?v=wHcXEsIP_2o" target="_blank" rel="noopener">Mom&rsquo;s turn to smile</a></td></tr>
+        <tr><td class="name">Moneyview</td><td><b>Wish fulfilment &rarr; education.</b> &ldquo;Mann Hai Toh Money Hai&rdquo;: one tap, the holiday appears. Now pivoted to scam and UPI-credit explainers.</td><td>Ranbir Kapoor</td><td class="vlist"><a class="vid" href="https://www.youtube.com/watch?v=FoHv80kXAaQ" target="_blank" rel="noopener">Travel &amp; holidays &middot; 10.0M</a><a class="vid" href="https://www.youtube.com/watch?v=94y1-80BxPQ" target="_blank" rel="noopener">Mann Hai Toh Money Hai &middot; 7.1M</a><a class="vid" href="https://www.youtube.com/watch?v=DjxrN7b1KdQ" target="_blank" rel="noopener">Money mule scam</a></td></tr>
+        <tr><td class="name">KreditBee</td><td><b>Festive aspiration + social envy.</b> Neighbours&rsquo; internal monologues obsessing over each other&rsquo;s upgrades. 80% of customers Tier-2/3. RCB partner.</td><td>None &mdash; deliberately</td><td class="vlist"><a class="vid" href="https://www.youtube.com/watch?v=1CXmwxjqKyw" target="_blank" rel="noopener">Diwali #KhushiyonKaLoan &middot; 2.7M</a><a class="vid" href="https://www.youtube.com/watch?v=Upfmq51aVMM" target="_blank" rel="noopener">Medical emergency &middot; 1.2M</a><a class="vid" href="https://www.youtube.com/watch?v=oZJoa_s5_RM" target="_blank" rel="noopener">Fake CAPTCHA &middot; Jaagte Raho</a></td></tr>
+        <tr><td class="name">Hero FinCorp</td><td><b>Don&rsquo;t delay, and AI removes friction.</b> &ldquo;Nariyal phodo, sar kyun?&rdquo; &mdash; break the coconut, not your head. Delhi Capitals title partner, third year.</td><td>Delhi Capitals<br><span class="eyebrow">no celebrity</span></td><td class="vlist"><a class="vid" href="https://www.youtube.com/watch?v=IppGENEo_bI" target="_blank" rel="noopener">Deri Chhodo, Nariyal Phodo &middot; 41.5M</a><a class="vid" href="https://www.youtube.com/watch?v=t9CR12ZlfR0" target="_blank" rel="noopener">AI Ki Asani &middot; 29.0M</a><a class="vid" href="https://www.youtube.com/watch?v=q3QJTc38jBU" target="_blank" rel="noopener">Game Capital Ka Hi Hai &middot; 39.5M</a></td></tr>
+        <tr><td class="name">Stashfin</td><td><b>Credit as superpower</b> &mdash; a bumbling superhero, then an alien. But look at the use cases: <b>wedding, travel, renovation, &ldquo;dream event&rdquo;.</b> Pure discretionary consumption.</td><td>None<br><span class="eyebrow">fictional characters</span></td><td class="vlist"><a class="vid" href="https://www.youtube.com/watch?v=NNnKa3CuYTw" target="_blank" rel="noopener">Dream wedding &middot; 21.7M</a><a class="vid" href="https://www.youtube.com/watch?v=sa-K_5jb_Rw" target="_blank" rel="noopener">The traveler in you &middot; 17.4M</a><a class="vid" href="https://www.youtube.com/watch?v=yOqHe0L3n28" target="_blank" rel="noopener">Dream event &middot; 12.9M</a></td></tr>
+        <tr><td class="name">Olyv</td><td><b>Rejection anxiety and credit health.</b> &ldquo;Good salary, still rejected?&rdquo; Recruits pre-eligible borrowers. National OOH timed to Ganguly&rsquo;s birthday.</td><td>Sourav Ganguly<br><span class="eyebrow">East India skew</span></td><td class="vlist"><a class="vid" href="https://www.youtube.com/watch?v=9TqLbrR3GWM" target="_blank" rel="noopener">Ganguly &mdash; Aadheshyam &middot; 25.9M</a><a class="vid" href="https://www.youtube.com/watch?v=pLZsv8h1OQA" target="_blank" rel="noopener">Salary achi hai, loan reject?</a><a class="vid" href="https://www.youtube.com/watch?v=ogGFAIYuMvk" target="_blank" rel="noopener">Code DADA50 &middot; 2.6M</a></td></tr>
+        <tr><td class="name">Home Credit</td><td><b>Permission and social legitimacy.</b> Ghar Adalat family courtroom; #KhudParNirbhar self-reliance. Most prolific advertiser here &mdash; 3&ndash;4 uploads a week, almost all Hindi.</td><td>None &mdash; real customers</td><td class="vlist"><a class="vid" href="https://www.youtube.com/watch?v=xz5yMSJB0e4" target="_blank" rel="noopener">#KhudParNirbhar &middot; 3.6M</a><a class="vid" href="https://www.youtube.com/watch?v=0LewT5UbTW8" target="_blank" rel="noopener">Holi #ZindagiHit &middot; 5.7M</a><a class="vid" href="https://www.youtube.com/watch?v=ymfGRAsJNbo" target="_blank" rel="noopener">#KahaaniBharoseKi</a></td></tr>
+        <tr><td class="name">True Balance</td><td><b>Speed, phonetically.</b> &ldquo;Loan milega fatafat, life hogi takatak.&rdquo; A &ldquo;voice of god&rdquo; narrates the protagonist&rsquo;s thoughts and they answer back &mdash; a format built to generate endless 15-second cutdowns.</td><td>Rajkummar Rao<br>Priyamani, Divya Dutta</td><td class="vlist"><a class="vid" href="https://www.youtube.com/watch?v=kwVpoS3lV80" target="_blank" rel="noopener">Urgent personal loan &middot; 5.5M</a><a class="vid" href="https://www.youtube.com/watch?v=ESsTsPiBEZ4" target="_blank" rel="noopener">Fatafat, Takatak</a><a class="vid" href="https://www.youtube.com/watch?v=7PN0GOsCF68" target="_blank" rel="noopener">Up to &#8377;2 lakh &middot; 1.0M</a></td></tr>
+        <tr><td class="name">mPokket</td><td><b>Anti-gatekeeping.</b> &ldquo;Life shouldn&rsquo;t be one long audition.&rdquo; Plus four owned content formats and a scripted web series &mdash; content as media channel.</td><td>Naveen Polishetty<br><span class="eyebrow">Telugu crossover</span></td><td class="vlist"><a class="vid" href="https://www.youtube.com/watch?v=KWnVEsHIed8" target="_blank" rel="noopener">Keep Growing &middot; 1.0M</a><a class="vid" href="https://www.youtube.com/watch?v=2UE-5nztWA4" target="_blank" rel="noopener">mPokket Originals Ep.2</a><a class="vid" href="https://www.youtube.com/watch?v=I4pLh6I-T5Q" target="_blank" rel="noopener">Myth Busters Ep.2</a></td></tr>
+        <tr><td class="name">Fibe</td><td><b>Anti-compromise.</b> &ldquo;Jiyo Full Size&rdquo; &mdash; aspirations physically shrink when money is short. AI-generated. Brilliant idea, <b>no media weight</b>.</td><td>Tahir Raj Bhasin<br><span class="eyebrow">absent from 2026 work</span></td><td class="vlist"><a class="vid" href="https://www.youtube.com/watch?v=Sjp7mWjW_aI" target="_blank" rel="noopener">Shaadi Full Size &middot; 11 views</a><a class="vid" href="https://www.youtube.com/watch?v=d4ITjszC4_E" target="_blank" rel="noopener">Dreams within reach &middot; 1.2M</a><a class="vid" href="https://www.youtube.com/watch?v=CHpQA_JqsaM" target="_blank" rel="noopener">Weekend getaway &middot; 2.8M</a></td></tr>
+        <tr><td class="name">Snapmint</td><td><b>0% EMI without a credit card.</b> No brand campaign at all &mdash; 20&ndash;30% from Meta/Google performance, the rest from merchant co-marketing.</td><td>None</td><td class="vlist"><a class="vid" href="https://www.youtube.com/watch?v=B8Pv1Dv7Q3U" target="_blank" rel="noopener">Superkicks merchant case</a><a class="vid" href="https://www.youtube.com/watch?v=kCpeS6VBU_8" target="_blank" rel="noopener">Earbuds on EMI &middot; 963K</a><a class="vid" href="https://www.youtube.com/watch?v=kKGJ0mQV8Fk" target="_blank" rel="noopener">Credit Line on UPI</a></td></tr>
+        <tr><td class="name">Paisabazaar</td><td><b>Manufactured social consequence.</b> A landlord refuses a flat over a credit score &mdash; then sells the free score check as the fix. Monetises via card issuance, not loans.</td><td>RJ Naved <span class="eyebrow">(brand film)</span></td><td class="vlist"><a class="vid" href="https://www.youtube.com/watch?v=u3z4LMuGP2Q" target="_blank" rel="noopener">Landlord &amp; credit score</a><a class="vid" href="https://www.youtube.com/watch?v=AI8Ggf6fQjg" target="_blank" rel="noopener">Even Celebs Need It &middot; 296K</a></td></tr>
+        <tr><td class="name">Zype</td><td><b>Nothing branded.</b> A handful of self-made product shorts. Pure performance and app-store distribution.</td><td>None</td><td class="vlist"><a class="vid" href="https://www.youtube.com/watch?v=WqsjKch0nTE" target="_blank" rel="noopener">Renovation &middot; 2.3M</a><a class="vid" href="https://www.youtube.com/shorts/hdEh53zwicg" target="_blank" rel="noopener">Infinite possibilities</a></td></tr>
+        <tr><td class="name">CRED</td><td><b>Status by exclusion.</b> Not a lender &mdash; a card-bill and UPI brand whose ads almost never mention credit. IPL is the entire media plan.</td><td>Dravid, Jackie Shroff, Zeenat Aman, Neeraj Chopra, Gambhir</td><td class="vlist"><a class="vid" href="https://www.youtube.com/watch?v=YO45xBbS79w" target="_blank" rel="noopener">Kapil Dev &middot; 3.2M</a></td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+<section id="banks">
+  <div class="wrap">
+    <div class="sec-head col">
+      <span class="eyebrow">05 &mdash; The incumbents</span>
+      <h2>Banks are advertising the opposite of lending</h2>
+      <p class="lede">Of 25 banks and large NBFCs, <b>exactly two</b> run a flagship campaign that is actually about personal loans. The rest sell deposits, fraud awareness, gold loans, cards, or the masterbrand.</p>
+    </div>
+    <div class="tw"><table>
+      <caption>&ldquo;Actually about PL?&rdquo; asks whether the flagship 2025&ndash;26 campaign sells unsecured personal credit.</caption>
+      <thead><tr><th>Player</th><th>Flagship campaign</th><th>Actually about PL?</th><th>Films</th></tr></thead>
+      <tbody>
+        <tr><td class="name">Bajaj Finance</td><td>Loan Utsav / Loan Fest 2026 &mdash; OTT subscriptions, Zomato Gold and vouchers bundled with disbursal</td><td><span class="pill p-fin">Yes</span></td><td class="vlist"><a class="vid" href="https://www.youtube.com/watch?v=usOfCerxMaw" target="_blank" rel="noopener">#NoWaitLoanReadymade</a><a class="vid" href="https://www.youtube.com/shorts/8MJKZUjCXpA" target="_blank" rel="noopener">Up to &#8377;55 lakh</a></td></tr>
+        <tr><td class="name">Home Credit</td><td>#LoanMilega &mdash; Ghar Adalat family courtroom</td><td><span class="pill p-fin">Yes</span></td><td class="vlist"><a class="vid" href="https://www.youtube.com/watch?v=xz5yMSJB0e4" target="_blank" rel="noopener">#KhudParNirbhar &middot; 3.6M</a></td></tr>
+        <tr><td class="name">Poonawalla Fincorp</td><td>&ldquo;Log toh Sawaal Karenge Hi&rdquo; &mdash; good credit scores still overpaying; move your loan. <b>But this is Sept 2023</b>, not current.</td><td><span class="pill p-fin">Yes, dated</span></td><td class="vlist"><a class="vid" href="https://www.youtube.com/watch?v=OZB1U8ORCHA" target="_blank" rel="noopener">Log toh Sawaal Karenge Hi</a><a class="vid" href="https://www.youtube.com/shorts/avafOqBQcL8" target="_blank" rel="noopener">Instant PL</a></td></tr>
+        <tr><td class="name">Piramal Finance</td><td>&ldquo;Hum Kaagaz Se Zyaada, Neeyat Dekhte Hain&rdquo;, plus a <b>1,000-film hyperlocal</b> cricket campaign &mdash; one cut per branch, eight languages, AI-localised, pin-code targeted</td><td>Mixed retail credit</td><td class="vlist"><a class="vid" href="https://www.youtube.com/watch?v=Oz0-vA4c_yc" target="_blank" rel="noopener">Neeyat &mdash; business &middot; 17.2M</a><a class="vid" href="https://www.youtube.com/watch?v=6Af1ViPhQi0" target="_blank" rel="noopener">Neeyat &mdash; home &middot; 16.4M</a><a class="vid" href="https://www.youtube.com/watch?v=E3HmUJGv5KY" target="_blank" rel="noopener">Director&rsquo;s cut</a></td></tr>
+        <tr><td class="name">HDFC Bank</td><td><b>Vigil Aunty</b> &mdash; a JioHotstar comedy series telling you fraudsters manufacture urgency, so slow down</td><td>Fraud awareness</td><td class="vlist"><a class="vid" href="https://www.youtube.com/watch?v=2KRmnEsb260" target="_blank" rel="noopener">XPRESS PL &middot; 16,174</a><a class="vid" href="https://www.youtube.com/watch?v=WTnO6Yhkk-M" target="_blank" rel="noopener">Vigil Aunty</a></td></tr>
+        <tr><td class="name">Tata Capital</td><td>&ldquo;Sab Shubh Hoga&rdquo; &mdash; Shubman Gill recast in regional rituals of auspicious beginnings; coconut-breaking, nimbu-mirchi</td><td>Business loans</td><td class="vlist"><a class="vid" href="https://www.youtube.com/watch?v=3rDYVIX7Z0w" target="_blank" rel="noopener">#SabShubhHoga &middot; 78.8M</a><a class="vid" href="https://www.youtube.com/watch?v=xGbykTo55vw" target="_blank" rel="noopener">Khoobsurat Chinta</a></td></tr>
+        <tr><td class="name">Muthoot Fincorp</td><td>SRK three-film &mdash; the star arrives too late every time because approval already landed</td><td>Gold loans</td><td class="vlist"><a class="vid" href="https://www.youtube.com/watch?v=An5t-3plQ20" target="_blank" rel="noopener">SRK Brings Drama &middot; 460K</a><a class="vid" href="https://www.youtube.com/watch?v=IlgJqzuT8g0" target="_blank" rel="noopener">SRK Dances &middot; 409K</a></td></tr>
+        <tr><td class="name">L&amp;T Finance</td><td>&ldquo;Koi Bhi Sapna Hold Mat Karo&rdquo; &mdash; Bumrah advises a farmer, a homemaker, a kirana owner. Debuted in the India&ndash;Sri Lanka Tests; branded vans, transit media</td><td>Gold loans</td><td class="vlist"><a class="vid" href="https://www.youtube.com/watch?v=G2ZWWaO7rGg" target="_blank" rel="noopener">Business loan ft. Bumrah</a></td></tr>
+        <tr><td class="name">Kotak Mahindra</td><td>&ldquo;Hausla Hai Toh Ho Jayega&rdquo; &rarr; Hausla 2.0 (Jul 2026), moving from aspiration to conviction</td><td>Masterbrand &rarr; business</td><td class="vlist"><a class="vid" href="https://www.youtube.com/watch?v=t7ZU1dCVpWU" target="_blank" rel="noopener">Hausla 60s &middot; 1.9M</a><a class="vid" href="https://www.youtube.com/watch?v=Xw-7MzpXzmM" target="_blank" rel="noopener">Kotak811 cut</a></td></tr>
+        <tr><td class="name">AU Small Finance</td><td>&ldquo;Soch Badlo, aur Bank Bhi&rdquo; relaunched Dec 2025 with new faces &mdash; Bollywood-scale money to acquire <b>deposits</b></td><td>Savings &amp; current a/c</td><td class="vlist"><a class="vid" href="https://www.youtube.com/watch?v=V6bv1hjD-P0" target="_blank" rel="noopener">Savings ft. Ranbir &amp; Rashmika</a><a class="vid" href="https://www.youtube.com/watch?v=BSdWVo1Y1U4" target="_blank" rel="noopener">Current account</a></td></tr>
+        <tr><td class="name">IDFC FIRST</td><td>Sumeet Vyas questioning why interest is quarterly when rent is monthly; Zero Fee Banking</td><td>Deposits</td><td class="vlist"><a class="vid" href="https://www.youtube.com/watch?v=q4gI5V68b6o" target="_blank" rel="noopener">Zero Fee Banking</a><a class="vid" href="https://www.youtube.com/watch?v=VcPcXikASzY" target="_blank" rel="noopener">Monthly interest</a></td></tr>
+        <tr><td class="name">Axis Bank</td><td>&ldquo;Har Raah Dil Se Open&rdquo; / &ldquo;Asli KYC&rdquo; &mdash; a bank advertising its own staff behaviour. Produces Indian Sign Language cuts systematically.</td><td>Masterbrand</td><td class="vlist"><a class="vid" href="https://www.youtube.com/watch?v=JKI_zk6YQyU" target="_blank" rel="noopener">Asli KYC</a><a class="vid" href="https://www.youtube.com/watch?v=FO2r4KKPD3A" target="_blank" rel="noopener">Kheti &mdash; ISL cut</a></td></tr>
+        <tr><td class="name">SBI</td><td>No PL brand film. Budget goes to YONO, KBC / Indian Idol integrations, sport. <b>&#8377;4,246 cr FY26 ad spend</b> &mdash; the largest in Indian banking.</td><td>Platform</td><td class="vlist"><a class="vid" href="https://www.youtube.com/shorts/NfNmolSENls" target="_blank" rel="noopener">PL short (15s)</a><a class="vid" href="https://www.youtube.com/watch?v=QqGO7tz7eQ4" target="_blank" rel="noopener">Dhoni ambassador</a></td></tr>
+        <tr><td class="name">Bank of Baroda</td><td>&ldquo;Play The Masterstroke&rdquo; with Sachin Tendulkar &mdash; hire a national monument, talk about right choices, never mention a rate</td><td>Savings a/c</td><td class="vlist"><a class="vid" href="https://www.youtube.com/watch?v=gJjQgQxklxo" target="_blank" rel="noopener">Play The Masterstroke</a></td></tr>
+        <tr><td class="name">Shriram Finance</td><td>#TogetherWeSoar with Rahul Dravid, Naseeruddin Shah voicing the Hindi film. Seven languages. Pro Kabaddi rather than IPL.</td><td>Masterbrand</td><td class="vlist"><a class="vid" href="https://www.youtube.com/watch?v=BhhldSrl1K0" target="_blank" rel="noopener">#JudengeUdenge</a></td></tr>
+        <tr><td class="name">Federal Bank</td><td>Vidya Balan, first-ever ambassador &mdash; a savings campaign. The clearest &ldquo;we want your money, not your borrowing&rdquo; position.</td><td>Deposits</td><td class="vlist"><a class="vid" href="https://www.youtube.com/watch?v=SzctHDhCm48" target="_blank" rel="noopener">Savings Ki Vidya</a></td></tr>
+        <tr><td class="name">ICICI Bank</td><td>&ldquo;Khayaal Aapka&rdquo; legacy platform. PL sold purely through performance and offer pages.</td><td>Masterbrand</td><td class="vlist"><a class="vid" href="https://www.youtube.com/watch?v=Sm8u8ro2FDM" target="_blank" rel="noopener">Instant PL, festive</a></td></tr>
+        <tr><td class="name">PNB</td><td>Harmanpreet Kaur as first female ambassador, &ldquo;Banking On Champions&rdquo;</td><td>Ambassador / cards</td><td class="vlist"><a class="vid" href="https://www.youtube.com/shorts/_bCT1sxdI1A" target="_blank" rel="noopener">Harmanpreet joins PNB</a></td></tr>
+        <tr><td class="name">Canara Bank</td><td><b>Cut ad spend 19.3% to &#8377;171 cr.</b> The only bank actively de-advertising.</td><td>&mdash;</td><td>&mdash;</td></tr>
+        <tr><td class="name">HDB Financial</td><td>No consumer campaign. IPO year; only film is a CSR piece. Largest lender here with essentially zero brand advertising.</td><td>&mdash;</td><td>&mdash;</td></tr>
+        <tr><td class="name">DMI Finance</td><td><b>No advertising at all.</b> The &ldquo;ad&rdquo; is a pre-approved offer inside Google Pay, across 15,000+ pin codes.</td><td>&mdash;</td><td>&mdash;</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note" style="margin-top:22px"><b>Watch for the regulatory collision.</b> RBI has issued draft Amendment Directions on the advertising, marketing and sale of financial products, covering dark patterns, compulsory bundling and incentive-driven mis-selling &mdash; and extending accountability to <b>third-party agents, affiliates and influencers</b>. Bajaj&rsquo;s Loan Utsav, which bundles OTT subscriptions and Zomato Gold with loan disbursal, is precisely the structure that framework targets. Reported effective dates vary across sources; verify against the RBI circular before relying on one.</p>
+  </div>
+</section>
+
+<section id="dark">
+  <div class="wrap">
+    <div class="sec-head col">
+      <span class="eyebrow">06 &mdash; The negative finding</span>
+      <h2>A third of the category has gone dark</h2>
+      <p class="lede">This is the most commercially useful thing here. These brands have real scale and no share of voice at all &mdash; which means their categories are cheap to enter.</p>
+    </div>
+    <div class="tw"><table>
+      <thead><tr><th>Player</th><th>Status</th><th>Why it matters</th></tr></thead>
+      <tbody>
+        <tr><td class="name">CASHe</td><td><span class="pill p-dead">Dark since Nov 2025</span></td><td>No brand campaign since the Dec 2023 &ldquo;Bharat Ka Money App&rdquo; relaunch. AUM also collapsed from &#8377;979 cr to &#8377;120 cr. The advertising silence and the balance-sheet collapse are the same story.</td></tr>
+        <tr><td class="name">LazyPay</td><td><span class="pill p-dead">Dark since 2022</span></td><td>Made genuinely good work &mdash; #BeLazy with stand-up comedians, a <i>Sacred Games</i> parody. Was blocked alongside Kissht in the Feb 2023 MeitY sweep and, unlike Kissht, <b>never mounted a trust-rebuild campaign</b>. Now appears only inside parent PayU&rsquo;s corporate films.</td></tr>
+        <tr><td class="name">PaySense</td><td><span class="pill p-dead">No standalone ads</span></td><td>Exists only as a product name inside PayU corporate advertising.</td></tr>
+        <tr><td class="name">Snapmint</td><td><span class="pill p-dead">Performance only</span></td><td>$125M raised, 7M monthly actives, 23,000 pin codes &mdash; and no brand layer. Acquisition runs through merchants.</td></tr>
+        <tr><td class="name">Zype</td><td><span class="pill p-dead">Performance only</span></td><td>No campaign, agency or ambassador in any trade press.</td></tr>
+        <tr><td class="name">Freo</td><td><span class="pill p-dead">No campaign</span></td><td>~2M customers, 20M+ downloads, and no brand film. Just acquired IndiaLends.</td></tr>
+        <tr><td class="name">BankBazaar</td><td><span class="pill p-dead">Nothing since 2018</span></td><td>Its 2018 #KidsVsAdults film argued dreams shouldn&rsquo;t shrink with age &mdash; <b>the identical insight Fibe rebuilt with AI in 2026.</b> Nobody in this category protects an idea.</td></tr>
+        <tr><td class="name">Pocketly, Prefr, NIRA</td><td><span class="pill p-dead">Nothing found</span></td><td>Entire YouTube footprint is third-party &ldquo;how to get a loan&rdquo; review content, not brand film.</td></tr>
+        <tr><td class="name">PhonePe, Paytm, Google Pay</td><td><span class="pill p-dead">No loan advertising</span></td><td>All three distribute large loan volumes and advertise <b>only payments</b>. Google Pay&rsquo;s recent consumer campaign is &ldquo;Pocket Money&rdquo; &mdash; recruiting teenagers, the pre-credit cohort.</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note" style="margin-top:22px"><b>The pattern underneath:</b> the biggest personal-loan distributors in India &mdash; Google Pay, PhonePe, Paytm, DMI &mdash; do no loan advertising whatsoever, because the offer travels inside someone else&rsquo;s interface. If you want to know where personal-loan marketing is actually going in India, it is not into films. It is into pre-approved offers surfaced at the moment of payment.</p>
+  </div>
+</section>
+
+<section id="method">
+  <div class="wrap">
+    <div class="sec-head col">
+      <span class="eyebrow">07 &mdash; Method</span>
+      <h2>How this was built, and what it can&rsquo;t tell you</h2>
+    </div>
+    <div class="col" style="display:flex;flex-direction:column;gap:16px">
+      <p><b style="color:var(--ink)">The Meta Ad Library could not be read.</b> Three routes were tried and all failed: the ad-library scraper returned <b>HTTP 402 &mdash; upstream account out of credits</b>; Facebook served a bot challenge (403) to both direct requests and a real browser; and the Graph API <span class="mono">ads_archive</span> endpoint requires an access token. So this is <b>not</b> an ad-library readout &mdash; there are no impression bands, spend ranges, creative-variant counts or run dates here.</p>
+      <p><b style="color:var(--ink)">What replaced it.</b> Campaign facts come from Indian ad trade press. Video discovery and view counts come from scraping YouTube search metadata directly. Every video link was then verified live via YouTube&rsquo;s oEmbed endpoint, returning the real title and owning channel &mdash; which caught several confidently-cited films that do not exist.</p>
+      <p><b style="color:var(--ink)">Treat view counts as a spend proxy, not engagement.</b> Lender ad films accumulate views overwhelmingly through paid in-stream placement. A 315M-view film means a very large media buy, not 315 million people who chose to watch. Counts were read in September 2026 and move continuously.</p>
+      <p><b style="color:var(--ink)">Known gaps.</b> A handful of films could not be verified to a watch URL &mdash; IndusInd&rsquo;s &ldquo;Account Bada Toh Dil Bada&rdquo;, RBL&rsquo;s Gukesh &ldquo;Right Moves&rdquo; series, and Hero FinCorp&rsquo;s specific &ldquo;Nariyal Phodo, Sar Kyun?&rdquo; cut, though its sibling films are here. CRED&rsquo;s films circulate mainly via press embeds rather than stable YouTube IDs. Two mPokket uploads with ~30M views resolve in search but block embedding, so they are cited but not linked.</p>
+      <p><b style="color:var(--ink)">One dating correction worth carrying forward.</b> Several campaigns widely described as current are not: Poonawalla&rsquo;s &ldquo;Log toh Sawaal Karenge Hi&rdquo; is September 2023, Axis&rsquo;s &ldquo;Dil Se Open &mdash; Aapke Liye&rdquo; is 2022, and AU&rsquo;s Kiara Advani &ldquo;Soch Badlo&rdquo; is October 2023 (the December 2025 relaunch uses different faces).</p>
+    </div>
+  </div>
+</section>
+
+<footer class="wrap">
+  <p>Compiled September 2026 from Indian advertising trade press (afaqs!, exchange4media, adgully, Storyboard18, MediaNews4U, Campaign India, BestMediaInfo), company channels, and direct YouTube verification. Companion to the India Unsecured Lending Map.</p>
+  <p class="eyebrow">View counts read Sep 2026 and change continuously. Not an ad-library dataset.</p>
+</footer>
