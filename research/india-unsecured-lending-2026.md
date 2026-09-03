@@ -389,6 +389,86 @@ But: RBI FSR Jun-2026 puts **unsecured retail GNPA at 1.7% vs 0.7% secured**; ho
 
 ---
 
+## 8b. Who actually funds the apps
+
+Most consumer-facing lending brands do not carry the loan. Trace any app back and the same handful of balance sheets appear.
+
+| Front-end | Own book? | Who supplies the capital |
+|---|---|---|
+| **Google Pay** | No | **DMI Finance** (anchor), Aditya Birla Finance, Muthoot Finance (gold), ICICI Bank, Indifi |
+| **PhonePe** | No | Tata Capital, L&T Finance, Hero FinCorp, Muthoot Fincorp, DMI Housing, Home First — 56 partners; also LSP for Piramal |
+| **Paytm** | No | Distribution only — has said publicly it will **not** apply for an NBFC licence. Piramal named partner; Federal Bank onboarding on hold |
+| **CRED** | Affiliate | Newtap Finance (Kunal Shah 74.5%), LiquiLoans for CRED Mint, L&T Finance co-lending |
+| **Moneyview** | Yes | Whizdm own book + 42 partners: Aditya Birla, Credit Saison, Piramal, Northern Arc, DMI, Oxyzo, SMFG, Chola, South Indian Bank, Vivriti |
+| **KreditBee** | Yes | Krazybee own book + PayU Finance, Oxyzo, Vivriti, Chola, Kisetsu Saison, Tata Capital, Northern Arc, Piramal, Mirae, Aditya Birla — ₹21,000 cr disbursed in a year via co-lending |
+| **Kissht** | Yes | Si Creva / OnEMI, ~50% on-book; co-lending with Piramal |
+| **Navi** | Yes | Navi Finserv on-book; off-book co-lending with Piramal |
+| **Federal Bank** | Bank | Reverse model — buys origination from LSPs: Paisabazaar, Bajaj Markets. Discontinued epiFi, OneScore; Paytm on hold |
+
+**Piramal Finance is the single most important balance sheet to map** — 18 named lending partners including Kissht, Navi off-book, KreditBee, Moneyview, Fibe, Paytm, PhonePe Lending Services, MobiKwik, OneScore, SaveIN, BharatPe. The five recurring funders across every app's partner list: **Piramal, DMI Finance, Northern Arc, Aditya Birla Capital, Credit Saison.** Concentration risk sits one layer below the brands.
+
+### Who retreated, who is re-accelerating
+
+System-wide PL growth fell from 28.4% (Dec-2023) to 12% (Dec-2024) after the risk-weight hike.
+
+| Pulled back | What happened |
+|---|---|
+| **RBL Bank** | Unsecured retail −10% YoY, **personal loans −23%** in Q1 FY26; deliberate pivot to secured |
+| **IndusInd Bank** | ₹6,000–7,000 cr under scrutiny for unsecured loans issued against stressed MFI exposure, some misclassified as agriculture |
+| **Kotak Mahindra** | RBI embargo Apr-2024 to Feb-2025 on digital onboarding; unsecured fell to 10% of book |
+| **Poonawalla Fincorp** | **Exited short-term personal loans entirely**; ₹666 cr accelerated provisioning drove an FY25 loss |
+| **Hero FinCorp** | Halted new unsecured lending Aug-2025; FY26 loss ₹226 cr |
+| **HDFC / Axis** | Retail growth 8.1% / 6% YoY Q1 FY26 — deliberate caution |
+
+| Re-accelerating | Evidence |
+|---|---|
+| **L&T Finance** | Retail disbursements **+49% YoY** Q3 FY26; PL book +80%; adding ~500 branches |
+| **Poonawalla Fincorp** | AUM ₹25,003 cr → ₹41,273 cr in 15 months; Prime PL growing post-STPL-exit |
+| **Aditya Birla Capital** | ₹4,000 cr raise, ~₹3,500 cr to lending; expanding via Google Pay, Moneyview, KreditBee |
+| **Kotak Mahindra** | Restrictions lifted Feb-2025; absorbing acquired Standard Chartered India PL book |
+| **SBI** | "Xpress Credit growth is regaining momentum"; average tenure ~14 months |
+| **ICICI Bank** | PL +1.4% Q1 FY26, guiding to resume growth as unsecured asset quality stabilises |
+| **Piramal Finance** | Listed; targeting ₹1.5 lakh cr AUM, ₹15,000 cr borrowing by March |
+
+---
+
+## 8c. Bank & NBFC eligibility — target group in hard numbers
+
+| Lender | Min income/mo | Age | CIBIL | Gate & named sub-segments |
+|---|---|---|---|---|
+| RBL Bank | ₹40,000 | 25–60 | — | Highest income floor of any bank here |
+| ICICI Bank | ₹30,000 | 20–58 | — | SE 23–65; 2 yrs work experience |
+| Kotak Mahindra | ₹25,000 / ₹30,000 | 21–60 | 750 | MNC/Public/Pvt Ltd only. **Graduate or diploma minimum** |
+| HDFC Bank | ₹25,000 | 21–60 | 650–700 | 2 yrs total, 1 yr current |
+| Federal Bank | ₹25,000 | 21–55 | — | **3 years in present employment** — strictest tenure rule. BYOM existing-customers-only |
+| IndusInd Bank | ₹25,000 | 21–60 | 730+ | SE need ₹4.8L post-tax annual |
+| Axis Bank | ₹15,000 / ₹25,000 | 21–60 | 700+ | Lower floor for existing customers; ₹25,000 in Delhi/Mumbai |
+| IDFC FIRST | ₹20,000–25,000 | 23–60 | 710+ | FIRSTmoney drops to ₹10,000 |
+| SBI Xpress Credit | ₹15,000–25,000 | — | 650–670 | **Salary must be credited to SBI.** Govt, defence, CAPF, police, railways, PSU |
+| Punjab National Bank | ₹15,000 | to 70 | — | **Salary drawn through PNB.** Zero PF for defence/pensioners; pension 20× for defence; "Doctor's Delight" to ₹20L |
+| Union Bank | ₹15,000–20,000 | 18+ | 700+ | Four categories incl. **government employees** and **top employees of GoI ministries** |
+| Bank of Baroda | ₹20,000 | 21–60 | 750 | **Floor negotiable in rural areas.** Names doctors, architects, engineers, CSs |
+| Tata Capital | ₹15,000–35,000 | 21–58 | 750 | 2 yrs work, 6 months current |
+| Poonawalla Fincorp | ₹30,000 | — | 750 | Explicit approved-employer list. **Dedicated CA scheme** |
+| Piramal Finance | ₹25,000 metro / ₹20,000 tier-2 | — | 750 | Geo-tiered income floor |
+| HDB Financial | ₹20,000 metro / ₹15,000 rest | 21–60; **65 govt** | — | Names salaried doctors, CAs, PSU staff; SE doctors, CAs, architects, CSs |
+| SMFG India Credit | ₹25,000 metro / ₹16,000 rest | 21–65 | 705+ | Geo-tiered floor |
+| Bajaj Finance | ₹25,000 | **21–80** | **685** | Widest age band, lowest explicit CIBIL bar. Doctor programme for MD/DM/MS |
+| DMI Finance | ₹25,000 | **23–52** | 700+ | Narrowest age band; almost entirely embedded via partner apps |
+| Hero FinCorp | ₹15,000 | 21–58 | 725+ | 6 months current job |
+| Home Credit India | **₹10,000** | 21–58 | — | **Lowest floor in the market.** Salaried, SE, **housewife and pensioner** eligible |
+
+Only three lenders publish geo-tiered income floors: Piramal, HDB, SMFG. PSU banks run a **captive-payroll model** — SBI, PNB and Union all effectively require the salary or pension to land in their own account, which makes government/defence payroll the actual product.
+
+### Bank & NBFC marketing
+
+Almost no lender runs a *personal-loan-specific* brand campaign. Celebrity spend goes to the masterbrand (Axis/Deepika Padukone, IDFC FIRST/Amitabh Bachchan, Shriram/Rahul Dravid, AU/Aamir Khan + Kiara Advani, Kotak/Ranveer Singh, Tata Capital/Shubman Gill, SBI/MS Dhoni + Smriti Mandhana, Bank of Baroda/Sachin Tendulkar) or to gold loans (L&T/Jasprit Bumrah, Muthoot/Shah Rukh Khan). PL itself is sold through promo mechanics — Bajaj's "Loan Utsav 2026" reward bundle, IndusInd's 2% processing fee — and pre-approved in-app offers.
+
+The two genuine PL-positioning campaigns sit at opposite ends of the same market: **Poonawalla's "Log toh Sawaal Karenge Hi"** pitches balance transfer at prime, high-CIBIL borrowers already paying high EMIs elsewhere; **Home Credit's #LoanMilega** pitches access to first-generation earners. Hero FinCorp runs "Nariyal Phodo, Sar Kyun?" with Delhi Capitals title sponsorship instead of a celebrity.
+
+
+---
+
 ## 9. Meta Ad Library links
 
 All links are **India-filtered, active-ads, all ad types**. Meta's ad library is keyword-searchable rather than ID-addressable for most of these advertisers, so these are keyword searches scoped to India — they will surface every page currently running ads under that brand name, which is more robust than a page ID that changes.
@@ -440,20 +520,20 @@ All links are **India-filtered, active-ads, all ad types**. Meta's ad library is
 
 | Advertiser | Meta Ad Library (India) | Facebook page |
 |---|---|---|
-| Bajaj Finserv | [Search ads](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=IN&is_targeted_country=false&media_type=all&q=Bajaj+Finserv&search_type=keyword_unordered) | — |
-| Tata Capital | [Search ads](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=IN&is_targeted_country=false&media_type=all&q=Tata+Capital&search_type=keyword_unordered) | — |
-| Aditya Birla Capital | [Search ads](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=IN&is_targeted_country=false&media_type=all&q=Aditya+Birla+Capital&search_type=keyword_unordered) | — |
+| Bajaj Finserv | [Search ads](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=IN&is_targeted_country=false&media_type=all&q=Bajaj+Finserv&search_type=keyword_unordered) |[facebook.com/bajajfinserv](https://facebook.com/bajajfinserv) |
+| Tata Capital | [Search ads](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=IN&is_targeted_country=false&media_type=all&q=Tata+Capital&search_type=keyword_unordered) |[facebook.com/tatacapital](https://facebook.com/tatacapital) |
+| Aditya Birla Capital | [Search ads](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=IN&is_targeted_country=false&media_type=all&q=Aditya+Birla+Capital&search_type=keyword_unordered) |[facebook.com/adityabirlacapital](https://facebook.com/adityabirlacapital) |
 | L&T Finance | [Search ads](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=IN&is_targeted_country=false&media_type=all&q=L%26T+Finance&search_type=keyword_unordered) | [facebook.com/LnTFS](https://facebook.com/LnTFS) |
-| Poonawalla Fincorp | [Search ads](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=IN&is_targeted_country=false&media_type=all&q=Poonawalla+Fincorp&search_type=keyword_unordered) | — |
+| Poonawalla Fincorp | [Search ads](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=IN&is_targeted_country=false&media_type=all&q=Poonawalla+Fincorp&search_type=keyword_unordered) |[facebook.com/poonawallafincorp](https://facebook.com/poonawallafincorp) |
 | Piramal Finance | [Search ads](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=IN&is_targeted_country=false&media_type=all&q=Piramal+Finance&search_type=keyword_unordered) | [facebook.com/PiramalFinance](https://facebook.com/PiramalFinance) |
-| Hero FinCorp | [Search ads](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=IN&is_targeted_country=false&media_type=all&q=Hero+FinCorp&search_type=keyword_unordered) | — |
+| Hero FinCorp | [Search ads](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=IN&is_targeted_country=false&media_type=all&q=Hero+FinCorp&search_type=keyword_unordered) |[facebook.com/herofincorpofficial](https://facebook.com/herofincorpofficial) |
 | InCred | [Search ads](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=IN&is_targeted_country=false&media_type=all&q=InCred&search_type=keyword_unordered) | — |
-| HDFC Bank | [Search ads](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=IN&is_targeted_country=false&media_type=all&q=HDFC+Bank&search_type=keyword_unordered) | — |
-| ICICI Bank | [Search ads](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=IN&is_targeted_country=false&media_type=all&q=ICICI+Bank&search_type=keyword_unordered) | — |
-| SBI | [Search ads](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=IN&is_targeted_country=false&media_type=all&q=State+Bank+of+India&search_type=keyword_unordered) | — |
-| Axis Bank | [Search ads](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=IN&is_targeted_country=false&media_type=all&q=Axis+Bank&search_type=keyword_unordered) | — |
-| Kotak Mahindra Bank | [Search ads](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=IN&is_targeted_country=false&media_type=all&q=Kotak+Mahindra+Bank&search_type=keyword_unordered) | — |
-| IDFC FIRST Bank | [Search ads](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=IN&is_targeted_country=false&media_type=all&q=IDFC+FIRST+Bank&search_type=keyword_unordered) | — |
+| HDFC Bank | [Search ads](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=IN&is_targeted_country=false&media_type=all&q=HDFC+Bank&search_type=keyword_unordered) |[facebook.com/HDFC.bank](https://facebook.com/HDFC.bank) |
+| ICICI Bank | [Search ads](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=IN&is_targeted_country=false&media_type=all&q=ICICI+Bank&search_type=keyword_unordered) |[facebook.com/icicibank](https://facebook.com/icicibank) |
+| SBI | [Search ads](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=IN&is_targeted_country=false&media_type=all&q=State+Bank+of+India&search_type=keyword_unordered) |[facebook.com/StateBankOfIndia](https://facebook.com/StateBankOfIndia) |
+| Axis Bank | [Search ads](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=IN&is_targeted_country=false&media_type=all&q=Axis+Bank&search_type=keyword_unordered) |[facebook.com/axisbank](https://facebook.com/axisbank) |
+| Kotak Mahindra Bank | [Search ads](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=IN&is_targeted_country=false&media_type=all&q=Kotak+Mahindra+Bank&search_type=keyword_unordered) |[facebook.com/KotakBank](https://facebook.com/KotakBank) |
+| IDFC FIRST Bank | [Search ads](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=IN&is_targeted_country=false&media_type=all&q=IDFC+FIRST+Bank&search_type=keyword_unordered) |[facebook.com/idfcfirstbank](https://facebook.com/idfcfirstbank) |
 
 ### VERTICAL — STUDENT / EDUCATION
 

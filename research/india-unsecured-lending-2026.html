@@ -1,0 +1,855 @@
+<title>India Unsecured Lending Map</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700&family=Archivo:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+:root{
+  --paper:#fbfaf6; --surface:#ffffff; --sunk:#f3f0e8;
+  --ink:#17171d; --body:#3c3a38; --muted:#736e64;
+  --rule:#e0dbd0; --rule-soft:#ece8de;
+  --bank:#2f4b7c; --bank-soft:#dbe2ee;
+  --fin:#b96a1f; --fin-soft:#f4e4d1;
+  --other:#8a8578;
+  
+  --shadow:0 1px 2px rgba(23,23,29,.05);
+}
+:root{ --good:#41684a; --warn:#a4622a; --crit:#8f3a35; }
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --paper:#131318; --surface:#1b1b21; --sunk:#202028;
+    --ink:#f0ece4; --body:#cfcac1; --muted:#948d81;
+    --rule:#32323c; --rule-soft:#262630;
+    --bank:#8fb0e0; --bank-soft:#26344c;
+    --fin:#e0a05c; --fin-soft:#3d2c1a;
+    --other:#8b8578;
+    --good:#7fae87; --warn:#d09256; --crit:#d1736c;
+    --shadow:0 1px 2px rgba(0,0,0,.4);
+  }
+}
+:root[data-theme="dark"]{
+  --paper:#131318; --surface:#1b1b21; --sunk:#202028;
+  --ink:#f0ece4; --body:#cfcac1; --muted:#948d81;
+  --rule:#32323c; --rule-soft:#262630;
+  --bank:#8fb0e0; --bank-soft:#26344c;
+  --fin:#e0a05c; --fin-soft:#3d2c1a;
+  --other:#8b8578;
+  --good:#7fae87; --warn:#d09256; --crit:#d1736c;
+  --shadow:0 1px 2px rgba(0,0,0,.4);
+}
+*{box-sizing:border-box}
+body{
+  margin:0; background:var(--paper); color:var(--body);
+  font-family:Archivo,"Helvetica Neue",Arial,sans-serif;
+  font-size:16px; line-height:1.62;
+  -webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:1080px;margin:0 auto;padding:0 28px}
+.col{max-width:680px}
+h1,h2,h3{font-family:Fraunces,Georgia,"Times New Roman",serif;color:var(--ink);text-wrap:balance;margin:0}
+h1{font-size:clamp(2.4rem,5.2vw,3.9rem);font-weight:600;line-height:1.02;letter-spacing:-.022em}
+h2{font-size:clamp(1.55rem,2.7vw,2.1rem);font-weight:600;line-height:1.12;letter-spacing:-.014em}
+h3{font-size:1.12rem;font-weight:600;line-height:1.3}
+p{margin:0}
+a{color:inherit}
+.eyebrow{
+  font-family:"IBM Plex Mono",ui-monospace,monospace;
+  font-size:.685rem;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--muted);font-weight:500;
+}
+.mono{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums}
+
+/* masthead */
+header.mast{border-bottom:1px solid var(--rule);background:var(--surface)}
+.mast-in{display:flex;flex-direction:column;gap:26px;padding:56px 0 44px}
+.mast-meta{display:flex;flex-wrap:wrap;gap:10px 22px;align-items:baseline}
+.stand{font-size:1.18rem;line-height:1.5;color:var(--body);max-width:64ch}
+.stand b{color:var(--ink);font-weight:600}
+
+/* nav */
+nav.toc{
+  position:sticky;top:0;z-index:20;background:var(--paper);
+  border-bottom:1px solid var(--rule);
+}
+.toc-in{display:flex;gap:0;overflow-x:auto;scrollbar-width:thin}
+.toc a{
+  flex:0 0 auto;padding:11px 15px;text-decoration:none;color:var(--muted);
+  font-size:.78rem;font-weight:500;white-space:nowrap;
+  border-bottom:2px solid transparent;
+}
+.toc a:hover{color:var(--ink);border-bottom-color:var(--rule)}
+.toc a:focus-visible{outline:2px solid var(--bank);outline-offset:-2px}
+
+section{padding:56px 0;border-bottom:1px solid var(--rule-soft)}
+.sec-head{display:flex;flex-direction:column;gap:12px;margin-bottom:30px}
+.lede{font-size:1.02rem;color:var(--body);max-width:66ch}
+
+/* thesis band */
+.thesis{background:var(--sunk);border-bottom:1px solid var(--rule)}
+.split{display:grid;grid-template-columns:1fr 1fr;gap:2px;background:var(--rule);border:1px solid var(--rule);margin-top:8px}
+.half{background:var(--surface);padding:26px 24px;display:flex;flex-direction:column;gap:10px}
+.half .big{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums;font-size:2.7rem;font-weight:600;line-height:1;letter-spacing:-.03em}
+.half.bank .big{color:var(--bank)} .half.fin .big{color:var(--fin)}
+.half .cap{font-size:.9rem;color:var(--muted);line-height:1.45}
+.half .who{font-weight:600;color:var(--ink);font-size:.95rem}
+
+/* stat row */
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(158px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.stat{background:var(--surface);padding:18px 18px 16px;display:flex;flex-direction:column;gap:5px}
+.stat .v{font-family:"IBM Plex Mono",ui-monospace,monospace;font-variant-numeric:tabular-nums;font-size:1.42rem;font-weight:600;color:var(--ink);letter-spacing:-.02em;line-height:1.1}
+.stat .k{font-size:.775rem;color:var(--muted);line-height:1.35}
+.stat .d{font-size:.72rem;font-weight:600;font-family:"IBM Plex Mono",monospace}
+.up{color:var(--good)} .down{color:var(--crit)}
+
+/* chart */
+.chart{background:var(--surface);border:1px solid var(--rule);padding:24px;box-shadow:var(--shadow)}
+.chart-hd{display:flex;flex-wrap:wrap;justify-content:space-between;gap:12px;align-items:baseline;margin-bottom:20px}
+.legend{display:flex;gap:16px;flex-wrap:wrap}
+.lg{display:flex;align-items:center;gap:7px;font-size:.78rem;color:var(--muted)}
+.sw{width:11px;height:11px;flex:0 0 auto}
+.brow{display:grid;grid-template-columns:118px 1fr;gap:14px;align-items:center;padding:9px 0}
+.brow + .brow{border-top:1px solid var(--rule-soft)}
+.blabel{font-size:.84rem;color:var(--ink);font-weight:500;line-height:1.25}
+.bpair{display:flex;flex-direction:column;gap:5px}
+.btrack{display:flex;align-items:center;gap:9px}
+.bbar{height:13px;min-width:1px}
+.bval{font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;font-size:.75rem;color:var(--muted);flex:0 0 auto}
+
+/* tables */
+.tw{overflow-x:auto;border:1px solid var(--rule);background:var(--surface)}
+table{border-collapse:collapse;width:100%;font-size:.855rem}
+th,td{text-align:left;padding:10px 14px;border-bottom:1px solid var(--rule-soft);vertical-align:top}
+thead th{
+  font-family:"IBM Plex Mono",monospace;font-size:.68rem;letter-spacing:.09em;
+  text-transform:uppercase;color:var(--muted);font-weight:600;
+  background:var(--sunk);border-bottom:1px solid var(--rule);
+}
+tbody tr:last-child td{border-bottom:none}
+td.num,th.num{text-align:right;font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;white-space:nowrap}
+td.name{font-weight:600;color:var(--ink);white-space:nowrap}
+tbody tr:hover{background:var(--sunk)}
+caption{caption-side:bottom;text-align:left;padding:10px 14px;font-size:.75rem;color:var(--muted);border-top:1px solid var(--rule-soft)}
+
+/* pills */
+.pill{display:inline-block;padding:1px 7px;font-family:"IBM Plex Mono",monospace;font-size:.67rem;font-weight:600;letter-spacing:.04em;white-space:nowrap}
+.p-bank{background:var(--bank-soft);color:var(--bank)}
+.p-fin{background:var(--fin-soft);color:var(--fin)}
+.p-dead{background:var(--sunk);color:var(--crit);text-decoration:line-through}
+.p-live{background:var(--sunk);color:var(--good)}
+.p-warn{background:var(--sunk);color:var(--warn)}
+
+/* segment grid */
+.segs{display:grid;grid-template-columns:repeat(auto-fill,minmax(292px,1fr));gap:1px;background:var(--rule);border:1px solid var(--rule)}
+.seg{background:var(--surface);padding:20px;display:flex;flex-direction:column;gap:11px}
+.seg-tg{font-size:.82rem;color:var(--muted);line-height:1.45}
+.seg ul{margin:0;padding:0;list-style:none;display:flex;flex-direction:column;gap:7px}
+.seg li{display:flex;justify-content:space-between;gap:12px;font-size:.83rem;border-top:1px dotted var(--rule);padding-top:7px}
+.seg li b{color:var(--ink);font-weight:600}
+.seg li span{color:var(--muted);font-family:"IBM Plex Mono",monospace;font-variant-numeric:tabular-nums;font-size:.76rem;text-align:right;flex:0 0 auto}
+
+/* callout */
+.note{border-left:3px solid var(--fin);background:var(--sunk);padding:16px 20px;font-size:.9rem;line-height:1.55}
+.note b{color:var(--ink)}
+
+/* ad index */
+.filter{display:flex;flex-wrap:wrap;gap:12px;align-items:center;margin-bottom:18px}
+input[type=search]{
+  flex:1 1 260px;padding:9px 13px;font-family:inherit;font-size:.9rem;
+  background:var(--surface);color:var(--ink);
+  border:1px solid var(--rule);border-radius:0;
+}
+input[type=search]:focus-visible{outline:2px solid var(--bank);outline-offset:-1px}
+.count{font-family:"IBM Plex Mono",monospace;font-size:.76rem;color:var(--muted)}
+.adgroup{margin-bottom:26px}
+.adgroup > .eyebrow{display:block;padding-bottom:8px;border-bottom:1px solid var(--rule)}
+.ads{display:grid;grid-template-columns:repeat(auto-fill,minmax(232px,1fr));background:var(--surface);border:1px solid var(--rule-soft);border-top:none}
+.ad{padding:11px 13px;display:flex;flex-direction:column;gap:4px;border-right:1px solid var(--rule-soft);border-bottom:1px solid var(--rule-soft)}
+.ad .n{font-weight:600;color:var(--ink);font-size:.845rem;line-height:1.25}
+.ad .l{display:flex;gap:12px;flex-wrap:wrap}
+.ad a{font-family:"IBM Plex Mono",monospace;font-size:.7rem;color:var(--bank);text-decoration:none;border-bottom:1px solid var(--bank-soft)}
+.ad a:hover{border-bottom-color:var(--bank)}
+.ad a.fb{color:var(--muted);border-bottom-color:var(--rule)}
+.ad a:focus-visible{outline:2px solid var(--bank);outline-offset:2px}
+[hidden]{display:none!important}
+
+footer{padding:40px 0 64px;color:var(--muted);font-size:.83rem;display:flex;flex-direction:column;gap:10px}
+footer a{color:var(--bank)}
+.grid2{display:grid;grid-template-columns:1fr 1fr;gap:26px}
+@media(max-width:760px){
+  .split,.grid2{grid-template-columns:1fr}
+  .brow{grid-template-columns:96px 1fr}
+  .wrap{padding:0 18px}
+  section{padding:40px 0}
+}
+@media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+<header class="mast">
+  <div class="wrap mast-in">
+    <div class="mast-meta">
+      <span class="eyebrow">Market research</span>
+      <span class="eyebrow">India &middot; September 2026</span>
+    </div>
+    <h1>India&rsquo;s unsecured lending market is two markets</h1>
+    <p class="stand">A <b>&#8377;16.5 lakh crore</b> personal-loan book, growing 12.9% a year. Banks hold <b>73% of the value</b>. Fintech apps hold <b>45% of the accounts</b> and originate <b>77% of every loan written</b>. There is no single market share here &mdash; there is a choice of which market you are in.</p>
+    <p class="eyebrow">CRIF High Mark &middot; FACE &middot; TransUnion CIBIL &middot; RBI &middot; company filings</p>
+  </div>
+</header>
+
+<nav class="toc"><div class="wrap toc-in">
+  <a href="#split">The split</a>
+  <a href="#size">Market size</a>
+  <a href="#share">Share</a>
+  <a href="#league">League table</a>
+  <a href="#horizontal">Horizontal</a>
+  <a href="#vertical">Vertical</a>
+  <a href="#tg">Target groups</a>
+  <a href="#funding">Who funds whom</a>
+  <a href="#risk">Regulation &amp; risk</a>
+  <a href="#ads">Ad libraries</a>
+</div></nav>
+
+<section class="thesis" id="split">
+  <div class="wrap">
+    <div class="sec-head col">
+      <span class="eyebrow">01 &mdash; The structural fact</span>
+      <h2>One book, two businesses</h2>
+      <p class="lede">The same &#8377;16.5 lakh crore looks completely different depending on whether you count rupees or borrowers. A bank writes 1.41 crore loans a year at an average of &#8377;4.91 lakh. A digital NBFC writes 13.23 crore loans at an average of &#8377;16,238. They barely compete.</p>
+    </div>
+    <div class="split">
+      <div class="half bank">
+        <span class="eyebrow">Counted in rupees</span>
+        <div class="big">73%</div>
+        <div class="who">Banks</div>
+        <p class="cap">&#8377;12.04 lakh cr outstanding across 3.82 cr accounts. Average balance &#8377;3.15 lakh. 76% of bank sanction value goes to tickets above &#8377;5 lakh &mdash; and 0% below &#8377;50,000.</p>
+      </div>
+      <div class="half fin">
+        <span class="eyebrow">Counted in borrowers</span>
+        <div class="big">45%</div>
+        <div class="who">Digital NBFCs</div>
+        <p class="cap">&#8377;1.43 lakh cr across 5.50 cr accounts &mdash; 9% of value. Average balance &#8377;26,053. 43% of their sanction value is in tickets under &#8377;50,000, where banks are absent.</p>
+      </div>
+    </div>
+    <p class="note" style="margin-top:22px">The gap that explains everything else: <b>34% of digital-NBFC lending by value goes to high or very-high credit-risk borrowers, against 11% for banks.</b> Fintechs did not win the small-ticket market on technology alone &mdash; they won it by underwriting people the banks decline.</p>
+  </div>
+</section>
+
+<section id="size">
+  <div class="wrap">
+    <div class="sec-head col">
+      <span class="eyebrow">02 &mdash; Size and momentum</span>
+      <h2>Back to growth, hard</h2>
+      <p class="lede">RBI&rsquo;s November 2023 risk-weight hike put the market into contraction through FY25. FY26 reversed it: originations grew 28.9% by value and 17.1% by volume, the fastest in the series.</p>
+    </div>
+    <div class="stats">
+      <div class="stat"><span class="v">&#8377;16.5L cr</span><span class="k">PL outstanding, all lenders, Mar-2026</span><span class="d up">+12.9% YoY</span></div>
+      <div class="stat"><span class="v">12.24 cr</span><span class="k">Active personal loan accounts</span><span class="d down">&minus;6.0% QoQ</span></div>
+      <div class="stat"><span class="v">&#8377;11.45L cr</span><span class="k">FY26 originations by value</span><span class="d up">+28.9% YoY</span></div>
+      <div class="stat"><span class="v">17.26 cr</span><span class="k">FY26 loans originated</span><span class="d up">+17.1% YoY</span></div>
+      <div class="stat"><span class="v">&#8377;66,379</span><span class="k">Average ticket, all lenders</span><span class="d">&#8377;16,238 fintech</span></div>
+      <div class="stat"><span class="v">1.6%</span><span class="k">PAR 31&ndash;90, all lenders</span><span class="d up">from 2.0%</span></div>
+    </div>
+    <div class="chart" style="margin-top:26px">
+      <div class="chart-hd">
+        <div><h3>Origination growth by lender type</h3><p class="eyebrow" style="margin-top:5px">Year-on-year change in sanction value</p></div>
+      </div>
+      <div class="brow"><span class="blabel">FY24</span><div class="bpair"><div class="btrack"><div class="bbar" style="width:59%;background:var(--other)"></div><span class="bval">+17.1%</span></div></div></div>
+      <div class="brow"><span class="blabel">FY25</span><div class="bpair"><div class="btrack"><div class="bbar" style="width:8%;background:var(--crit)"></div><span class="bval">&minus;2.2%</span></div></div></div>
+      <div class="brow"><span class="blabel">FY26 &mdash; all</span><div class="bpair"><div class="btrack"><div class="bbar" style="width:100%;background:var(--other)"></div><span class="bval">+28.9%</span></div></div></div>
+      <div class="brow"><span class="blabel">FY26 &mdash; digital NBFC</span><div class="bpair"><div class="btrack"><div class="bbar" style="width:100%;background:var(--fin)"></div><span class="bval">+39%</span></div></div></div>
+      <div class="brow"><span class="blabel">FY26 &mdash; banks</span><div class="bpair"><div class="btrack"><div class="bbar" style="width:83%;background:var(--bank)"></div><span class="bval">+24%</span></div></div></div>
+      <p class="eyebrow" style="margin-top:16px">Bars scaled to the FY26 peak. Source: CRIF How India Lends May-2026; FACE Mar-2026</p>
+    </div>
+  </div>
+</section>
+
+<section id="share">
+  <div class="wrap">
+    <div class="sec-head col">
+      <span class="eyebrow">03 &mdash; Market share</span>
+      <h2>Value share and volume share point opposite ways</h2>
+      <p class="lede">Read these two columns together or not at all. NBFCs hold 40% of origination value and 91% of origination volume. The distinction is not a rounding difference &mdash; it is the market&rsquo;s basic shape.</p>
+    </div>
+    <div class="chart">
+      <div class="chart-hd">
+        <div><h3>FY26 originations by lender type</h3><p class="eyebrow" style="margin-top:5px">Share of sanction value vs share of loan count</p></div>
+        <div class="legend">
+          <span class="lg"><span class="sw" style="background:var(--bank)"></span>Share of value</span>
+          <span class="lg"><span class="sw" style="background:var(--fin)"></span>Share of volume</span>
+        </div>
+      </div>
+      <div class="brow"><span class="blabel">Banks</span><div class="bpair">
+        <div class="btrack"><div class="bbar" style="width:61%;background:var(--bank)"></div><span class="bval">61%</span></div>
+        <div class="btrack"><div class="bbar" style="width:8%;background:var(--fin)"></div><span class="bval">8%</span></div></div></div>
+      <div class="brow"><span class="blabel">Digital NBFCs<br><span class="eyebrow">110+ fintechs</span></span><div class="bpair">
+        <div class="btrack"><div class="bbar" style="width:19%;background:var(--bank)"></div><span class="bval">19%</span></div>
+        <div class="btrack"><div class="bbar" style="width:77%;background:var(--fin)"></div><span class="bval">77%</span></div></div></div>
+      <div class="brow"><span class="blabel">Other NBFCs</span><div class="bpair">
+        <div class="btrack"><div class="bbar" style="width:21%;background:var(--bank)"></div><span class="bval">21%</span></div>
+        <div class="btrack"><div class="bbar" style="width:15%;background:var(--fin)"></div><span class="bval">15%</span></div></div></div>
+      <p class="eyebrow" style="margin-top:16px">Source: FACE Digital Personal Loans, March 2026 &mdash; bureau data covering FY26 sanctions</p>
+    </div>
+
+    <div class="grid2" style="margin-top:26px">
+      <div class="tw"><table>
+        <caption>CRIF High Mark, Q4 FY26. NBFC row includes fintech lenders.</caption>
+        <thead><tr><th>Lender type</th><th class="num">Value</th><th class="num">Volume</th></tr></thead>
+        <tbody>
+          <tr><td class="name">PSU banks</td><td class="num">29.5%</td><td class="num">3.0%</td></tr>
+          <tr><td class="name">Private banks</td><td class="num">26.6%</td><td class="num">4.3%</td></tr>
+          <tr><td class="name">NBFCs</td><td class="num">39.8%</td><td class="num">91.3%</td></tr>
+          <tr><td class="name">Others</td><td class="num">4.1%</td><td class="num">1.4%</td></tr>
+        </tbody>
+      </table></div>
+      <div class="tw"><table>
+        <caption>Ticket-size distribution, all lenders, Q4 FY26.</caption>
+        <thead><tr><th>Ticket band</th><th class="num">Value</th><th class="num">Volume</th></tr></thead>
+        <tbody>
+          <tr><td class="name">&lt; &#8377;1 lakh</td><td class="num">18.8%</td><td class="num">88.6%</td></tr>
+          <tr><td class="name">&#8377;1&ndash;2 lakh</td><td class="num">10.4%</td><td class="num">4.8%</td></tr>
+          <tr><td class="name">&#8377;2&ndash;5 lakh</td><td class="num">16.4%</td><td class="num">3.4%</td></tr>
+          <tr><td class="name">&#8377;5&ndash;10 lakh</td><td class="num">18.7%</td><td class="num">1.8%</td></tr>
+          <tr><td class="name">&gt; &#8377;10 lakh</td><td class="num">35.7%</td><td class="num">~1.5%</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+    <p class="note" style="margin-top:22px">The market is <b>barbelling</b>. Value from tickets above &#8377;10 lakh went 29.2% &rarr; 32.8% &rarr; 35.7% across three years, while sub-&#8377;1-lakh loans held 88.6% of all volume. Banks are moving up-ticket and fintechs are holding the floor. The &#8377;1&ndash;5 lakh middle is the thinnest part of the market.</p>
+  </div>
+</section>
+<section id="league">
+  <div class="wrap">
+    <div class="sec-head col">
+      <span class="eyebrow">04 &mdash; Who holds the book</span>
+      <h2>League table</h2>
+      <p class="lede">Unsecured personal loan book, latest reported. One government bank&rsquo;s salary-account product is larger than the entire digital-NBFC industry.</p>
+    </div>
+    <div class="tw"><table>
+      <caption>Derived figures marked &#9888; are calculated from disclosed segment percentages, not reported directly. ICICI Bank, Aditya Birla Capital, L&amp;T Finance and Piramal do not break out a PL book.</caption>
+      <thead><tr><th>Lender</th><th class="num">Book (&#8377; cr)</th><th class="num">As of</th><th>Type</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td class="name">SBI &mdash; Xpress Credit</td><td class="num">3,75,348</td><td class="num">Jun-26</td><td><span class="pill p-bank">PSU bank</span></td><td>+8.25%; GNPA 1.15%. Salary-account borrowers only</td></tr>
+        <tr><td class="name">HDFC Bank</td><td class="num">~2,19,000 &#9888;</td><td class="num">Jun-26</td><td><span class="pill p-bank">Pvt bank</span></td><td>PL &asymp;30% of retail assets; growth still single-digit</td></tr>
+        <tr><td class="name">Bajaj Finance</td><td class="num">1,09,802</td><td class="num">Jun-26</td><td><span class="pill p-bank">NBFC</span></td><td>Urban B2C PL, +19%; GNPA 1.19%</td></tr>
+        <tr><td class="name">Axis Bank</td><td class="num">82,781</td><td class="num">Jun-26</td><td><span class="pill p-bank">Pvt bank</span></td><td>+7%; 12% of retail book</td></tr>
+        <tr><td class="name">IDFC FIRST Bank</td><td class="num">57,834</td><td class="num">Jun-26</td><td><span class="pill p-bank">Pvt bank</span></td><td>Consumer loans, +27.3% &mdash; fastest-growing incumbent</td></tr>
+        <tr><td class="name">Tata Capital</td><td class="num">~29,900 &#9888;</td><td class="num">Jun-26</td><td><span class="pill p-bank">NBFC</span></td><td>Re-scaling PL since Q1 FY26; slippages down 60%</td></tr>
+        <tr><td class="name">Kotak Mahindra Bank</td><td class="num">25,589</td><td class="num">Jun-26</td><td><span class="pill p-bank">Pvt bank</span></td><td>Unsecured cut to 8.8% of advances from 9.7%</td></tr>
+        <tr><td class="name">Moneyview</td><td class="num">19,815</td><td class="num">Dec-25</td><td><span class="pill p-fin">Fintech</span></td><td>Largest digital lender; DRHP filed</td></tr>
+        <tr><td class="name">Poonawalla Fincorp</td><td class="num">18,766</td><td class="num">Jun-26</td><td><span class="pill p-bank">NBFC</span></td><td>~47% of AUM unsecured; GNPA 1.37%</td></tr>
+        <tr><td class="name">Navi Finserv</td><td class="num">16,909</td><td class="num">Dec-25</td><td><span class="pill p-fin">Fintech</span></td><td>PL = 90% of AUM; 73% salaried</td></tr>
+        <tr><td class="name">Hero FinCorp</td><td class="num">~15,100 &#9888;</td><td class="num">Sep-25</td><td><span class="pill p-warn">Exited</span></td><td>Halted new unsecured lending Aug-2025; FY26 loss</td></tr>
+        <tr><td class="name">KreditBee</td><td class="num">~15,000</td><td class="num">FY26</td><td><span class="pill p-fin">Fintech</span></td><td>FY26 disbursals &#8377;30,000 cr; unicorn Apr-2026</td></tr>
+        <tr><td class="name">InCred</td><td class="num">~8,900 &#9888;</td><td class="num">Mar-26</td><td><span class="pill p-fin">Fintech</span></td><td>PL = 56% of &#8377;15,881 cr AUM; UDRHP filed</td></tr>
+        <tr><td class="name">Fibe</td><td class="num">6,657</td><td class="num">Mar-26</td><td><span class="pill p-fin">Fintech</span></td><td>PL within &#8377;8,603 cr AUM; DRHP Jun-2026</td></tr>
+        <tr><td class="name">Kissht / OnEMI</td><td class="num">7,066</td><td class="num">Mar-26</td><td><span class="pill p-live">Listed</span></td><td>Listed May-2026, +75% since. PL &asymp;94% of AUM</td></tr>
+        <tr><td class="name">CRED &mdash; Newtap</td><td class="num">4,582</td><td class="num">FY26</td><td><span class="pill p-fin">Fintech</span></td><td>81% off-book; 90% of AUM to 750+ scores</td></tr>
+        <tr><td class="name">Stashfin</td><td class="num">2,799</td><td class="num">Mar-26</td><td><span class="pill p-fin">Fintech</span></td><td>GNPA 4.75% &mdash; highest among scaled peers</td></tr>
+        <tr><td class="name">IIFL Finance</td><td class="num">2,507</td><td class="num">Jun-26</td><td><span class="pill p-dead">Discontinued</span></td><td>Legacy book in run-off; 89% of AUM now secured</td></tr>
+        <tr><td class="name">CASHe</td><td class="num">120</td><td class="num">Sep-25</td><td><span class="pill p-dead">Run-off</span></td><td>From &#8377;979 cr in Mar-2024. GNPA 13.4%; rating withdrawn</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note" style="margin-top:22px">The named fintechs sum to roughly <b>&#8377;65,000 crore</b> against FACE&rsquo;s &#8377;1.43 lakh crore digital-NBFC pool. The remaining 55% is a long tail of 100-plus smaller licensed lenders &mdash; which is where consolidation will come from next.</p>
+  </div>
+</section>
+
+<section id="horizontal">
+  <div class="wrap">
+    <div class="sec-head col">
+      <span class="eyebrow">05 &mdash; Horizontal players</span>
+      <h2>Six winners and a graveyard</h2>
+      <p class="lede">The general-population lending app has consolidated. Six players now sit between &#8377;6,000 and &#8377;20,000 crore of AUM, all listed or IPO-bound. Almost everyone below that band has shut, shrunk, or been bought.</p>
+    </div>
+    <div class="tw"><table>
+      <caption>Scale figures are company-stated or from rating agency reports and draft prospectuses.</caption>
+      <thead><tr><th>Player</th><th>Model</th><th class="num">AUM (&#8377; cr)</th><th>FY26 result</th><th>Status</th></tr></thead>
+      <tbody>
+        <tr><td class="name">Moneyview</td><td>Own NBFC + 42 partners</td><td class="num">19,815</td><td>9M: rev &#8377;2,373 cr, PAT &#8377;210 cr</td><td>DRHP filed, SEBI-approved</td></tr>
+        <tr><td class="name">Navi</td><td>Own NBFC</td><td class="num">16,909</td><td>rev &#8377;2,982 cr, <span class="down">loss &#8377;466 cr</span></td><td>$100M Prosus at ~$1.3B</td></tr>
+        <tr><td class="name">InCred</td><td>Own NBFC</td><td class="num">15,881</td><td>rev &#8377;2,567 cr, PAT &#8377;438 cr</td><td>UDRHP filed, ~&#8377;5,000 cr</td></tr>
+        <tr><td class="name">KreditBee</td><td>Own NBFC</td><td class="num">15,000</td><td>Q3: rev &#8377;805 cr, PAT &#8377;137 cr</td><td>$280M Series E at $1.5B</td></tr>
+        <tr><td class="name">Fibe</td><td>Own NBFC</td><td class="num">8,603</td><td>rev &#8377;1,585 cr, PAT &#8377;257 cr</td><td>DRHP Jun-2026</td></tr>
+        <tr><td class="name">Kissht / RING</td><td>Own NBFC + 45 partners</td><td class="num">7,066</td><td>rev &#8377;2,209 cr, PAT &#8377;281 cr</td><td><span class="pill p-live">Listed May-2026</span></td></tr>
+        <tr><td class="name">Stashfin</td><td>Own NBFC</td><td class="num">2,799</td><td>PAT &#8377;84 cr</td><td>Retail NCDs, no equity round</td></tr>
+        <tr><td class="name">axio</td><td>Own NBFC</td><td class="num">~2,200</td><td>&mdash;</td><td>Acquired by Amazon, Sep-2025</td></tr>
+        <tr><td class="name">Olyv</td><td>Own NBFC + partners</td><td class="num">~4,000 disb.</td><td>FY25: rev &#8377;338 cr, PAT &#8377;26 cr</td><td>$23M Series C, Feb-2026</td></tr>
+        <tr><td class="name">Snapmint</td><td>Own NBFC</td><td class="num">7M MAU</td><td>FY25: rev &#8377;158 cr, PAT &#8377;15 cr</td><td>$125M Series B, General Atlantic</td></tr>
+        <tr><td class="name">Zype</td><td>Own NBFC</td><td class="num">400</td><td>ARR &#8377;150 cr</td><td>&#8377;90 cr Series B</td></tr>
+        <tr><td class="name">CASHe</td><td>Own NBFC</td><td class="num">120</td><td>GNPA 13.4%</td><td><span class="pill p-dead">Run-off</span></td></tr>
+        <tr><td class="name">Fi Money</td><td>LSP</td><td class="num">&mdash;</td><td>&mdash;</td><td><span class="pill p-dead">Consumer shut Mar-2026</span></td></tr>
+        <tr><td class="name">Simpl</td><td>BNPL</td><td class="num">&mdash;</td><td>&mdash;</td><td><span class="pill p-dead">RBI halt Sep-2025</span></td></tr>
+        <tr><td class="name">Niro</td><td>Embedded LSP</td><td class="num">$200M+ disb.</td><td>&mdash;</td><td><span class="pill p-dead">Shut Oct-2025</span></td></tr>
+        <tr><td class="name">slice</td><td>Now a Small Finance Bank</td><td class="num">&mdash;</td><td>First profit &#8377;48.4 cr</td><td>Merged with North East SFB</td></tr>
+      </tbody>
+    </table></div>
+
+    <h3 style="margin-top:34px">Distribution platforms &mdash; the other half of horizontal</h3>
+    <p class="lede" style="margin:10px 0 18px">These carry no book. They sell the funnel, and at this point they move more volume than most lenders.</p>
+    <div class="tw"><table>
+      <thead><tr><th>Platform</th><th class="num">Scale</th><th>Economics</th></tr></thead>
+      <tbody>
+        <tr><td class="name">Paisabazaar</td><td class="num">&#8377;30,740 cr FY26 disbursals, +50%</td><td>Credit revenue ~&#8377;100&ndash;115 cr per quarter</td></tr>
+        <tr><td class="name">PhonePe</td><td class="num">~&#8377;2,600 cr / month</td><td>56 lending partners; DRHP filed at up to $10.5B</td></tr>
+        <tr><td class="name">Paytm</td><td class="num">7.6 lakh key FS customers</td><td>FS distribution revenue &#8377;2,593 cr FY26, +52%</td></tr>
+        <tr><td class="name">Google Pay</td><td class="num">&gt;80% of loans to Tier-II+</td><td>Funded by DMI Finance, Aditya Birla Finance, Muthoot</td></tr>
+        <tr><td class="name">CRED</td><td class="num">Newtap AUM &#8377;4,582 cr</td><td>750+ scores only; co-lends with L&amp;T Finance</td></tr>
+        <tr><td class="name">BankBazaar</td><td class="num">3 cr credit-score users</td><td>FY25 rev &#8377;249 cr, loss &#8377;23 cr</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+<section id="vertical">
+  <div class="wrap">
+    <div class="sec-head col">
+      <span class="eyebrow">06 &mdash; Vertical lenders</span>
+      <h2>Where the segment is the moat</h2>
+      <p class="lede">Vertical lenders underwrite something the bureau cannot see: a college enrolment, a Swiggy earnings history, a hospital bill, a distributor ledger. Each segment below has a leader, and most leaders are still under &#8377;5,000 crore.</p>
+    </div>
+    <div class="segs">
+      <div class="seg">
+        <span class="eyebrow" style="color:var(--fin)">Students &amp; young adults</span>
+        <p class="seg-tg">18&ndash;28, college students and first-jobbers, &#8377;0&ndash;25k/month, thin or no bureau file. &#8377;500&ndash;&#8377;50,000, 7&ndash;90 days, very high APR.</p>
+        <ul>
+          <li><b>mPokket</b><span>65M users &middot; $2B disb.</span></li>
+          <li><b>Pocketly</b><span>&#8377;3,500 cr &middot; no CIBIL</span></li>
+          <li><b>StuCred</b><span>&#8377;15k interest-free</span></li>
+        </ul>
+      </div>
+      <div class="seg">
+        <span class="eyebrow" style="color:var(--fin)">Study abroad</span>
+        <p class="seg-tg">21&ndash;30 postgraduates, family income &#8377;8&ndash;30 lakh. &#8377;20&ndash;75 lakh unsecured at 9&ndash;14%. Sector AUM +48% in FY25; US visa policy is the live risk.</p>
+        <ul>
+          <li><b>Credila</b><span>&gt;&#8377;25,000 cr</span></li>
+          <li><b>Avanse</b><span>&#8377;13,303 cr</span></li>
+          <li><b>Auxilo</b><span>~&#8377;4,900 cr</span></li>
+          <li><b>Leap Finance</b><span>$250M cum.</span></li>
+        </ul>
+      </div>
+      <div class="seg">
+        <span class="eyebrow" style="color:var(--fin)">School &amp; coaching fees</span>
+        <p class="seg-tg">Parents 30&ndash;50, household &#8377;6&ndash;20 lakh. &#8377;30k&ndash;&#8377;5 lakh as zero-cost EMI, subvented by the institute. Sold B2B2C through school counters.</p>
+        <ul>
+          <li><b>Propelld</b><span>3,000+ institutes</span></li>
+          <li><b>Jodo</b><span>&#8377;30,000 cr fees</span></li>
+          <li><b>GrayQuest</b><span>rev +37%</span></li>
+          <li><b>Eduvanz</b><span class="down">rev &minus;57%</span></li>
+        </ul>
+      </div>
+      <div class="seg">
+        <span class="eyebrow" style="color:var(--fin)">Earned wage access</span>
+        <p class="seg-tg">Salaried &#8377;15k&ndash;60k/month in BPO, retail, logistics, QSR. Acquired through employer payroll, never through advertising. Fee-based, not interest-based.</p>
+        <ul>
+          <li><b>Refyne</b><span>500+ employers</span></li>
+          <li><b>Fibe</b><span>started here</span></li>
+          <li><b>Jify</b><span>&rarr; Moneyview</span></li>
+        </ul>
+      </div>
+      <div class="seg">
+        <span class="eyebrow" style="color:var(--fin)">Gig &amp; blue-collar</span>
+        <p class="seg-tg">Riders and drivers, &#8377;12k&ndash;30k/month, 20&ndash;35. Underwritten on platform earnings; repaid by deduction at source before the worker is paid.</p>
+        <ul>
+          <li><b>KarmaLife</b><span>Swiggy, Uber, Zepto</span></li>
+          <li><b>Entitled</b><span>benefits + credit</span></li>
+          <li><b>Avail</b><span>&rarr; Ola</span></li>
+        </ul>
+      </div>
+      <div class="seg">
+        <span class="eyebrow" style="color:var(--fin)">Women &amp; micro-enterprise</span>
+        <p class="seg-tg">Women 25&ndash;50, rural and semi-urban, household &#8377;1.5&ndash;5 lakh. &#8377;30k&ndash;&#8377;3 lakh at 20&ndash;26%, JLG or individual.</p>
+        <ul>
+          <li><b>Aye Finance</b><span>&#8377;6,028 cr &middot; listed</span></li>
+          <li><b>Kaleidofin</b><span>12.3M platform</span></li>
+          <li><b>CreditAccess</b><span>&#8377;30,319 cr MFI</span></li>
+        </ul>
+      </div>
+      <div class="seg">
+        <span class="eyebrow" style="color:var(--fin)">Healthcare</span>
+        <p class="seg-tg">Out-of-pocket patients &mdash; elective, dental, IVF, eye, surgery. &#8377;20k&ndash;&#8377;5 lakh, urban 25&ndash;55. Point-of-care origination inside the clinic.</p>
+        <ul>
+          <li><b>Arogya Finance</b><span>2,400+ hospitals</span></li>
+          <li><b>QubeHealth</b><span>700k users</span></li>
+          <li><b>SaveIN</b><span>1,000+ providers</span></li>
+          <li><b>ZestMoney</b><span class="down">shut 2023</span></li>
+        </ul>
+      </div>
+      <div class="seg">
+        <span class="eyebrow" style="color:var(--fin)">Travel &amp; wedding</span>
+        <p class="seg-tg">25&ndash;40 urban salaried. &#8377;30k&ndash;&#8377;2 lakh over 3&ndash;12 EMIs, usually subvented by the agent. Thin and cyclical &mdash; the leader is distressed.</p>
+        <ul>
+          <li><b>TripMoney</b><span>MakeMyTrip captive</span></li>
+          <li><b>SanKash</b><span class="down">headcount &minus;72%</span></li>
+          <li><b>WeddingLoans</b><span>Matrimony.com</span></li>
+        </ul>
+      </div>
+      <div class="seg">
+        <span class="eyebrow" style="color:var(--fin)">MSME unsecured</span>
+        <p class="seg-tg">Proprietors, &#8377;20 lakh&ndash;&#8377;5 cr turnover, 30&ndash;55. &#8377;1&ndash;50 lakh at 16&ndash;30%. FY25 was a credit reset: two of the best-known names are in distress.</p>
+        <ul>
+          <li><b>UGRO Capital</b><span>&#8377;15,013 cr</span></li>
+          <li><b>Oxyzo</b><span>&#8377;11,822 cr</span></li>
+          <li><b>Lendingkart</b><span class="down">loss &#8377;288 cr</span></li>
+          <li><b>Kinara</b><span class="down">rescue raise</span></li>
+        </ul>
+      </div>
+      <div class="seg">
+        <span class="eyebrow" style="color:var(--fin)">Merchant cash advance</span>
+        <p class="seg-tg">Kirana and retail merchants with QR or POS acceptance. &#8377;50k&ndash;&#8377;5 lakh at ~30% IRR, auto-deducted from daily settlements.</p>
+        <ul>
+          <li><b>Paytm</b><span>15M merchants</span></li>
+          <li><b>PhonePe</b><span>&#8377;4,507 cr FY25</span></li>
+          <li><b>BharatPe</b><span>ATS &#8377;1 lakh</span></li>
+        </ul>
+      </div>
+      <div class="seg">
+        <span class="eyebrow" style="color:var(--fin)">Rural &amp; agri</span>
+        <p class="seg-tg">Smallholders, dairy farmers, agri-input retailers. Tenors matched to crop cycles rather than calendar months.</p>
+        <ul>
+          <li><b>Samunnati</b><span>FPO lending</span></li>
+          <li><b>Jai Kisan</b><span>8 lakh farmers</span></li>
+          <li><b>SarvaGram</b><span>rev +71%</span></li>
+          <li><b>Dvara KGFS</b><span>&#8377;1,888 cr</span></li>
+        </ul>
+      </div>
+      <div class="seg">
+        <span class="eyebrow" style="color:var(--bank)">Employment channel &mdash; the giant</span>
+        <p class="seg-tg">Government, defence and PSU salary-account holders, plus pensioners. Underwritten on employer, not on borrower. The largest unsecured vertical in India by a wide margin.</p>
+        <ul>
+          <li><b>SBI Xpress Credit</b><span>&#8377;3,75,348 cr</span></li>
+          <li><b>PSU bank schemes</b><span>BoB, PNB, Canara</span></li>
+          <li><b>SBI pension loans</b><span>&#8377;2.5&ndash;14 lakh</span></li>
+        </ul>
+      </div>
+    </div>
+    <p class="note" style="margin-top:22px"><b>White space.</b> Four verticals have demand and no scaled lender: <b>freelancers and creators</b> (no player at all), <b>senior citizens</b> beyond bank pension schemes, <b>rent</b> &mdash; which today is card-payment rails at 1&ndash;1.75% fees, not lending &mdash; and <b>healthcare BNPL</b>, which has been open since ZestMoney shut in 2023. Doctors and professionals are served only by Bajaj and Poonawalla, both underwriting off a registration number.</p>
+  </div>
+</section>
+
+<section id="tg">
+  <div class="wrap">
+    <div class="sec-head col">
+      <span class="eyebrow">07 &mdash; Target groups</span>
+      <h2>Who each lender is actually talking to</h2>
+      <p class="lede">Stated in the lenders&rsquo; own terms &mdash; from prospectuses, investor decks and eligibility pages, not inferred from their advertising.</p>
+    </div>
+    <div class="tw"><table>
+      <caption>Ambassadors confirmed only where listed; absence is not proof of absence.</caption>
+      <thead><tr><th>Player</th><th>Target group, as they define it</th><th>Angle &amp; face</th></tr></thead>
+      <tbody>
+        <tr><td class="name">Moneyview</td><td>&ldquo;Middle India&rdquo; &mdash; average income <b>&#8377;47,118/month</b>, average age <b>32</b>, <b>79.5% Tier-2 and beyond</b>, new-to-credit inclusive</td><td>Credit-led platform for Middle India</td></tr>
+        <tr><td class="name">Fibe</td><td>Young salaried, average income <b>&#8377;37,083/month</b>; 86% of originations to 731+ scores</td><td>&ldquo;Aspirations shouldn&rsquo;t come with compromises&rdquo; &middot; Vikrant Massey</td></tr>
+        <tr><td class="name">Kissht</td><td>Mass-market salaried <b>&#8377;25k&ndash;75k/month</b>, average age 32, median CIBIL 746; 65% in top-50 cities; 55% acquired at merchant checkout</td><td>Transparent instant credit &middot; Sachin Tendulkar</td></tr>
+        <tr><td class="name">KreditBee</td><td>Salaried and self-employed <b>21&ndash;55</b>; <b>70% non-metro</b> disbursals; 89% above CIBIL 700</td><td>&ldquo;Har Sapney Ka Sathi&rdquo; &mdash; social for Tier 2/3, OTT for metros</td></tr>
+        <tr><td class="name">Navi</td><td>Pan-India 18&ndash;65; <b>73% of AUM salaried</b>; deliberately moving up in credit quality</td><td>UPI app as the funnel &middot; MS Dhoni</td></tr>
+        <tr><td class="name">CASHe</td><td>Deliberately <b>near-prime, below 700</b> &mdash; salaried applicants banks decline</td><td>&ldquo;Social Loan Quotient&rdquo; &mdash; and a 90% book collapse</td></tr>
+        <tr><td class="name">Olyv</td><td>Micro-merchants, self-employed, <b>blue and grey collar</b>, household income &#8805;&#8377;25k</td><td>Small-ticket credit plus digital gold</td></tr>
+        <tr><td class="name">True Balance</td><td><b>Underbanked and new-to-credit</b>, Android-first, Bharat</td><td>Loans bundled into a bills-and-recharge utility</td></tr>
+        <tr><td class="name">Pocketly</td><td>Students, first-jobbers, freelancers &mdash; explicitly <b>&ldquo;no CIBIL required&rdquo;</b></td><td>APR 30&ndash;121%</td></tr>
+        <tr><td class="name">CRED Cash</td><td><b>750+ score, 25&ndash;45, metro high earners.</b> 90% of the book above 750</td><td>Rewards for the already-creditworthy</td></tr>
+        <tr><td class="name">Bajaj Finance</td><td>Prime salaried 21&ndash;67, &#8377;22k+/month, 750+ &mdash; yet <b>~40% of new customers are new-to-credit</b></td><td>AI voice agents sold &#8377;1,980 cr of PL in one quarter</td></tr>
+        <tr><td class="name">Google Pay</td><td><b>&gt;80% of credit disbursed to Tier-II and beyond</b></td><td>Pre-approved offers inside the payments app</td></tr>
+        <tr><td class="name">SBI Xpress Credit</td><td><b>SBI salary-account holders only</b>, net monthly income &#8805;&#8377;25k; instant variant for central, state and defence employees</td><td>Employer risk, not borrower risk</td></tr>
+        <tr><td class="name">Piramal Finance</td><td>25&ndash;58, &#8377;25k+/month, 750+ score</td><td>Branch-plus-digital &ldquo;Bharat&rdquo; retail</td></tr>
+        <tr><td class="name">Home Credit</td><td>21&ndash;60, salaried, self-employed and pensioners, Tier 2/3 mass market</td><td>&ldquo;Two documents, no branch&rdquo;</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note" style="margin-top:22px">Read down the middle column and the ladder is obvious: <b>a &#8377;47,000-a-month 32-year-old in a tier-2 city is the single most contested customer in Indian lending.</b> Moneyview, Fibe, Kissht and KreditBee are all describing very nearly the same person. The differentiated positions are at the edges &mdash; CRED above the market, Pocketly and True Balance below the bureau, SBI behind an employer relationship no app can reach.</p>
+    <h3 style="margin-top:36px">Bank and NBFC eligibility &mdash; the target group in hard numbers</h3>
+    <p class="lede" style="margin:10px 0 18px">Published eligibility is the cleanest statement of TG a lender makes. Three tiers are visible: private banks at &#8377;25,000&ndash;40,000 a month and 700&ndash;750 CIBIL; PSU banks running a captive-payroll model where the real product is the salary account; NBFCs stepping down to &#8377;10,000&ndash;25,000.</p>
+    <div class="tw"><table>
+      <caption>Published eligibility criteria, Sep-2026. Ticket ranges are advertised maximums.</caption>
+      <thead><tr><th>Lender</th><th class="num">Min income /mo</th><th class="num">Age</th><th class="num">CIBIL</th><th>Gate &amp; named sub-segments</th></tr></thead>
+      <tbody>
+        <tr><td class="name">RBL Bank</td><td class="num">&#8377;40,000</td><td class="num">25&ndash;60</td><td class="num">&mdash;</td><td>Highest income floor of any bank here. 3 yrs total + 1 yr current</td></tr>
+        <tr><td class="name">ICICI Bank</td><td class="num">&#8377;30,000</td><td class="num">20&ndash;58</td><td class="num">&mdash;</td><td>2 yrs work experience; self-employed 23&ndash;65</td></tr>
+        <tr><td class="name">Kotak Mahindra</td><td class="num">&#8377;25,000 / &#8377;30,000</td><td class="num">21&ndash;60</td><td class="num">750</td><td>MNC / Public Ltd / Pvt Ltd only. <b>Graduate or diploma minimum.</b> Lower floor for Kotak salary a/c</td></tr>
+        <tr><td class="name">HDFC Bank</td><td class="num">&#8377;25,000</td><td class="num">21&ndash;60</td><td class="num">650&ndash;700</td><td>Pvt Ltd, PSU, govt bodies. 2 yrs total, 1 yr current</td></tr>
+        <tr><td class="name">Federal Bank</td><td class="num">&#8377;25,000</td><td class="num">21&ndash;55</td><td class="num">&mdash;</td><td><b>3 years in present employment</b> &mdash; strictest tenure rule here. BYOM is existing-customers-only</td></tr>
+        <tr><td class="name">IndusInd Bank</td><td class="num">&#8377;25,000</td><td class="num">21&ndash;60</td><td class="num">730+</td><td>Self-employed need &#8377;4.8L post-tax annual</td></tr>
+        <tr><td class="name">Axis Bank</td><td class="num">&#8377;15,000 / &#8377;25,000</td><td class="num">21&ndash;60</td><td class="num">700+</td><td>Lower floor for existing customers; &#8377;25,000 in Delhi and Mumbai</td></tr>
+        <tr><td class="name">IDFC FIRST</td><td class="num">&#8377;20,000&ndash;25,000</td><td class="num">23&ndash;60</td><td class="num">710+</td><td>FIRSTmoney drops to &#8377;10,000</td></tr>
+        <tr><td class="name">SBI Xpress Credit</td><td class="num">&#8377;15,000&ndash;25,000</td><td class="num">&mdash;</td><td class="num">650&ndash;670</td><td><b>Salary must be credited to SBI.</b> Govt, defence, CAPF, police, railways, PSU. Lower income bar and lower CIBIL bar for govt and defence</td></tr>
+        <tr><td class="name">Punjab National Bank</td><td class="num">&#8377;15,000</td><td class="num">to 70</td><td class="num">&mdash;</td><td><b>Salary must be drawn through PNB.</b> Zero processing fee for defence and pensioners; pension loan 20&times; for defence. &ldquo;Doctor&rsquo;s Delight&rdquo; to &#8377;20L</td></tr>
+        <tr><td class="name">Union Bank</td><td class="num">&#8377;15,000&ndash;20,000</td><td class="num">18+</td><td class="num">700+</td><td>Four explicit categories including <b>government employees</b> and <b>top employees of GoI ministries</b></td></tr>
+        <tr><td class="name">Bank of Baroda</td><td class="num">&#8377;20,000</td><td class="num">21&ndash;60</td><td class="num">750</td><td><b>Income floor negotiable in rural areas.</b> Names doctors, architects, engineers, company secretaries as SE professionals</td></tr>
+        <tr><td class="name">Tata Capital</td><td class="num">&#8377;15,000&ndash;35,000</td><td class="num">21&ndash;58</td><td class="num">750</td><td>2 yrs work, 6 months current</td></tr>
+        <tr><td class="name">Poonawalla Fincorp</td><td class="num">&#8377;30,000</td><td class="num">&mdash;</td><td class="num">750</td><td>Explicit approved-employer list. <b>Dedicated Chartered Accountant scheme</b></td></tr>
+        <tr><td class="name">Piramal Finance</td><td class="num">&#8377;25,000 metro / &#8377;20,000 tier-2</td><td class="num">&mdash;</td><td class="num">750</td><td>One of only three lenders publishing <b>geo-tiered income floors</b></td></tr>
+        <tr><td class="name">HDB Financial</td><td class="num">&#8377;20,000 metro / &#8377;15,000 rest</td><td class="num">21&ndash;60; <b>65 govt</b></td><td class="num">&mdash;</td><td>Names salaried doctors, CAs, PSU staff; SE doctors, CAs, architects, company secretaries</td></tr>
+        <tr><td class="name">SMFG India Credit</td><td class="num">&#8377;25,000 metro / &#8377;16,000 rest</td><td class="num">21&ndash;65</td><td class="num">705+</td><td>Geo-tiered floor</td></tr>
+        <tr><td class="name">Bajaj Finance</td><td class="num">&#8377;25,000</td><td class="num"><b>21&ndash;80</b></td><td class="num"><b>685</b></td><td>Widest age band and lowest explicit CIBIL bar here. Separate doctor programme for MD/DM/MS</td></tr>
+        <tr><td class="name">DMI Finance</td><td class="num">&#8377;25,000</td><td class="num"><b>23&ndash;52</b></td><td class="num">700+</td><td>Narrowest age band. Almost entirely embedded through partner apps</td></tr>
+        <tr><td class="name">Hero FinCorp</td><td class="num">&#8377;15,000</td><td class="num">21&ndash;58</td><td class="num">725+</td><td>6 months current job</td></tr>
+        <tr><td class="name">Home Credit India</td><td class="num"><b>&#8377;10,000</b></td><td class="num">21&ndash;58</td><td class="num">&mdash;</td><td><b>Lowest floor in the market.</b> Salaried, self-employed, <b>housewife and pensioner</b> all eligible &mdash; widest occupation net here</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note" style="margin-top:22px">The TG is <b>bifurcating, not shrinking</b>. Banks moved up &mdash; RBL to &#8377;40,000, Kotak requiring a degree, Federal requiring three years in the same job &mdash; while growth moved below them to Home Credit at &#8377;10,000 with housewives eligible, and to the DMI&ndash;Google Pay rail in tier-II and beyond. RBI&rsquo;s own projection that fintechs reach 56.8% of small-ticket PL by March 2026 is the same fact from the other side.</p>
+  </div>
+</section>
+<section id="funding">
+  <div class="wrap">
+    <div class="sec-head col">
+      <span class="eyebrow">08 &mdash; Capital structure</span>
+      <h2>Who actually funds the apps</h2>
+      <p class="lede">Most consumer-facing lending brands in India do not carry the loan. Trace any app back far enough and the same handful of balance sheets appear. <b>If you are modelling this market, map these five, not the front-ends.</b></p>
+    </div>
+    <div class="tw"><table>
+      <caption>Partner lists as published by each platform. A platform may fund a given product on its own book and another through partners.</caption>
+      <thead><tr><th>Front-end</th><th>Own book?</th><th>Who supplies the capital</th></tr></thead>
+      <tbody>
+        <tr><td class="name">Google Pay</td><td><span class="pill p-fin">No</span></td><td><b>DMI Finance</b> (anchor, personal loans), Aditya Birla Finance, Muthoot Finance (gold), ICICI Bank, Indifi</td></tr>
+        <tr><td class="name">PhonePe</td><td><span class="pill p-fin">No</span></td><td>Tata Capital, L&amp;T Finance, Hero FinCorp, Muthoot Fincorp, DMI Housing, Home First &mdash; 56 partners in total. Also acts as LSP for Piramal</td></tr>
+        <tr><td class="name">Paytm</td><td><span class="pill p-fin">No</span></td><td>Distribution only &mdash; has said publicly it will <b>not</b> apply for an NBFC licence. Piramal is a named partner; Federal Bank onboarding on hold</td></tr>
+        <tr><td class="name">CRED</td><td><span class="pill p-bank">Affiliate</span></td><td>Newtap Finance (Kunal Shah 74.5%), LiquiLoans for CRED Mint, L&amp;T Finance co-lending</td></tr>
+        <tr><td class="name">Moneyview</td><td><span class="pill p-bank">Yes</span></td><td>Whizdm Finance own book <i>plus</i> 42 partners: Aditya Birla, Credit Saison, Piramal, Northern Arc, DMI, Oxyzo, SMFG, Chola, South Indian Bank, Vivriti</td></tr>
+        <tr><td class="name">KreditBee</td><td><span class="pill p-bank">Yes</span></td><td>Krazybee own book <i>plus</i> PayU Finance, Oxyzo, Vivriti, Chola, Kisetsu Saison, Tata Capital, Northern Arc, Piramal, Mirae, Aditya Birla &mdash; &#8377;21,000 cr disbursed in a year via co-lending</td></tr>
+        <tr><td class="name">Kissht</td><td><span class="pill p-bank">Yes</span></td><td>Si Creva / OnEMI own book, ~50% on-book; co-lending with Piramal</td></tr>
+        <tr><td class="name">Navi</td><td><span class="pill p-bank">Yes</span></td><td>Navi Finserv on-book; off-book co-lending with Piramal</td></tr>
+        <tr><td class="name">Federal Bank</td><td><span class="pill p-bank">Bank</span></td><td>Runs the reverse model &mdash; buys origination from LSPs: Paisabazaar, Bajaj Markets. Discontinued epiFi and OneScore; Paytm on hold</td></tr>
+      </tbody>
+    </table></div>
+    <p class="note" style="margin-top:22px"><b>Piramal Finance is the single most important balance sheet to map.</b> It publishes 18 named lending partners &mdash; Kissht, Navi&rsquo;s off-book, KreditBee, Moneyview, Fibe, Paytm, PhonePe Lending Services, MobiKwik, OneScore, SaveIN, BharatPe and more. Across every app&rsquo;s partner list the recurring names are the same five: <b>Piramal, DMI Finance, Northern Arc, Aditya Birla Capital and Credit Saison.</b> Concentration risk in this market sits one layer below the brands.</p>
+
+    <h3 style="margin-top:36px">Who retreated, who is re-accelerating</h3>
+    <p class="lede" style="margin:10px 0 18px">System-wide personal loan growth fell from 28.4% in Dec-2023 to 12% in Dec-2024 after the risk-weight hike. The recovery is uneven and the reasons are specific.</p>
+    <div class="grid2">
+      <div class="tw"><table>
+        <thead><tr><th>Pulled back</th><th>What happened</th></tr></thead>
+        <tbody>
+          <tr><td class="name">RBL Bank</td><td>Hardest retreat: unsecured retail &minus;10% YoY, <b>personal loans &minus;23%</b> in Q1 FY26. Deliberate pivot to secured</td></tr>
+          <tr><td class="name">IndusInd Bank</td><td>&#8377;6,000&ndash;7,000 cr under scrutiny for fresh unsecured loans issued against stressed MFI exposure, some misclassified as agriculture</td></tr>
+          <tr><td class="name">Kotak Mahindra</td><td>RBI embargo Apr-2024 to Feb-2025 blocked digital onboarding; unsecured share fell to 10% of book</td></tr>
+          <tr><td class="name">Poonawalla Fincorp</td><td><b>Exited short-term personal loans entirely</b>; &#8377;666 cr accelerated provisioning drove an FY25 loss</td></tr>
+          <tr><td class="name">Hero FinCorp</td><td>Halted new unsecured lending Aug-2025; FY26 consolidated loss &#8377;226 cr</td></tr>
+          <tr><td class="name">HDFC / Axis</td><td>Retail growth of 8.1% and 6% YoY in Q1 FY26 &mdash; deliberate caution, not stress</td></tr>
+        </tbody>
+      </table></div>
+      <div class="tw"><table>
+        <thead><tr><th>Re-accelerating</th><th>Evidence</th></tr></thead>
+        <tbody>
+          <tr><td class="name">L&amp;T Finance</td><td><b>Retail disbursements +49% YoY</b> in Q3 FY26; PL book +80%; adding ~500 branches this year</td></tr>
+          <tr><td class="name">Poonawalla Fincorp</td><td>AUM &#8377;25,003 cr &rarr; &#8377;41,273 cr in 15 months; Prime PL growing again after the STPL exit</td></tr>
+          <tr><td class="name">Aditya Birla Capital</td><td>&#8377;4,000 cr equity raise, ~&#8377;3,500 cr earmarked for lending; expanding via Google Pay, Moneyview, KreditBee</td></tr>
+          <tr><td class="name">Kotak Mahindra</td><td>RBI restrictions lifted Feb-2025; absorbing the acquired Standard Chartered India PL book</td></tr>
+          <tr><td class="name">SBI</td><td>&ldquo;Xpress Credit growth is regaining momentum&rdquo; &mdash; average tenure ~14 months, high turnover</td></tr>
+          <tr><td class="name">ICICI Bank</td><td>PL +1.4% in Q1 FY26 but guiding to resume growth as unsecured asset quality stabilises</td></tr>
+          <tr><td class="name">Piramal Finance</td><td>Listed; targeting &#8377;1.5 lakh cr AUM, &#8377;15,000 cr borrowing by March; tier-2/3 branch build</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+  </div>
+</section>
+
+<section id="risk">
+  <div class="wrap">
+    <div class="sec-head col">
+      <span class="eyebrow">09 &mdash; Regulation and risk</span>
+      <h2>The rule that reshaped the market is still in force</h2>
+      <p class="lede">RBI raised the risk weight on unsecured consumer credit from 100% to 125% in November 2023. The February 2025 rollback is widely misread: it restored microfinance and bank-to-NBFC weights only. <b>The 125% on unsecured personal loans and cards was never reversed.</b></p>
+    </div>
+    <div class="grid2">
+      <div class="tw"><table>
+        <thead><tr><th class="num">Date</th><th>Measure</th></tr></thead>
+        <tbody>
+          <tr><td class="num">Nov 2023</td><td>Risk weight on unsecured consumer credit <b>100% &rarr; 125%</b>; cards to 150% (banks) / 125% (NBFCs); +25pp on bank exposure to NBFCs</td></tr>
+          <tr><td class="num">Feb 2025</td><td><b>Partial rollback.</b> Microfinance back to 100%; bank-to-NBFC restored from 1 Apr 2025. PL and card weights unchanged</td></tr>
+          <tr><td class="num">May 2025</td><td>Digital Lending Directions 2025 &mdash; direct fund flow lender&harr;borrower, mandatory KFS and APR, cooling-off, data localisation</td></tr>
+          <tr><td class="num">Jul 2025</td><td>Public Digital Lending App directory goes live; app reporting to CIMS</td></tr>
+          <tr><td class="num">Nov 2025</td><td>Multi-lender LSP disclosure framework in force</td></tr>
+          <tr><td class="num">2026</td><td>No further relief found. Treat any claim of a 2026 PL risk-weight cut as unverified</td></tr>
+        </tbody>
+      </table></div>
+      <div class="tw"><table>
+        <caption>CRIF PAR buckets and FACE digital-NBFC DPD, Mar-2025 vs Mar-2026.</caption>
+        <thead><tr><th>Delinquency</th><th class="num">Mar-25</th><th class="num">Mar-26</th></tr></thead>
+        <tbody>
+          <tr><td>All lenders, PAR 31&ndash;90</td><td class="num">2.0%</td><td class="num up">1.6%</td></tr>
+          <tr><td>All lenders, PAR 91&ndash;180</td><td class="num">1.1%</td><td class="num up">0.8%</td></tr>
+          <tr><td>Tickets &lt;&#8377;1L, PAR 91&ndash;180</td><td class="num">3.32%</td><td class="num up">2.27%</td></tr>
+          <tr><td>Tickets &gt;&#8377;10L, PAR 91&ndash;180</td><td class="num">&mdash;</td><td class="num">0.33%</td></tr>
+          <tr><td>Digital NBFC, 90+ DPD</td><td class="num">2.7%</td><td class="num up">1.4%</td></tr>
+          <tr><td>PSU banks, PAR 31&ndash;90</td><td class="num">2.61%</td><td class="num">2.14%</td></tr>
+          <tr><td>Private banks, PAR 31&ndash;90</td><td class="num">1.11%</td><td class="num up">0.78%</td></tr>
+        </tbody>
+      </table></div>
+    </div>
+    <p class="note" style="margin-top:22px"><b>Do not read those improving ratios as improving underwriting.</b> The denominator grew 28.9% in one year, which flatters every ratio in the table. Against that: RBI&rsquo;s June 2026 FSR puts unsecured retail GNPA at <b>1.7% versus 0.7% secured</b>; household debt is 45.5% of GDP; <b>15% of FY26 originations went to already over-leveraged borrowers, against 5% in FY17</b>; and Redseer puts the digital-PL industry annualised loss rate at <b>9.35% in FY25, up from 7.80%</b>. Vintages written into this growth will season through FY27.</p>
+
+    <h3 style="margin-top:34px">Casualties and consolidation, 2023&ndash;2026</h3>
+    <div class="tw" style="margin-top:14px"><table>
+      <thead><tr><th>Outcome</th><th>Who</th></tr></thead>
+      <tbody>
+        <tr><td class="name">Shut</td><td>ZestMoney (Dec-23) &middot; Fi Money consumer (Mar-26) &middot; Niro (Oct-25) &middot; Simpl, after an RBI halt (Sep-25)</td></tr>
+        <tr><td class="name">Exited unsecured</td><td>Hero FinCorp (Aug-25) &middot; IIFL Finance &middot; Paytm small-ticket postpaid</td></tr>
+        <tr><td class="name">Collapsed</td><td>CASHe (AUM &minus;90%) &middot; Lendingkart (AUM &minus;35%, loss &#8377;288 cr) &middot; Kinara (rescue raise) &middot; Eduvanz (rev &minus;57%) &middot; Rupifi (&minus;27%) &middot; SanKash</td></tr>
+        <tr><td class="name">Acquired</td><td>axio &rarr; Amazon &middot; IndiaLends &rarr; Freo &middot; Jify &rarr; Moneyview &middot; Home Credit &rarr; TVS &middot; Avail &rarr; Ola &middot; Bueno &rarr; BetterPlace</td></tr>
+        <tr><td class="name">Listed or filed</td><td>Kissht (listed May-26) &middot; Aye Finance (listed Feb-26, flat) &middot; Moneyview, Fibe, InCred, PhonePe, Hero FinCorp, Credila (filed) &middot; Navi, KreditBee (2026 intent)</td></tr>
+      </tbody>
+    </table></div>
+  </div>
+</section>
+
+<section id="ads">
+  <div class="wrap">
+    <div class="sec-head col">
+      <span class="eyebrow">10 &mdash; Creative intelligence</span>
+      <h2>Meta Ad Library index</h2>
+      <p class="lede">Every link is scoped to <b>India, active ads, all formats</b>. Meta&rsquo;s library is keyword-addressable rather than ID-addressable for most of these advertisers, so these are brand-name searches &mdash; they surface every page currently running ads under that name, including regional and sub-brand pages a single page ID would miss.</p>
+    </div>
+    <div class="filter">
+      <input type="search" id="q" placeholder="Filter 94 advertisers&hellip;" aria-label="Filter advertisers">
+      <span class="count" id="cnt"></span>
+    </div>
+    <div id="adroot">
+<div class="adgroup"><span class="eyebrow">HORIZONTAL — FINTECH NBFC / APP</span><div class="ads">
+<div class="ad" data-n="navi"><span class="n">Navi</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Navi&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://facebook.com/navi.official" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="kreditbee"><span class="n">KreditBee</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=KreditBee&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://facebook.com/kreditbee" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="moneyview"><span class="n">Moneyview</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=moneyview&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://facebook.com/MoneyView.in" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="fibe"><span class="n">Fibe</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Fibe&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://facebook.com/Fibe.IN" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="kissht / ring"><span class="n">Kissht / RING</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Kissht&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="paysense"><span class="n">PaySense</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=PaySense&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="lazypay"><span class="n">LazyPay</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=LazyPay&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="cashe"><span class="n">CASHe</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=CASHe&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="stashfin"><span class="n">Stashfin</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Stashfin&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="zype"><span class="n">Zype</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Zype&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://facebook.com/ZypeApp" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="olyv (ex-smartcoin)"><span class="n">Olyv (ex-SmartCoin)</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Olyv&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="true balance"><span class="n">True Balance</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=True+Balance&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://facebook.com/truebalanceapp" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="branch"><span class="n">Branch</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Branch+Personal+Loan&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="payme india"><span class="n">PayMe India</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=PayMe+India&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://facebook.com/PaymeIndiaofficial" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="loantap"><span class="n">LoanTap</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=LoanTap&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://facebook.com/LoanTap.in" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="prefr"><span class="n">Prefr</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Prefr&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://facebook.com/p/Prefr-100071201213867" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="axio (amazon)"><span class="n">axio (Amazon)</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=axio&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="freo"><span class="n">Freo</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Freo&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="indialends"><span class="n">IndiaLends</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=IndiaLends&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://facebook.com/indialends" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="nira"><span class="n">NIRA</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Nira+Finance&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://facebook.com/nirafinance" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="pocketly"><span class="n">Pocketly</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Pocketly&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://facebook.com/pocketly.in" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="upwards"><span class="n">Upwards</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Upwards&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="flexsalary"><span class="n">FlexSalary</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=FlexSalary&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="snapmint"><span class="n">Snapmint</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Snapmint&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://facebook.com/SnapmintCardlessEmi" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="home credit india"><span class="n">Home Credit India</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Home+Credit&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://facebook.com/homecreditin" target="_blank" rel="noopener">Facebook page</a></span></div>
+</div></div>
+<div class="adgroup"><span class="eyebrow">HORIZONTAL — MARKETPLACE / PLATFORM</span><div class="ads">
+<div class="ad" data-n="paisabazaar"><span class="n">Paisabazaar</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Paisabazaar&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="bankbazaar"><span class="n">BankBazaar</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=BankBazaar&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://facebook.com/bankbazaar" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="phonepe"><span class="n">PhonePe</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=PhonePe&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="paytm"><span class="n">Paytm</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Paytm&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="google pay"><span class="n">Google Pay</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Google+Pay&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="cred"><span class="n">CRED</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=CRED&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="jupiter"><span class="n">Jupiter</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Jupiter+Money&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="slice"><span class="n">slice</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=slice&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+</div></div>
+<div class="adgroup"><span class="eyebrow">INCUMBENT BANK / NBFC</span><div class="ads">
+<div class="ad" data-n="bajaj finserv"><span class="n">Bajaj Finserv</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Bajaj+Finserv&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://www.facebook.com/bajajfinserv/" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="tata capital"><span class="n">Tata Capital</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Tata+Capital&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://www.facebook.com/tatacapital/" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="aditya birla capital"><span class="n">Aditya Birla Capital</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Aditya+Birla+Capital&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://www.facebook.com/adityabirlacapital/" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="l&amp;t finance"><span class="n">L&amp;T Finance</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=L%26T+Finance&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://facebook.com/LnTFS" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="poonawalla fincorp"><span class="n">Poonawalla Fincorp</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Poonawalla+Fincorp&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://www.facebook.com/poonawallafincorp/" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="piramal finance"><span class="n">Piramal Finance</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Piramal+Finance&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://facebook.com/PiramalFinance" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="hero fincorp"><span class="n">Hero FinCorp</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Hero+FinCorp&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://www.facebook.com/herofincorpofficial/" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="incred"><span class="n">InCred</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=InCred&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="hdfc bank"><span class="n">HDFC Bank</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=HDFC+Bank&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://www.facebook.com/HDFC.bank/" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="icici bank"><span class="n">ICICI Bank</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=ICICI+Bank&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://www.facebook.com/icicibank/" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="sbi"><span class="n">SBI</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=State+Bank+of+India&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://www.facebook.com/StateBankOfIndia/" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="axis bank"><span class="n">Axis Bank</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Axis+Bank&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://www.facebook.com/axisbank/" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="kotak mahindra bank"><span class="n">Kotak Mahindra Bank</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Kotak+Mahindra+Bank&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://www.facebook.com/KotakBank/" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="idfc first bank"><span class="n">IDFC FIRST Bank</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=IDFC+FIRST+Bank&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://www.facebook.com/idfcfirstbank/" target="_blank" rel="noopener">Facebook page</a></span></div>
+</div></div>
+<div class="adgroup"><span class="eyebrow">VERTICAL — STUDENT / EDUCATION</span><div class="ads">
+<div class="ad" data-n="mpokket"><span class="n">mPokket</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=mPokket&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://facebook.com/mpokket" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="stucred"><span class="n">StuCred</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=StuCred&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="propelld"><span class="n">Propelld</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Propelld&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="avanse"><span class="n">Avanse</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Avanse&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="credila"><span class="n">Credila</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Credila&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="auxilo"><span class="n">Auxilo</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Auxilo&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="leap finance"><span class="n">Leap Finance</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Leap+Finance&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="prodigy finance"><span class="n">Prodigy Finance</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Prodigy+Finance&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://facebook.com/prodigyfinance" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="gyandhan"><span class="n">GyanDhan</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=GyanDhan&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="eduvanz"><span class="n">Eduvanz</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Eduvanz&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="grayquest"><span class="n">GrayQuest</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=GrayQuest&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="jodo"><span class="n">Jodo</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Jodo&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="leo1 (financepeer)"><span class="n">LEO1 (Financepeer)</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=LEO1&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+</div></div>
+<div class="adgroup"><span class="eyebrow">VERTICAL — GIG / EWA / BLUE-COLLAR</span><div class="ads">
+<div class="ad" data-n="refyne"><span class="n">Refyne</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Refyne&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://facebook.com/RefyneIndia" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="karmalife"><span class="n">KarmaLife</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=KarmaLife&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://facebook.com/KarmaLifeAI" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="entitled"><span class="n">Entitled</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Entitled&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://facebook.com/entitledsolutions" target="_blank" rel="noopener">Facebook page</a></span></div>
+</div></div>
+<div class="adgroup"><span class="eyebrow">VERTICAL — WOMEN / MICRO</span><div class="ads">
+<div class="ad" data-n="kaleidofin"><span class="n">Kaleidofin</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Kaleidofin&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://facebook.com/kaleidofin" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="svakarma finance"><span class="n">Svakarma Finance</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Svakarma&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://facebook.com/svakarmafinance" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="aye finance"><span class="n">Aye Finance</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Aye+Finance&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="creditaccess grameen"><span class="n">CreditAccess Grameen</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=CreditAccess+Grameen&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+</div></div>
+<div class="adgroup"><span class="eyebrow">VERTICAL — HEALTHCARE / TRAVEL / WEDDING</span><div class="ads">
+<div class="ad" data-n="savein"><span class="n">SaveIN</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=SaveIN&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="qubehealth"><span class="n">QubeHealth</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=QubeHealth&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="arogya finance"><span class="n">Arogya Finance</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Arogya+Finance&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://facebook.com/arogyafinance" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="sankash"><span class="n">SanKash</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=SanKash&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="tripmoney (makemytrip)"><span class="n">TripMoney (MakeMyTrip)</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=TripMoney&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="weddingloans.com"><span class="n">WeddingLoans.com</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Wedding+Loans&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+</div></div>
+<div class="adgroup"><span class="eyebrow">VERTICAL — MSME / MERCHANT UNSECURED</span><div class="ads">
+<div class="ad" data-n="lendingkart"><span class="n">Lendingkart</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Lendingkart&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="indifi"><span class="n">Indifi</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Indifi&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://facebook.com/indifiSMBloans" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="flexiloans"><span class="n">FlexiLoans</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=FlexiLoans&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://facebook.com/FlexiLoansFinance" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="kinara capital"><span class="n">Kinara Capital</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Kinara+Capital&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://facebook.com/kinaracap" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="neogrowth"><span class="n">NeoGrowth</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=NeoGrowth&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="protium"><span class="n">Protium</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Protium&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="ugro capital"><span class="n">UGRO Capital</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=UGRO+Capital&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="oxyzo"><span class="n">Oxyzo</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Oxyzo&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://facebook.com/OxyzoFinancing" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="mintifi"><span class="n">Mintifi</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Mintifi&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="rupifi"><span class="n">Rupifi</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Rupifi&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://facebook.com/RupifiIndia" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="progcap"><span class="n">Progcap</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Progcap&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="credable"><span class="n">CredAble</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=CredAble&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://facebook.com/credablein" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="bharatpe"><span class="n">BharatPe</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=BharatPe&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="velocity"><span class="n">Velocity</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Velocity&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://facebook.com/getvelocityin" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="getvantage"><span class="n">GetVantage</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=GetVantage&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="recur club"><span class="n">Recur Club</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Recur+Club&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+</div></div>
+<div class="adgroup"><span class="eyebrow">VERTICAL — RURAL / AGRI</span><div class="ads">
+<div class="ad" data-n="samunnati"><span class="n">Samunnati</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Samunnati&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://facebook.com/samunnati" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="jai kisan"><span class="n">Jai Kisan</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Jai+Kisan&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://facebook.com/jaikisanfin" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="sarvagram"><span class="n">SarvaGram</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=SarvaGram&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+<div class="ad" data-n="dvara kgfs"><span class="n">Dvara KGFS</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Dvara+KGFS&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a><a class="fb" href="https://facebook.com/Dvarakgfsfinancialservices" target="_blank" rel="noopener">Facebook page</a></span></div>
+<div class="ad" data-n="navadhan"><span class="n">Navadhan</span><span class="l"><a href="https://www.facebook.com/ads/library/?active_status=active&amp;ad_type=all&amp;country=IN&amp;is_targeted_country=false&amp;media_type=all&amp;q=Navadhan&amp;search_type=keyword_unordered" target="_blank" rel="noopener">Ad Library &rarr;</a></span></div>
+</div></div>    </div>
+    <p class="eyebrow" style="margin-top:22px">Ad Library requires a logged-in Facebook session for some ad formats. Links open Meta&rsquo;s public library filtered to India.</p>
+  </div>
+</section>
+
+<section id="gaps">
+  <div class="wrap">
+    <div class="sec-head col">
+      <span class="eyebrow">11 &mdash; Confidence</span>
+      <h2>What this doesn&rsquo;t know</h2>
+    </div>
+    <div class="col" style="display:flex;flex-direction:column;gap:16px">
+      <p><b style="color:var(--ink)">Not disclosed anywhere.</b> ICICI Bank, Aditya Birla Capital, L&amp;T Finance and Piramal do not break out an absolute personal-loan book &mdash; only growth rates. FACE publishes no member-level league table, so the fintech ranking here is inferred from AUM disclosures rather than reported share.</p>
+      <p><b style="color:var(--ink)">Series break to watch.</b> FACE changed its peer group in the Dec-2025 edition to 110+ digital NBFCs and rebased to Apr-2022. FY25 sanctions therefore appear as both &#8377;1.07 lakh cr and &#8377;1.55 lakh cr depending on edition. <b>Do not chain the two series</b> &mdash; a growth rate computed across them is meaningless.</p>
+      <p><b style="color:var(--ink)">Reconciliation warning.</b> RBI&rsquo;s &ldquo;other personal loans&rdquo; (~&#8377;15.4 lakh cr, banks only) and CRIF&rsquo;s all-lender &#8377;14.6 lakh cr are not the same universe or the same product definition. Use CRIF and FACE for share, RBI for bank trend, and never mix them in one calculation.</p>
+      <p><b style="color:var(--ink)">Single-source figures.</b> Fibe&rsquo;s average ticket is published as both &#8377;77,987 and &#8377;55,158. mPokket&rsquo;s FY25 revenue appears as both &#8377;2,157 cr and &#8377;356 cr on one source page. Auxilo&rsquo;s AUM units are printed inconsistently. Download counts throughout are company-stated, not Play Store bands.</p>
+    </div>
+  </div>
+</section>
+
+<footer class="wrap">
+  <p>Compiled September 2026 from CRIF High Mark <i>How India Lends</i> (May 2026), FACE <i>Digital Personal Loans</i> (March 2026), TransUnion CIBIL CMI, RBI sectoral credit and the June 2026 Financial Stability Report, company quarterly filings, draft prospectuses and rating agency reports. Every figure is traceable to a source in the accompanying repository document.</p>
+  <p class="eyebrow">Figures are point-in-time. Verify before transacting.</p>
+</footer>
+
+<script>
+(function(){
+  var q=document.getElementById('q'), root=document.getElementById('adroot'), cnt=document.getElementById('cnt');
+  var cards=[].slice.call(root.querySelectorAll('.ad'));
+  var groups=[].slice.call(root.querySelectorAll('.adgroup'));
+  function run(){
+    var t=q.value.trim().toLowerCase(), shown=0;
+    cards.forEach(function(c){
+      var hit = !t || c.getAttribute('data-n').indexOf(t)>-1;
+      c.hidden=!hit; if(hit) shown++;
+    });
+    groups.forEach(function(g){
+      g.hidden = !g.querySelector('.ad:not([hidden])');
+    });
+    cnt.textContent = shown + ' of ' + cards.length + ' advertisers';
+  }
+  q.addEventListener('input', run);
+  run();
+})();
+</script>
