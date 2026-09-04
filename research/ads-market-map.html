@@ -182,7 +182,7 @@ footer{padding:40px 0 64px; color:var(--muted); font-size:.86rem}
       <span class="eyebrow">3 September 2026</span>
     </div>
     <h1>Who's building the AI that runs your ads</h1>
-    <p class="dek">A map of the companies selling AI tools to businesses that advertise on Meta, Google and TikTok — by segment, with funding, valuations, founders and an investor's verdict.</p>
+    <p class="dek">A map of ~110 companies selling AI tools to businesses that advertise on Meta, Google and TikTok — by segment, with funding, valuations, founders and an investor's verdict.</p>
     <p class="thesis">The organising fact: Meta's Advantage+ passed a <strong>$75B annual revenue run rate</strong> in Q2 2026, and Meta intends to let a business supply a URL, a budget and a bank account by the end of the year. Creative generation, targeting and budget optimization — the three things most of these companies charge for — are becoming free platform features.</p>
     <nav class="toc">
       <a href="#squeeze">The squeeze</a>
@@ -192,6 +192,7 @@ footer{padding:40px 0 64px; color:var(--muted); font-size:.86rem}
       <a href="#b2b">B2B</a>
       <a href="#commerce">Commerce &amp; apps</a>
       <a href="#agentic">Agentic buyers</a>
+      <a href="#expanded">The rest of the stack</a>
       <a href="#bet">Who I'd bet on</a>
       <a href="#founders">Founder profiles</a>
       <a href="#graveyard">The graveyard</a>
@@ -226,9 +227,9 @@ footer{padding:40px 0 64px; color:var(--muted); font-size:.86rem}
       <span><i class="swatch" style="background:var(--series-2)"></i> Independent software</span>
     </div>
     <div class="chart-scroll">
-      <svg id="chart" viewBox="0 0 760 430" role="img" aria-label="Dot plot on a logarithmic scale comparing annualized revenue. Meta Advantage+ at 75 billion dollars and AppLovin at 6.83 billion dollars are platforms; the largest independents are Higgsfield at 700 million, StackAdapt at 500 million, MNTN at 290 million, HeyGen at 200 million, Smartly at 101 million, Skai at 79 million, Motion at 50 million and Triple Whale at 21.6 million."></svg>
+      <svg id="chart" viewBox="0 0 760 560" role="img" aria-label="Dot plot on a logarithmic scale comparing annualized revenue. Meta Advantage+ at 75 billion dollars and AppLovin at 6.83 billion dollars are platforms. The largest independents are The Trade Desk at 2.44 billion and Zeta Global at 1.3 billion, then Higgsfield at 700 million, StackAdapt and AppsFlyer at 500 million, Moloco at 400 million, Runway at 300 million, MNTN at 290 million, Podium at 220 million, HeyGen at 200 million, Synthesia at 150 million, Smartly at 101 million and Motion at 50 million."></svg>
     </div>
-    <p class="note" style="margin:12px 0 0">Meta figure is an Advantage+ revenue run rate, not a software licence line. AppLovin is trailing-twelve-month total revenue. Independent figures mix disclosed ARR and third-party estimates — see the caveats.</p>
+    <p class="note" style="margin:12px 0 0">Meta's figure is an Advantage+ revenue run rate, not a software licence line. AppLovin is trailing-twelve-month total revenue. Independent figures mix disclosed ARR, GAAP revenue and third-party estimates, so they are not strictly like-for-like — see the caveats.</p>
   </div>
 
   <div class="col">
@@ -482,6 +483,221 @@ footer{padding:40px 0 64px; color:var(--muted); font-size:.86rem}
 </section>
 
 
+<section id="expanded">
+  <div class="sec-head">
+    <span class="eyebrow">Expanded map · ~50 further companies</span>
+    <h2>The rest of the stack</h2>
+  </div>
+  <div class="col">
+    <p>The categories above cover tools built specifically to run ads. This section covers the rest of what an advertiser actually touches: the model layer that makes the creative, the measurement layer that scores it, the channels beyond Meta and Google, and the plumbing underneath.</p>
+  </div>
+  <h3 style="margin:34px 0 8px">AI video & creative model layer</h3>
+  <div class="col"><p class="note">The foundation models advertisers now use to manufacture ad creative. None of these were built as ad tools, but they are where a growing share of ad creative is actually produced — and they are far better capitalized than anything ad-native.</p></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Company</th><th>Raised</th><th>Valuation</th><th>Revenue</th><th>Status</th><th>Ad libraries</th></tr></thead>
+    <tbody>
+      <tr><td class="co"><a href="https://runwayml.com">Runway</a></td><td class="num">$860M</td><td class="num">$5.3B (Feb 2026)</td><td class="num">~$300M est. ARR</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Runway&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=runwayml.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Runway">LI</a></td></tr>
+      <tr><td class="co"><a href="https://synthesia.io">Synthesia</a></td><td class="num">$536.6M</td><td class="num">$4B (Jan 2026)</td><td class="num">$150M ARR at Series E; ~$100M (2025 est.)</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Synthesia&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=synthesia.io">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Synthesia">LI</a></td></tr>
+      <tr><td class="co"><a href="https://typeface.ai">Typeface</a></td><td class="num">$165M</td><td class="num">$1B (2023)</td><td class="num">$34.3M est. ARR</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Typeface&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=typeface.ai">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Typeface">LI</a></td></tr>
+      <tr><td class="co"><a href="https://jasper.ai">Jasper</a></td><td class="num">$131M+</td><td class="num">~$1.5B (2022)</td><td class="num">n/a</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Jasper&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=jasper.ai">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Jasper">LI</a></td></tr>
+      <tr><td class="co"><a href="https://copy.ai">Copy.ai</a></td><td class="num">~$140M</td><td class="num">~$500M (2025)</td><td class="num">n/a</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Copy.ai&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=copy.ai">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Copy.ai">LI</a></td></tr>
+      <tr><td class="co"><a href="https://anyword.com">Anyword</a></td><td class="num">$30.1M</td><td class="num">n/a</td><td class="num">n/a</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Anyword&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=anyword.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Anyword">LI</a></td></tr>
+      <tr><td class="co"><a href="https://superside.com">Superside</a></td><td class="num">$35.1M</td><td class="num">~$400M (2021)</td><td class="num">$44.9M ARR (2024 est.)</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Superside&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=superside.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Superside">LI</a></td></tr>
+      <tr><td class="co"><a href="https://coframe.com">Coframe</a></td><td class="num">$9.3M</td><td class="num">n/a</td><td class="num">n/a</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Coframe&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=coframe.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Coframe">LI</a></td></tr>
+    </tbody>
+  </table></div>
+  <div class="col"><ul class="plain">
+    <li><strong>Runway</strong> — $315M Series E led by General Atlantic, up from $3.3B in Apr 2025</li>
+    <li><strong>Synthesia</strong> — $200M Series E led by GV, with Nvidia and Alphabet VC arms; 65,000+ businesses, 90%+ of the Fortune 100; NRR >140%; 737 staff</li>
+    <li><strong>Typeface</strong> — Founded by Abhay Parasnis, former CTO of Adobe; Salesforce Ventures led</li>
+    <li><strong>Jasper</strong> — Brand-voice anchor of the enterprise AI copy set</li>
+    <li><strong>Copy.ai</strong> — $63M Series C in 2025, after a $63M Series B at ~$200M</li>
+    <li><strong>Anyword</strong> — Predictive performance scoring for ad copy; 1M+ registered users; The New York Times is a strategic backer</li>
+    <li><strong>Superside</strong> — Repositioned Jan 2025 as an AI-first creative partner; also ships Superads, a creative-analytics tool</li>
+    <li><strong>Coframe</strong> — Seed co-led by Khosla Ventures and NFDG; AI that continuously rewrites landing pages and campaign assets</li>
+  </ul></div>
+  <h3 style="margin:34px 0 8px">Creative automation platforms (enterprise CMPs)</h3>
+  <div class="col"><p class="note">The pre-generative-AI creative production layer, now retrofitting AI. Mordor sizes creative automation software at $2.51B in 2026, growing to $5.51B by 2031 (17.0% CAGR).</p></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Company</th><th>Raised</th><th>Valuation</th><th>Revenue</th><th>Status</th><th>Ad libraries</th></tr></thead>
+    <tbody>
+      <tr><td class="co"><a href="https://bannerflow.com">Bannerflow</a></td><td class="num">n/a</td><td class="num">n/a</td><td class="num">n/a</td><td><span class="pill">PE-owned</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Bannerflow&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=bannerflow.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Bannerflow">LI</a></td></tr>
+      <tr><td class="co"><a href="https://storyteq.com">Storyteq</a></td><td class="num">n/a</td><td class="num">n/a</td><td class="num">n/a</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Storyteq&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=storyteq.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Storyteq">LI</a></td></tr>
+      <tr><td class="co"><a href="https://papirfly.com">Papirfly</a></td><td class="num">n/a</td><td class="num">n/a</td><td class="num">n/a</td><td><span class="pill">PE-owned</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Papirfly&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=papirfly.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Papirfly">LI</a></td></tr>
+      <tr><td class="co"><a href="https://creatopy.com">Creatopy</a></td><td class="num">n/a</td><td class="num">n/a</td><td class="num">n/a</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Creatopy&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=creatopy.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Creatopy">LI</a></td></tr>
+    </tbody>
+  </table></div>
+  <div class="col"><ul class="plain">
+    <li><strong>Bannerflow</strong> — Tenzing Private Equity invested July 2024; connects to 100+ ad platforms and is a certified Amazon Ads third-party ad server</li>
+    <li><strong>Storyteq</strong> — DAM with creative automation layered on top; self-serve from ~€2,400/mo</li>
+    <li><strong>Papirfly</strong> — 1M+ users across 1,500+ organisations (Mercedes-Benz, Mondelez, Goldman Sachs)</li>
+    <li><strong>Creatopy</strong> — Rebranded as The Brief</li>
+  </ul></div>
+  <h3 style="margin:34px 0 8px">UGC creator marketplaces</h3>
+  <div class="col"><p class="note">Where brands buy human-made creator ads. The category the AI-UGC tools are trying to replace — and, in Icon's case, retreated back into.</p></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Company</th><th>Raised</th><th>Valuation</th><th>Revenue</th><th>Status</th><th>Ad libraries</th></tr></thead>
+    <tbody>
+      <tr><td class="co"><a href="https://billo.app">Billo</a></td><td class="num">~$13.9M</td><td class="num">n/a</td><td class="num">n/a</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Billo&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=billo.app">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Billo">LI</a></td></tr>
+      <tr><td class="co"><a href="https://insense.pro">Insense</a></td><td class="num">~$4.9M (sources conflict)</td><td class="num">n/a</td><td class="num">$13.6M est. ARR (Jul 2025)</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Insense&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=insense.pro">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Insense">LI</a></td></tr>
+      <tr><td class="co"><a href="https://trend.io">Trend.io</a></td><td class="num">~$3M</td><td class="num">n/a</td><td class="num">n/a</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Trend.io&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=trend.io">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Trend.io">LI</a></td></tr>
+      <tr><td class="co"><a href="https://aspire.io">Aspire</a></td><td class="num">n/a</td><td class="num">n/a</td><td class="num">n/a</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Aspire&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=aspire.io">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Aspire">LI</a></td></tr>
+    </tbody>
+  </table></div>
+  <div class="col"><ul class="plain">
+    <li><strong>Billo</strong> — $8.49M Series A, June 2024</li>
+    <li><strong>Insense</strong> — Latka lists it as effectively bootstrapped; Tracxn shows small rounds</li>
+    <li><strong>Trend.io</strong> — Pharrell Williams is an investor; co-founded by Ramon Berrios and Zach Moosbrugger</li>
+    <li><strong>Aspire</strong> — Influencer/creator marketing for ecommerce brands</li>
+  </ul></div>
+  <h3 style="margin:34px 0 8px">Mobile app user acquisition & measurement</h3>
+  <div class="col"><p class="note">The largest pool of pure performance spend outside Meta and Google, and the segment where machine-learning bidding matured first.</p></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Company</th><th>Raised</th><th>Valuation</th><th>Revenue</th><th>Status</th><th>Ad libraries</th></tr></thead>
+    <tbody>
+      <tr><td class="co"><a href="https://liftoff.io">Liftoff</a></td><td class="num">Blackstone-owned</td><td class="num">$4.3B (May 2025)</td><td class="num">n/a</td><td><span class="pill">IPO filed</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Liftoff&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=liftoff.io">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Liftoff">LI</a></td></tr>
+      <tr><td class="co"><a href="https://appsflyer.com">AppsFlyer</a></td><td class="num">$1.3B</td><td class="num">$2.7B–$4.0B (sources conflict)</td><td class="num">$395M ARR (2023); $500M ARR (2026 est.)</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=AppsFlyer&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=appsflyer.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=AppsFlyer">LI</a></td></tr>
+      <tr><td class="co"><a href="https://branch.io">Branch</a></td><td class="num">n/a</td><td class="num">~$4B</td><td class="num">n/a</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Branch&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=branch.io">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Branch">LI</a></td></tr>
+      <tr><td class="co"><a href="https://adjust.com">Adjust</a></td><td class="num">—</td><td class="num">~$1B (2021 exit)</td><td class="num">n/a</td><td><span class="pill">AppLovin</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Adjust&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=adjust.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Adjust">LI</a></td></tr>
+      <tr><td class="co"><a href="https://aarki.com">Aarki</a></td><td class="num">$14.25M</td><td class="num">—</td><td class="num">n/a</td><td><span class="pill">Skillz</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Aarki&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=aarki.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Aarki">LI</a></td></tr>
+      <tr><td class="co"><a href="https://remerge.io">Remerge</a></td><td class="num">n/a</td><td class="num">n/a</td><td class="num">n/a</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Remerge&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=remerge.io">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Remerge">LI</a></td></tr>
+      <tr><td class="co"><a href="https://bidease.com">Bidease</a></td><td class="num">$11M</td><td class="num">n/a</td><td class="num">n/a</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Bidease&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=bidease.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Bidease">LI</a></td></tr>
+    </tbody>
+  </table></div>
+  <div class="col"><ul class="plain">
+    <li><strong>Liftoff</strong> — S-1 filed with the SEC for a ~$400M IPO; backed by Blackstone and General Atlantic</li>
+    <li><strong>AppsFlyer</strong> — $1B Series E from a consortium of Meta, Google, Unity and Moloco; 80,000+ apps, ~12,000 paying customers</li>
+    <li><strong>Branch</strong> — Mobile measurement and deep linking</li>
+    <li><strong>Adjust</strong> — Acquired by AppLovin in 2021 for a reported $1B</li>
+    <li><strong>Aarki</strong> — Acquired by Skillz, 8 Jan 2025</li>
+    <li><strong>Remerge</strong> — In-app programmatic retargeting DSP</li>
+    <li><strong>Bidease</strong> — Mobile DSP</li>
+  </ul></div>
+  <h3 style="margin:34px 0 8px">Retail media infrastructure</h3>
+  <div class="col"><p class="note">Software that lets retailers run their own ad businesses, and lets brands buy across them. The fastest-growing ad channel after social and search.</p></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Company</th><th>Raised</th><th>Valuation</th><th>Revenue</th><th>Status</th><th>Ad libraries</th></tr></thead>
+    <tbody>
+      <tr><td class="co"><a href="https://topsort.com">Topsort</a></td><td class="num">$43.2M</td><td class="num">$150M (Series A)</td><td class="num">$3.7M (company-cited)</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Topsort&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=topsort.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Topsort">LI</a></td></tr>
+      <tr><td class="co"><a href="https://koddi.com">Koddi</a></td><td class="num">$0 — bootstrapped</td><td class="num">n/a</td><td class="num">$28.2M est. ARR</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Koddi&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=koddi.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Koddi">LI</a></td></tr>
+      <tr><td class="co"><a href="https://citrusad.com">CitrusAd</a></td><td class="num">—</td><td class="num">—</td><td class="num">~$80.8M est. revenue</td><td><span class="pill">Publicis</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=CitrusAd&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=citrusad.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=CitrusAd">LI</a></td></tr>
+      <tr><td class="co"><a href="https://criteo.com">Criteo</a></td><td class="num">public</td><td class="num">—</td><td class="num">Retail media revenue $264M (2025)</td><td><span class="pill">Public (Nasdaq: CRTO)</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Criteo&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=criteo.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Criteo">LI</a></td></tr>
+      <tr><td class="co"><a href="https://flywheeldigital.com">Flywheel Digital</a></td><td class="num">—</td><td class="num">$835M (2023 exit)</td><td class="num">n/a</td><td><span class="pill">Omnicom</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Flywheel%20Digital&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=flywheeldigital.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Flywheel%20Digital">LI</a></td></tr>
+      <tr><td class="co"><a href="https://intentwise.com">Intentwise</a></td><td class="num">$0 — bootstrapped</td><td class="num">n/a</td><td class="num">$8.8M est. ARR</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Intentwise&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=intentwise.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Intentwise">LI</a></td></tr>
+    </tbody>
+  </table></div>
+  <div class="col"><ul class="plain">
+    <li><strong>Topsort</strong> — Backed by W23, the VC fund behind Tesco, Ahold Delhaize, Woolworths, Empire/Sobeys and Shoprite</li>
+    <li><strong>Koddi</strong> — 256 employees, never raised outside capital</li>
+    <li><strong>CitrusAd</strong> — Acquired by Publicis Groupe, July 2021; 7,000+ brands, 70+ retail distributors</li>
+    <li><strong>Criteo</strong> — Retail media revenue fell 17% in Q4 2025 after two large clients changed scope</li>
+    <li><strong>Flywheel Digital</strong> — Omnicom paid $835M; Perpetua had been a Flywheel/Ascential bolt-on acquisition</li>
+    <li><strong>Intentwise</strong> — Founded 2015 by Sreenath Reddy and Raghu Kashyap</li>
+  </ul></div>
+  <h3 style="margin:34px 0 8px">Performance CTV</h3>
+  <div class="col"><p class="note">Streaming TV sold on direct-response terms. The segment produced the largest single exit in this entire report.</p></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Company</th><th>Raised</th><th>Valuation</th><th>Revenue</th><th>Status</th><th>Ad libraries</th></tr></thead>
+    <tbody>
+      <tr><td class="co"><a href="https://vibe.co">Vibe.co</a></td><td class="num">$50M raised</td><td class="num">$1.4B (2026 exit)</td><td class="num">n/a</td><td><span class="pill">Walmart</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Vibe.co&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=vibe.co">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Vibe.co">LI</a></td></tr>
+      <tr><td class="co"><a href="https://tvscientific.com">tvScientific</a></td><td class="num">n/a</td><td class="num">n/a</td><td class="num">n/a</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=tvScientific&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=tvscientific.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=tvScientific">LI</a></td></tr>
+      <tr><td class="co"><a href="https://tatari.tv">Tatari</a></td><td class="num">$0 — bootstrapped</td><td class="num">n/a</td><td class="num">$37.1M est. ARR</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Tatari&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=tatari.tv">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Tatari">LI</a></td></tr>
+      <tr><td class="co"><a href="https://simulmedia.com">Simulmedia</a></td><td class="num">n/a</td><td class="num">n/a</td><td class="num">n/a</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Simulmedia&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=simulmedia.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Simulmedia">LI</a></td></tr>
+    </tbody>
+  </table></div>
+  <div class="col"><ul class="plain">
+    <li><strong>Vibe.co</strong> — Walmart announced the $1.4B acquisition 23 June 2026 and closed it 4 Aug 2026 — $1.2B cash plus ~$180M to executives. Had been valued at $410M after a $50M raise. Walmart's biggest CTV move since buying Vizio for $2.3B</li>
+    <li><strong>tvScientific</strong> — Self-serve performance CTV for mid-market advertisers</li>
+    <li><strong>Tatari</strong> — Linear plus streaming, with incrementality measurement</li>
+    <li><strong>Simulmedia</strong> — Cross-screen TV performance buying</li>
+  </ul></div>
+  <h3 style="margin:34px 0 8px">Measurement, incrementality & attribution</h3>
+  <div class="col"><p class="note">The independent scorekeepers. Structurally protected, because a platform grading its own homework is a permanent conflict of interest — which is exactly why the platforms are buying into this layer.</p></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Company</th><th>Raised</th><th>Valuation</th><th>Revenue</th><th>Status</th><th>Ad libraries</th></tr></thead>
+    <tbody>
+      <tr><td class="co"><a href="https://haus.io">Haus</a></td><td class="num">$55.3M</td><td class="num">n/a</td><td class="num">n/a</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Haus&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=haus.io">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Haus">LI</a></td></tr>
+      <tr><td class="co"><a href="https://rockerbox.com">Rockerbox</a></td><td class="num">—</td><td class="num">—</td><td class="num">n/a</td><td><span class="pill">DoubleVerify</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Rockerbox&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=rockerbox.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Rockerbox">LI</a></td></tr>
+      <tr><td class="co"><a href="https://scibids.com">Scibids</a></td><td class="num">—</td><td class="num">$125M (2023 exit)</td><td class="num">n/a</td><td><span class="pill">DoubleVerify</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Scibids&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=scibids.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Scibids">LI</a></td></tr>
+      <tr><td class="co"><a href="https://incrmntal.com">INCRMNTAL</a></td><td class="num">n/a</td><td class="num">n/a</td><td class="num">n/a</td><td><span class="pill">Being acquired</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=INCRMNTAL&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=incrmntal.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=INCRMNTAL">LI</a></td></tr>
+      <tr><td class="co"><a href="https://prescientai.com">Prescient AI</a></td><td class="num">$18M</td><td class="num">n/a</td><td class="num">$11.4M revenue (Sep 2025)</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Prescient%20AI&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=prescientai.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Prescient%20AI">LI</a></td></tr>
+      <tr><td class="co"><a href="https://measured.com">Measured</a></td><td class="num">n/a</td><td class="num">n/a</td><td class="num">n/a</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Measured&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=measured.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Measured">LI</a></td></tr>
+      <tr><td class="co"><a href="https://fospha.com">Fospha</a></td><td class="num">n/a</td><td class="num">n/a</td><td class="num">n/a</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Fospha&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=fospha.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Fospha">LI</a></td></tr>
+    </tbody>
+  </table></div>
+  <div class="col"><ul class="plain">
+    <li><strong>Haus</strong> — Series B April 2025 plus $20M from 01 Advisors; geo-based causal experiments, now Causal MMM and Causal Attribution</li>
+    <li><strong>Rockerbox</strong> — Acquisition completed 13 March 2025</li>
+    <li><strong>Scibids</strong> — Cash-and-stock deal plus earn-out; custom bidding algorithms across DV360, The Trade Desk and Xandr</li>
+    <li><strong>INCRMNTAL</strong> — Smartly signed a letter of intent to acquire it — the buying layer absorbing the measurement layer</li>
+    <li><strong>Prescient AI</strong> — $10M Series A led by Headline and CEAS; 49 employees; media-mix modelling for DTC</li>
+    <li><strong>Measured</strong> — Large-scale geo holdout experiments using synthetic control</li>
+    <li><strong>Fospha</strong> — Focused on UK/EU DTC brands whose paid-social prospecting is undervalued by last-click</li>
+  </ul></div>
+  <h3 style="margin:34px 0 8px">Programmatic AI & the big DSPs</h3>
+  <div class="col"><p class="note">Where AI bidding runs at the largest scale outside the walled gardens.</p></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Company</th><th>Raised</th><th>Valuation</th><th>Revenue</th><th>Status</th><th>Ad libraries</th></tr></thead>
+    <tbody>
+      <tr><td class="co"><a href="https://thetradedesk.com">The Trade Desk</a></td><td class="num">public</td><td class="num">—</td><td class="num">$2.44B (2024)</td><td><span class="pill">Public (Nasdaq: TTD)</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=The%20Trade%20Desk&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=thetradedesk.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=The%20Trade%20Desk">LI</a></td></tr>
+      <tr><td class="co"><a href="https://zetaglobal.com">Zeta Global</a></td><td class="num">public</td><td class="num">—</td><td class="num">$1.305B FY2025, +30%</td><td><span class="pill">Public (NYSE: ZETA)</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Zeta%20Global&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=zetaglobal.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Zeta%20Global">LI</a></td></tr>
+      <tr><td class="co"><a href="https://viantinc.com">Viant</a></td><td class="num">public</td><td class="num">—</td><td class="num">n/a</td><td><span class="pill">Public (Nasdaq: DSP)</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Viant&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=viantinc.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Viant">LI</a></td></tr>
+      <tr><td class="co"><a href="https://basis.com">Basis Technologies</a></td><td class="num">n/a</td><td class="num">n/a</td><td class="num">n/a</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Basis%20Technologies&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=basis.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Basis%20Technologies">LI</a></td></tr>
+    </tbody>
+  </table></div>
+  <div class="col"><ul class="plain">
+    <li><strong>The Trade Desk</strong> — Kokai platform with the Koa AI forecasting engine and Unified ID</li>
+    <li><strong>Zeta Global</strong> — 2026 guidance $1.749–1.762B. Athena by Zeta, built with OpenAI, hit GA in Q1 2026; agentic interactions rose sevenfold in week one and became 60%+ of AI usage</li>
+    <li><strong>Viant</strong> — AI-driven DSP for the open internet</li>
+    <li><strong>Basis Technologies</strong> — Automation across programmatic, search and social for agencies</li>
+  </ul></div>
+  <h3 style="margin:34px 0 8px">AI-native ad networks (ads inside AI products)</h3>
+  <div class="col"><p class="note">The newest category in the report: advertising placed inside chatbots and AI assistants rather than feeds. Tiny today, and the most speculative bet in the market.</p></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Company</th><th>Raised</th><th>Valuation</th><th>Revenue</th><th>Status</th><th>Ad libraries</th></tr></thead>
+    <tbody>
+      <tr><td class="co"><a href="https://nex.ad">Nexad</a></td><td class="num">$6M</td><td class="num">n/a</td><td class="num">n/a</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Nexad&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=nex.ad">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Nexad">LI</a></td></tr>
+      <tr><td class="co"><a href="https://kontextso.com">Kontext</a></td><td class="num">$10M</td><td class="num">n/a</td><td class="num">n/a</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Kontext&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=kontextso.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Kontext">LI</a></td></tr>
+      <tr><td class="co"><a href="https://rembrand.com">Rembrand</a></td><td class="num">$46M</td><td class="num">n/a</td><td class="num">n/a</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Rembrand&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=rembrand.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Rembrand">LI</a></td></tr>
+    </tbody>
+  </table></div>
+  <div class="col"><ul class="plain">
+    <li><strong>Nexad</strong> — Seed co-led by a16z and Prosus Ventures, April 2025, with Point72 Ventures and a Sequoia scout fund; claims 2x conversion vs traditional ads</li>
+    <li><strong>Kontext</strong> — Seed round; places branded links beneath chatbot responses for Amazon, Uber and Canva</li>
+    <li><strong>Rembrand</strong> — $23M Series A led by super{set} with The Trade Desk and Naver; AI virtual product placement moving from social into CTV</li>
+  </ul></div>
+  <h3 style="margin:34px 0 8px">Local & multi-location marketing platforms</h3>
+  <div class="col"><p class="note">How the long tail of Main Street businesses actually buys advertising — bundled into an operating system they already use.</p></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Company</th><th>Raised</th><th>Valuation</th><th>Revenue</th><th>Status</th><th>Ad libraries</th></tr></thead>
+    <tbody>
+      <tr><td class="co"><a href="https://podium.com">Podium</a></td><td class="num">$421.6M</td><td class="num">$3B (2025)</td><td class="num">$219.9M est. ARR</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Podium&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=podium.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Podium">LI</a></td></tr>
+      <tr><td class="co"><a href="https://birdeye.com">Birdeye</a></td><td class="num">$93M</td><td class="num">n/a</td><td class="num">~$100M+ revenue</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Birdeye&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=birdeye.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Birdeye">LI</a></td></tr>
+      <tr><td class="co"><a href="https://thryv.com">Thryv</a></td><td class="num">public</td><td class="num">—</td><td class="num">n/a</td><td><span class="pill">Public (Nasdaq: THRY)</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Thryv&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=thryv.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Thryv">LI</a></td></tr>
+    </tbody>
+  </table></div>
+  <div class="col"><ul class="plain">
+    <li><strong>Podium</strong> — 60,000 local businesses; AI revenue grew roughly 300% in a year; ~1,500 staff</li>
+    <li><strong>Birdeye</strong> — 100,000+ businesses; expanding agentic AI for multi-location marketing</li>
+    <li><strong>Thryv</strong> — SMB marketing and operations suite</li>
+  </ul></div>
+  <h3 style="margin:34px 0 8px">Product feed management</h3>
+  <div class="col"><p class="note">Unglamorous plumbing that decides whether a Shopping or catalog ad can run at all. Consolidating fast.</p></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Company</th><th>Raised</th><th>Valuation</th><th>Revenue</th><th>Status</th><th>Ad libraries</th></tr></thead>
+    <tbody>
+      <tr><td class="co"><a href="https://feedonomics.com">Feedonomics</a></td><td class="num">—</td><td class="num">—</td><td class="num">n/a</td><td><span class="pill">BigCommerce</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Feedonomics&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=feedonomics.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Feedonomics">LI</a></td></tr>
+      <tr><td class="co"><a href="https://productsup.com">Productsup</a></td><td class="num">$91M</td><td class="num">n/a</td><td class="num">n/a</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Productsup&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=productsup.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Productsup">LI</a></td></tr>
+      <tr><td class="co"><a href="https://channable.com">Channable</a></td><td class="num">n/a</td><td class="num">n/a</td><td class="num">n/a</td><td><span class="pill">Independent</span></td><td class="adlinks"><a href="https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Channable&search_type=keyword_unordered">Meta</a><a href="https://adstransparency.google.com/?region=anywhere&domain=channable.com">Goog</a><a href="https://www.linkedin.com/ad-library/search?keyword=Channable">LI</a></td></tr>
+    </tbody>
+  </table></div>
+  <div class="col"><ul class="plain">
+    <li><strong>Feedonomics</strong> — Founded 2014 by Brian Roizen and Shawn Lipman; serves 30%+ of the top 1,000 internet retailers</li>
+    <li><strong>Productsup</strong> — Feed management, marketplace integration and content syndication</li>
+    <li><strong>Channable</strong> — Connects catalogs to 3,000+ marketplaces and ad platforms</li>
+  </ul></div>
+</section>
+
 <section id="founders">
   <div class="sec-head">
     <span class="eyebrow">Directory · resolved against a people database, not guessed</span>
@@ -525,16 +741,21 @@ footer{padding:40px 0 64px; color:var(--muted); font-size:.86rem}
   var DATA=[
     {n:"Meta Advantage+",v:75,g:"platform",note:"annual revenue run rate, Q2 2026"},
     {n:"AppLovin",v:6.83,g:"platform",note:"TTM revenue, Jun 2026"},
+    {n:"The Trade Desk",v:2.44,g:"indie",note:"revenue, 2024"},
+    {n:"Zeta Global",v:1.305,g:"indie",note:"FY2025 revenue, +30% YoY"},
     {n:"Higgsfield",v:0.70,g:"indie",note:"annualized, Jul 2026 (Sacra)"},
     {n:"StackAdapt",v:0.50,g:"indie",note:"revenue, company-stated"},
+    {n:"AppsFlyer",v:0.50,g:"indie",note:"ARR, 2026 est."},
+    {n:"Moloco",v:0.40,g:"indie",note:"revenue, 2025 est."},
+    {n:"Runway",v:0.30,g:"indie",note:"ARR, 2025 est."},
     {n:"MNTN",v:0.29,g:"indie",note:"FY2025 revenue, SEC"},
+    {n:"Podium",v:0.22,g:"indie",note:"ARR, 2024 est."},
     {n:"HeyGen",v:0.20,g:"indie",note:"ARR, Jun 2026"},
+    {n:"Synthesia",v:0.15,g:"indie",note:"ARR at Series E, Jan 2026"},
     {n:"Smartly",v:0.101,g:"indie",note:"ARR est., 2025"},
-    {n:"Skai",v:0.079,g:"indie",note:"ARR est., 2025"},
-    {n:"Motion",v:0.05,g:"indie",note:"ARR, Aug 2025 (Sacra)"},
-    {n:"Triple Whale",v:0.0216,g:"indie",note:"revenue, 2025"}
+    {n:"Motion",v:0.05,g:"indie",note:"ARR, Aug 2025 (Sacra)"}
   ];
-  var W=760,H=430,L=132,R=54,T=16,B=44;
+  var W=760,H=560,L=132,R=54,T=16,B=44;
   var pw=W-L-R, ph=H-T-B;
   var row=ph/DATA.length;
   var LMIN=-2, LMAX=2;

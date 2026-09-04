@@ -1,6 +1,6 @@
 # The Automated Ads Market — Who's Building the AI That Runs Meta, Google and TikTok Ads
 
-**Research date: 3 September 2026.** Scope: software that helps businesses create, launch and optimize paid advertising on Meta, Google, TikTok and adjacent platforms using AI. Segmented by customer type. Includes funding, valuations, founders, scale and ad-library links.
+**Research date: 3 September 2026.** Scope: software that helps businesses create, launch and optimize paid advertising on Meta, Google, TikTok and adjacent platforms using AI. Segmented by customer type, then extended to the adjacent layers advertisers depend on. ~110 companies with funding, valuations, founders, scale and ad-library links.
 
 **How to read the numbers.** Figures marked "est." come from Latka, Tracxn, Growjo or PitchBook and are modelled, not disclosed. Figures without that label come from company announcements, press releases, SEC filings or credible press. Where sources conflict, both are shown. "n/a" means not found, never guessed.
 
@@ -293,6 +293,205 @@ Companies: [Higgsfield $400M Series B](https://techcrunch.com/2026/08/17/higgsfi
 
 Detailed per-company research notes, including every source URL, are in `research/segments/`.
 
+---
+
+## 8. Expanded market map — adjacent categories
+
+The first pass covered tools built specifically to run ads. This section covers the rest of the stack an advertiser actually touches: the model layer that makes the creative, the measurement layer that scores it, the channels beyond Meta and Google, and the plumbing underneath. Roughly 50 further companies, same sourcing rules.
+
+### AI video & creative model layer
+
+The foundation models advertisers now use to manufacture ad creative. None of these were built as ad tools, but they are where a growing share of ad creative is actually produced — and they are far better capitalized than anything ad-native.
+
+| Company | Raised | Valuation | Revenue | Status | Ad libraries |
+|---|---|---|---|---|---|
+| [Runway](https://runwayml.com) | $860M | $5.3B (Feb 2026) | ~$300M est. ARR | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Runway&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=runwayml.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=Runway) |
+| [Synthesia](https://synthesia.io) | $536.6M | $4B (Jan 2026) | $150M ARR at Series E; ~$100M (2025 est.) | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Synthesia&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=synthesia.io) · [LI](https://www.linkedin.com/ad-library/search?keyword=Synthesia) |
+| [Typeface](https://typeface.ai) | $165M | $1B (2023) | $34.3M est. ARR | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Typeface&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=typeface.ai) · [LI](https://www.linkedin.com/ad-library/search?keyword=Typeface) |
+| [Jasper](https://jasper.ai) | $131M+ | ~$1.5B (2022) | n/a | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Jasper&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=jasper.ai) · [LI](https://www.linkedin.com/ad-library/search?keyword=Jasper) |
+| [Copy.ai](https://copy.ai) | ~$140M | ~$500M (2025) | n/a | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Copy.ai&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=copy.ai) · [LI](https://www.linkedin.com/ad-library/search?keyword=Copy.ai) |
+| [Anyword](https://anyword.com) | $30.1M | n/a | n/a | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Anyword&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=anyword.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=Anyword) |
+| [Superside](https://superside.com) | $35.1M | ~$400M (2021) | $44.9M ARR (2024 est.) | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Superside&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=superside.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=Superside) |
+| [Coframe](https://coframe.com) | $9.3M | n/a | n/a | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Coframe&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=coframe.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=Coframe) |
+
+- **Runway** — $315M Series E led by General Atlantic, up from $3.3B in Apr 2025
+- **Synthesia** — $200M Series E led by GV, with Nvidia and Alphabet VC arms; 65,000+ businesses, 90%+ of the Fortune 100; NRR >140%; 737 staff
+- **Typeface** — Founded by Abhay Parasnis, former CTO of Adobe; Salesforce Ventures led
+- **Jasper** — Brand-voice anchor of the enterprise AI copy set
+- **Copy.ai** — $63M Series C in 2025, after a $63M Series B at ~$200M
+- **Anyword** — Predictive performance scoring for ad copy; 1M+ registered users; The New York Times is a strategic backer
+- **Superside** — Repositioned Jan 2025 as an AI-first creative partner; also ships Superads, a creative-analytics tool
+- **Coframe** — Seed co-led by Khosla Ventures and NFDG; AI that continuously rewrites landing pages and campaign assets
+
+### Creative automation platforms (enterprise CMPs)
+
+The pre-generative-AI creative production layer, now retrofitting AI. Mordor sizes creative automation software at $2.51B in 2026, growing to $5.51B by 2031 (17.0% CAGR).
+
+| Company | Raised | Valuation | Revenue | Status | Ad libraries |
+|---|---|---|---|---|---|
+| [Bannerflow](https://bannerflow.com) | n/a | n/a | n/a | PE-owned | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Bannerflow&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=bannerflow.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=Bannerflow) |
+| [Storyteq](https://storyteq.com) | n/a | n/a | n/a | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Storyteq&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=storyteq.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=Storyteq) |
+| [Papirfly](https://papirfly.com) | n/a | n/a | n/a | PE-owned | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Papirfly&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=papirfly.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=Papirfly) |
+| [Creatopy](https://creatopy.com) | n/a | n/a | n/a | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Creatopy&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=creatopy.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=Creatopy) |
+
+- **Bannerflow** — Tenzing Private Equity invested July 2024; connects to 100+ ad platforms and is a certified Amazon Ads third-party ad server
+- **Storyteq** — DAM with creative automation layered on top; self-serve from ~€2,400/mo
+- **Papirfly** — 1M+ users across 1,500+ organisations (Mercedes-Benz, Mondelez, Goldman Sachs)
+- **Creatopy** — Rebranded as The Brief
+
+### UGC creator marketplaces
+
+Where brands buy human-made creator ads. The category the AI-UGC tools are trying to replace — and, in Icon's case, retreated back into.
+
+| Company | Raised | Valuation | Revenue | Status | Ad libraries |
+|---|---|---|---|---|---|
+| [Billo](https://billo.app) | ~$13.9M | n/a | n/a | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Billo&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=billo.app) · [LI](https://www.linkedin.com/ad-library/search?keyword=Billo) |
+| [Insense](https://insense.pro) | ~$4.9M (sources conflict) | n/a | $13.6M est. ARR (Jul 2025) | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Insense&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=insense.pro) · [LI](https://www.linkedin.com/ad-library/search?keyword=Insense) |
+| [Trend.io](https://trend.io) | ~$3M | n/a | n/a | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Trend.io&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=trend.io) · [LI](https://www.linkedin.com/ad-library/search?keyword=Trend.io) |
+| [Aspire](https://aspire.io) | n/a | n/a | n/a | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Aspire&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=aspire.io) · [LI](https://www.linkedin.com/ad-library/search?keyword=Aspire) |
+
+- **Billo** — $8.49M Series A, June 2024
+- **Insense** — Latka lists it as effectively bootstrapped; Tracxn shows small rounds
+- **Trend.io** — Pharrell Williams is an investor; co-founded by Ramon Berrios and Zach Moosbrugger
+- **Aspire** — Influencer/creator marketing for ecommerce brands
+
+### Mobile app user acquisition & measurement
+
+The largest pool of pure performance spend outside Meta and Google, and the segment where machine-learning bidding matured first.
+
+| Company | Raised | Valuation | Revenue | Status | Ad libraries |
+|---|---|---|---|---|---|
+| [Liftoff](https://liftoff.io) | Blackstone-owned | $4.3B (May 2025) | n/a | IPO filed | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Liftoff&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=liftoff.io) · [LI](https://www.linkedin.com/ad-library/search?keyword=Liftoff) |
+| [AppsFlyer](https://appsflyer.com) | $1.3B | $2.7B–$4.0B (sources conflict) | $395M ARR (2023); $500M ARR (2026 est.) | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=AppsFlyer&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=appsflyer.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=AppsFlyer) |
+| [Branch](https://branch.io) | n/a | ~$4B | n/a | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Branch&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=branch.io) · [LI](https://www.linkedin.com/ad-library/search?keyword=Branch) |
+| [Adjust](https://adjust.com) | — | ~$1B (2021 exit) | n/a | AppLovin | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Adjust&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=adjust.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=Adjust) |
+| [Aarki](https://aarki.com) | $14.25M | — | n/a | Skillz | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Aarki&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=aarki.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=Aarki) |
+| [Remerge](https://remerge.io) | n/a | n/a | n/a | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Remerge&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=remerge.io) · [LI](https://www.linkedin.com/ad-library/search?keyword=Remerge) |
+| [Bidease](https://bidease.com) | $11M | n/a | n/a | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Bidease&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=bidease.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=Bidease) |
+
+- **Liftoff** — S-1 filed with the SEC for a ~$400M IPO; backed by Blackstone and General Atlantic
+- **AppsFlyer** — $1B Series E from a consortium of Meta, Google, Unity and Moloco; 80,000+ apps, ~12,000 paying customers
+- **Branch** — Mobile measurement and deep linking
+- **Adjust** — Acquired by AppLovin in 2021 for a reported $1B
+- **Aarki** — Acquired by Skillz, 8 Jan 2025
+- **Remerge** — In-app programmatic retargeting DSP
+- **Bidease** — Mobile DSP
+
+### Retail media infrastructure
+
+Software that lets retailers run their own ad businesses, and lets brands buy across them. The fastest-growing ad channel after social and search.
+
+| Company | Raised | Valuation | Revenue | Status | Ad libraries |
+|---|---|---|---|---|---|
+| [Topsort](https://topsort.com) | $43.2M | $150M (Series A) | $3.7M (company-cited) | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Topsort&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=topsort.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=Topsort) |
+| [Koddi](https://koddi.com) | $0 — bootstrapped | n/a | $28.2M est. ARR | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Koddi&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=koddi.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=Koddi) |
+| [CitrusAd](https://citrusad.com) | — | — | ~$80.8M est. revenue | Publicis | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=CitrusAd&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=citrusad.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=CitrusAd) |
+| [Criteo](https://criteo.com) | public | — | Retail media revenue $264M (2025) | Public (Nasdaq: CRTO) | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Criteo&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=criteo.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=Criteo) |
+| [Flywheel Digital](https://flywheeldigital.com) | — | $835M (2023 exit) | n/a | Omnicom | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Flywheel%20Digital&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=flywheeldigital.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=Flywheel%20Digital) |
+| [Intentwise](https://intentwise.com) | $0 — bootstrapped | n/a | $8.8M est. ARR | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Intentwise&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=intentwise.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=Intentwise) |
+
+- **Topsort** — Backed by W23, the VC fund behind Tesco, Ahold Delhaize, Woolworths, Empire/Sobeys and Shoprite
+- **Koddi** — 256 employees, never raised outside capital
+- **CitrusAd** — Acquired by Publicis Groupe, July 2021; 7,000+ brands, 70+ retail distributors
+- **Criteo** — Retail media revenue fell 17% in Q4 2025 after two large clients changed scope
+- **Flywheel Digital** — Omnicom paid $835M; Perpetua had been a Flywheel/Ascential bolt-on acquisition
+- **Intentwise** — Founded 2015 by Sreenath Reddy and Raghu Kashyap
+
+### Performance CTV
+
+Streaming TV sold on direct-response terms. The segment produced the largest single exit in this entire report.
+
+| Company | Raised | Valuation | Revenue | Status | Ad libraries |
+|---|---|---|---|---|---|
+| [Vibe.co](https://vibe.co) | $50M raised | $1.4B (2026 exit) | n/a | Walmart | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Vibe.co&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=vibe.co) · [LI](https://www.linkedin.com/ad-library/search?keyword=Vibe.co) |
+| [tvScientific](https://tvscientific.com) | n/a | n/a | n/a | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=tvScientific&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=tvscientific.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=tvScientific) |
+| [Tatari](https://tatari.tv) | $0 — bootstrapped | n/a | $37.1M est. ARR | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Tatari&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=tatari.tv) · [LI](https://www.linkedin.com/ad-library/search?keyword=Tatari) |
+| [Simulmedia](https://simulmedia.com) | n/a | n/a | n/a | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Simulmedia&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=simulmedia.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=Simulmedia) |
+
+- **Vibe.co** — Walmart announced the $1.4B acquisition 23 June 2026 and closed it 4 Aug 2026 — $1.2B cash plus ~$180M to executives. Had been valued at $410M after a $50M raise. Walmart's biggest CTV move since buying Vizio for $2.3B
+- **tvScientific** — Self-serve performance CTV for mid-market advertisers
+- **Tatari** — Linear plus streaming, with incrementality measurement
+- **Simulmedia** — Cross-screen TV performance buying
+
+### Measurement, incrementality & attribution
+
+The independent scorekeepers. Structurally protected, because a platform grading its own homework is a permanent conflict of interest — which is exactly why the platforms are buying into this layer.
+
+| Company | Raised | Valuation | Revenue | Status | Ad libraries |
+|---|---|---|---|---|---|
+| [Haus](https://haus.io) | $55.3M | n/a | n/a | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Haus&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=haus.io) · [LI](https://www.linkedin.com/ad-library/search?keyword=Haus) |
+| [Rockerbox](https://rockerbox.com) | — | — | n/a | DoubleVerify | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Rockerbox&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=rockerbox.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=Rockerbox) |
+| [Scibids](https://scibids.com) | — | $125M (2023 exit) | n/a | DoubleVerify | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Scibids&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=scibids.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=Scibids) |
+| [INCRMNTAL](https://incrmntal.com) | n/a | n/a | n/a | Being acquired | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=INCRMNTAL&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=incrmntal.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=INCRMNTAL) |
+| [Prescient AI](https://prescientai.com) | $18M | n/a | $11.4M revenue (Sep 2025) | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Prescient%20AI&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=prescientai.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=Prescient%20AI) |
+| [Measured](https://measured.com) | n/a | n/a | n/a | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Measured&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=measured.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=Measured) |
+| [Fospha](https://fospha.com) | n/a | n/a | n/a | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Fospha&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=fospha.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=Fospha) |
+
+- **Haus** — Series B April 2025 plus $20M from 01 Advisors; geo-based causal experiments, now Causal MMM and Causal Attribution
+- **Rockerbox** — Acquisition completed 13 March 2025
+- **Scibids** — Cash-and-stock deal plus earn-out; custom bidding algorithms across DV360, The Trade Desk and Xandr
+- **INCRMNTAL** — Smartly signed a letter of intent to acquire it — the buying layer absorbing the measurement layer
+- **Prescient AI** — $10M Series A led by Headline and CEAS; 49 employees; media-mix modelling for DTC
+- **Measured** — Large-scale geo holdout experiments using synthetic control
+- **Fospha** — Focused on UK/EU DTC brands whose paid-social prospecting is undervalued by last-click
+
+### Programmatic AI & the big DSPs
+
+Where AI bidding runs at the largest scale outside the walled gardens.
+
+| Company | Raised | Valuation | Revenue | Status | Ad libraries |
+|---|---|---|---|---|---|
+| [The Trade Desk](https://thetradedesk.com) | public | — | $2.44B (2024) | Public (Nasdaq: TTD) | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=The%20Trade%20Desk&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=thetradedesk.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=The%20Trade%20Desk) |
+| [Zeta Global](https://zetaglobal.com) | public | — | $1.305B FY2025, +30% | Public (NYSE: ZETA) | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Zeta%20Global&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=zetaglobal.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=Zeta%20Global) |
+| [Viant](https://viantinc.com) | public | — | n/a | Public (Nasdaq: DSP) | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Viant&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=viantinc.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=Viant) |
+| [Basis Technologies](https://basis.com) | n/a | n/a | n/a | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Basis%20Technologies&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=basis.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=Basis%20Technologies) |
+
+- **The Trade Desk** — Kokai platform with the Koa AI forecasting engine and Unified ID
+- **Zeta Global** — 2026 guidance $1.749–1.762B. Athena by Zeta, built with OpenAI, hit GA in Q1 2026; agentic interactions rose sevenfold in week one and became 60%+ of AI usage
+- **Viant** — AI-driven DSP for the open internet
+- **Basis Technologies** — Automation across programmatic, search and social for agencies
+
+### AI-native ad networks (ads inside AI products)
+
+The newest category in the report: advertising placed inside chatbots and AI assistants rather than feeds. Tiny today, and the most speculative bet in the market.
+
+| Company | Raised | Valuation | Revenue | Status | Ad libraries |
+|---|---|---|---|---|---|
+| [Nexad](https://nex.ad) | $6M | n/a | n/a | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Nexad&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=nex.ad) · [LI](https://www.linkedin.com/ad-library/search?keyword=Nexad) |
+| [Kontext](https://kontextso.com) | $10M | n/a | n/a | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Kontext&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=kontextso.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=Kontext) |
+| [Rembrand](https://rembrand.com) | $46M | n/a | n/a | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Rembrand&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=rembrand.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=Rembrand) |
+
+- **Nexad** — Seed co-led by a16z and Prosus Ventures, April 2025, with Point72 Ventures and a Sequoia scout fund; claims 2x conversion vs traditional ads
+- **Kontext** — Seed round; places branded links beneath chatbot responses for Amazon, Uber and Canva
+- **Rembrand** — $23M Series A led by super{set} with The Trade Desk and Naver; AI virtual product placement moving from social into CTV
+
+### Local & multi-location marketing platforms
+
+How the long tail of Main Street businesses actually buys advertising — bundled into an operating system they already use.
+
+| Company | Raised | Valuation | Revenue | Status | Ad libraries |
+|---|---|---|---|---|---|
+| [Podium](https://podium.com) | $421.6M | $3B (2025) | $219.9M est. ARR | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Podium&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=podium.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=Podium) |
+| [Birdeye](https://birdeye.com) | $93M | n/a | ~$100M+ revenue | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Birdeye&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=birdeye.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=Birdeye) |
+| [Thryv](https://thryv.com) | public | — | n/a | Public (Nasdaq: THRY) | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Thryv&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=thryv.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=Thryv) |
+
+- **Podium** — 60,000 local businesses; AI revenue grew roughly 300% in a year; ~1,500 staff
+- **Birdeye** — 100,000+ businesses; expanding agentic AI for multi-location marketing
+- **Thryv** — SMB marketing and operations suite
+
+### Product feed management
+
+Unglamorous plumbing that decides whether a Shopping or catalog ad can run at all. Consolidating fast.
+
+| Company | Raised | Valuation | Revenue | Status | Ad libraries |
+|---|---|---|---|---|---|
+| [Feedonomics](https://feedonomics.com) | — | — | n/a | BigCommerce | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Feedonomics&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=feedonomics.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=Feedonomics) |
+| [Productsup](https://productsup.com) | $91M | n/a | n/a | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Productsup&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=productsup.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=Productsup) |
+| [Channable](https://channable.com) | n/a | n/a | n/a | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Channable&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=channable.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=Channable) |
+
+- **Feedonomics** — Founded 2014 by Brian Roizen and Shawn Lipman; serves 30%+ of the top 1,000 internet retailers
+- **Productsup** — Feed management, marketplace integration and content syndication
+- **Channable** — Connects catalogs to 3,000+ marketplaces and ad platforms
 ---
 
 ## 7. Founder profile directory
