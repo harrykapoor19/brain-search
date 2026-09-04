@@ -1,6 +1,6 @@
 # The Automated Ads Market — Who's Building the AI That Runs Meta, Google and TikTok Ads
 
-**Research date: 3 September 2026.** Scope: software that helps businesses create, launch and optimize paid advertising on Meta, Google, TikTok and adjacent platforms using AI. Segmented by customer type, then extended to the adjacent layers advertisers depend on. ~110 companies with funding, valuations, founders, scale and ad-library links.
+**Research date: 3 September 2026.** Scope: software that helps businesses create, launch and optimize paid advertising on Meta, Google, TikTok and adjacent platforms using AI. Segmented by customer type, then extended to the adjacent layers advertisers depend on. ~115 companies with funding, valuations, founders, scale and ad-library links.
 
 **How to read the numbers.** Figures marked "est." come from Latka, Tracxn, Growjo or PitchBook and are modelled, not disclosed. Figures without that label come from company announcements, press releases, SEC filings or credible press. Where sources conflict, both are shown. "n/a" means not found, never guessed.
 
@@ -146,6 +146,39 @@ The ad-optimization AI category took $110.5M across five deals, at a median roun
 MAI is the purest expression of the thesis: agents that plan, launch and optimize campaigns autonomously, already managing millions of dollars of Google Ads spend per month and claiming 40% higher sales for ecommerce clients.
 
 Incumbent platforms are shipping agents too. PubMatic's AgenticOS cut campaign setup time 87% in an early December 2025 deployment. In the week before Cannes Lions in June 2026, at least eight major platforms shipped autonomous buying agents or the infrastructure they need.
+
+
+### The seed-stage agentic tier (2025–26)
+
+The layer closest to an SMB actually typing a prompt and getting live campaigns. Almost all founded in 2025, almost all under $25M raised, and the most exposed position in the entire market.
+
+| Company | Raised | Valuation | Traction | Status | Ad libraries |
+|---|---|---|---|---|---|
+| [Runable](https://runable.com) | $21M+ | $65M post-money (Aug 2026) | $2M ARR run rate within 3 weeks of launching payments | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Runable&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=runable.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=Runable) |
+| [Sprites](https://sprites.ai) | $4.45M | n/a | n/a | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Sprites&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=sprites.ai) · [LI](https://www.linkedin.com/ad-library/search?keyword=Sprites) |
+| [Pomo](https://usepomo.com) | $4.5M seed | n/a | n/a | Independent | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Pomo&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=usepomo.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=Pomo) |
+| [Lapis](https://trylapis.com) | ~$0.5M–$1M (sources differ) | n/a | n/a | Independent (YC F25) | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Lapis&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=trylapis.com) · [LI](https://www.linkedin.com/ad-library/search?keyword=Lapis) |
+| [Ryze AI](https://get-ryze.ai) | $0 — no funding raised | n/a | $500M+ ad spend managed (company claim) | Independent — pivoting | [Meta](https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Ryze%20AI&search_type=keyword_unordered) · [Google](https://adstransparency.google.com/?region=anywhere&domain=get-ryze.ai) · [LI](https://www.linkedin.com/ad-library/search?keyword=Ryze%20AI) |
+
+- **Runable** — Series A co-led by Susquehanna Venture Capital and Nexus Venture Partners, with Together Fund and Array VC. Indian startup founded 2025, pivoted from browser/scraping tech. ~1.7M registered users, biggest markets the US, UK and Japan. A general business agent — websites, apps, decks, prospect lists, marketing videos — where ads are one surface of 'growth', not the whole product.
+- **Sprites** — San Francisco, founded 2021. Investors include Ride Home Fund and Cathexis Ventures among nine. An AI agent for paid ads and SEO across Meta, Google, LinkedIn, Reddit and TikTok, driven by a natural-language interface; claims 20+ hours a week saved per team.
+- **Pomo** — Launched April 2026. Seed led by Kindred Ventures with Databricks Ventures, SV Angel, Seven Stars, Timeless Partners and 645 Ventures, plus angels Scott Belsky (Adobe), Mehdi Ghissassi (Google DeepMind) and Massimo Mascaro. Founders Praneet Dutta (CEO, ex-Google DeepMind) and Joe Cheuk (CTO, ex-Google/Databricks). Connects Google, Meta, TikTok and HubSpot and watches your campaigns alongside competitors', returning briefs — decision support rather than autonomous buying.
+- **Lapis** — Y Combinator Fall 2025, San Francisco, five people. Builds, launches and scales paid campaigns end-to-end for DTC and SaaS — copy, image generation, landing pages, optimization. Founders Varunram Ganesh (CEO, ex-Head of Growth at Warp, scaled it to $2.5M revenue; bitcoin research at MIT Media Lab) and Sai Surbehera (CTO, ex-ML engineer at Walmart Tech). Claims 1,500+ marketing teams and 30+ enterprises across 10 languages.
+- **Ryze AI** — San Francisco, operated by Meow AI, LLC. $89/month; claims 2,000+ clients and 700+ agencies across 23+ countries. Autonomously audits campaigns, reallocates budget, rotates creative and reports across Google, Meta and SEO. **Founder attribution conflicts:** press reporting names Ira Bodnar, while Tracxn lists Ramazan Rakhmatullin as founder and CEO; the company's own About page names neither. See the case study below.
+
+#### Case study: the squeeze arriving from a direction nobody priced in
+
+In February 2026 Ryze's founder posted that **"Claude just killed our startup."** After Anthropic and Manus shipped features that overlapped Ryze's product, the company's deal close rate fell from roughly **70% to 20%** within months of launch. The founder noted that Claude could analyze ad data but could not yet act inside a Google Ads account, and expected that to change within months. Ryze is pivoting toward complex AI workflows for large agencies.
+
+This matters beyond one company, and it revises the thesis in this report. I framed the threat as the ad platforms absorbing third-party features. Ryze was not killed by Meta or Google. It was killed by a **general-purpose AI assistant** — and the assistant did not even need write access to ad accounts to destroy the sales motion; the mere expectation of it was enough.
+
+So there are three squeeze vectors, not two:
+
+1. **The ad platforms** absorb creative, targeting and bidding into free features (Advantage+, Performance Max, Smart+).
+2. **General-purpose assistants** absorb the analysis, reporting and recommendation layer — the thin-wrapper business — before they can even execute.
+3. **The channel owners** buy the remaining independents outright (Walmart/Vibe.co at $1.4B, DoubleVerify/Rockerbox and Scibids, Smartly/INCRMNTAL).
+
+In candor: I am Claude, so the second vector is one I am part of. It does not change the finding, and the honest read is that a tool whose value is *"we look at your ad data and tell you what to do"* has the shortest remaining runway of anything in this report. What survives is what an assistant cannot do from a chat window — hold write access and accountability for spend, generate volumes of original creative, run independent measurement, or own distribution the assistant cannot reach.
 
 ### G. The platforms themselves
 
