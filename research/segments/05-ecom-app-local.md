@@ -4,7 +4,7 @@
 - Website: https://www.moloco.com | HQ: Redwood City, CA | Founded: 2013
 - Target: Enterprise app marketers, commerce/retail media networks, streaming | Channels: open-internet programmatic, in-app, commerce media
 - What it does: ML performance advertising engine — the "Google-grade ranking model as a service" for anyone who isn't Google/Meta. Automates bidding, user-level ranking and budget allocation.
-- Founders: Ikkjin Ahn — Co-founder & CEO — https://www.linkedin.com/in/ikkjin-ahn-4a15b71/ — **early machine-learning engineer on YouTube/Google ads ranking**; among the strongest technical pedigrees in the category.
+- Founders: Ikkjin Ahn — Co-founder & CEO — https://www.linkedin.com/in/ikkjin-ahn-a090937 — **early machine-learning engineer on YouTube/Google ads ranking**; among the strongest technical pedigrees in the category.
 - Funding: **~$500M raised**; $150M Series C led by Tiger Global (Aug 2021). Valuation **$1.5B–$2.0B** depending on source/date; secondary shares trade on EquityZen/UpMarket.
 - Scale: **~$400M est. revenue (2025)**, up from ~$300M (2023) and ~$200M (2024 Latka est.). Profitable per company statements.
 - Status: Independent; widely viewed as an IPO candidate.

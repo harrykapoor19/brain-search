@@ -35,3 +35,5 @@ The platforms are absorbing, for free, the three things most third-party tools c
 - https://www.emarketer.com/content/retailers-bet-on-meta-s-ai-powered-ad-suite
 - https://tracxn.com/d/sectors/adtech/__Ak0O6DnFtScWvUjt88Kfxjn0bRF95Kelyp4HRUsraNs
 - https://newmarketpitch.com/blogs/news/ai-sales-anding-funding-analysis
+
+> **Verification note (added after a people-database lookup):** LinkedIn URLs in these segment files were originally inferred from name patterns where a profile did not surface in search. They have since been resolved against a professional-profile database. Five were wrong and are now corrected: Mark Douglas, Ikkjin Ahn, Shubham Mishra, Vrushali Prasade and Assaf Baciu. See the "Founder profile directory" in the main report for the full verified list.

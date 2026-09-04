@@ -15,7 +15,7 @@
 - Website: https://pixis.ai | HQ: San Francisco, CA (built in India) | Founded: 2018 (as Pyxis One)
 - Target: Mid-market → enterprise performance teams | Channels: Meta, Google, TikTok, Amazon, programmatic
 - What it does: "Codeless AI" infrastructure — targeting AI, creative AI, performance AI stacked on top of the ad platforms. Automates audience expansion, bid/budget, creative variant generation and cross-channel optimization.
-- Founders: Shubham A. Mishra — Co-founder & Global CEO — LinkedIn: https://www.linkedin.com/in/shubhamamishra/ ; Vrushali Prasade — Co-founder & CTO — https://www.linkedin.com/in/vrushali-prasade/ ; Hari Valiyath — Co-founder & CBO. Neel Pandya is CEO EMEA/JAPAC.
+- Founders: Shubham A. Mishra — Co-founder & Global CEO — LinkedIn: https://www.linkedin.com/in/shubham015 ; Vrushali Prasade — Co-founder & CTO — https://www.linkedin.com/in/vprasade ; Hari Valiyath — Co-founder & CBO. Neel Pandya is CEO EMEA/JAPAC.
 - Funding: **$209M total over 4 rounds from 15 investors (Tracxn)**; $100M Series C led by SoftBank Vision Fund 2 (Jan 2022) with General Atlantic; $17M Series B four months earlier. Valuation not disclosed.
 - Scale: revenue n/a. Publicly publishes guidance on Meta's 2026 automation shift.
 - Status: Independent.
@@ -37,7 +37,7 @@
 - Website: https://mountain.com | HQ: Austin, TX | Founded: 2009
 - Target: SMB → mid-market performance advertisers moving into Connected TV | Channels: CTV/streaming, plus Meta/Google via acquisitions
 - What it does: Self-serve performance CTV platform; AI automates audience targeting, budget optimization and (via QuickFrame) creative production for TV ads.
-- Founders: Mark Douglas — Founder, President & CEO since March 2009 — https://www.linkedin.com/in/markadouglas/ — self-taught coder, started at Oracle, serial founder with prior IPO/acquisition outcomes. Ryan Reynolds — Chief Creative Officer (joined via MNTN's acquisition of Maximum Effort, 2021).
+- Founders: Mark Douglas — Founder, President & CEO since March 2009 — https://www.linkedin.com/in/teachmehow2douglas — self-taught coder, started at Oracle, serial founder with prior IPO/acquisition outcomes. Ryan Reynolds — Chief Creative Officer (joined via MNTN's acquisition of Maximum Effort, 2021).
 - Funding/Status: **IPO'd on NYSE 22–23 May 2025 at $16.00/share**, 8.4M Class A shares, $114.8M net proceeds. Market cap fell from **$1.24B at IPO to ~$886M** (stockanalysis.com, 2026).
 - Scale: **FY2025 revenue $290.1M, +28.6% YoY** (from $225.6M).
 - Ad library: Meta https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=MNTN&search_type=keyword_unordered | Google https://adstransparency.google.com/?region=anywhere&domain=mountain.com | LinkedIn https://www.linkedin.com/ad-library/search?keyword=MNTN
@@ -69,7 +69,7 @@
 - Website: https://www.persado.com | HQ: New York, NY | Founded: 2012 (spun out of Upstream)
 - Target: Enterprise (banking, retail, telco) | Channels: paid social/search ad copy, email, web
 - What it does: "Motivation AI" — generative language optimized against a tagged emotional-language dataset for ad and marketing copy.
-- Founders: Alex Vratskides — Co-founder (ex-CEO); Assaf Baciu — Co-founder & President — https://www.linkedin.com/in/assafbaciu/ — ex-Upstream, product leadership.
+- Founders: Alex Vratskides — Co-founder (ex-CEO); Assaf Baciu — Co-founder & President — https://www.linkedin.com/in/assaf-baciu-17a4b3 — ex-Upstream, product leadership.
 - Funding: **$120M+ total (est. 2025)** — Bain Capital Ventures, August Capital, Goldman Sachs, American Express Ventures. $30M round led by Goldman Sachs (2016).
 - Status: Independent; pre-IPO shares listed on EquityZen.
 - Ad library: Meta https://www.facebook.com/ads/library/?active_status=active&ad_type=all&country=ALL&q=Persado&search_type=keyword_unordered | Google https://adstransparency.google.com/?region=anywhere&domain=persado.com | LinkedIn https://www.linkedin.com/ad-library/search?keyword=Persado
