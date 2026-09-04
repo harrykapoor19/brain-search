@@ -185,6 +185,7 @@ footer{padding:40px 0 64px; color:var(--muted); font-size:.86rem}
     <p class="dek">A map of ~123 companies selling AI tools to businesses that advertise on Meta, Google and TikTok — by segment, with funding, valuations, founders and an investor's verdict.</p>
     <p class="thesis">The organising fact: Meta's Advantage+ passed a <strong>$75B annual revenue run rate</strong> in Q2 2026, and Meta intends to let a business supply a URL, a budget and a bank account by the end of the year. Creative generation, targeting and budget optimization — the three things most of these companies charge for — are becoming free platform features.</p>
     <nav class="toc">
+      <a href="#cohorts">Who the buyer is</a>
       <a href="#squeeze">The squeeze</a>
       <a href="#smb">SMB self-serve</a>
       <a href="#creative">GenAI creative</a>
@@ -209,6 +210,63 @@ footer{padding:40px 0 64px; color:var(--muted); font-size:.86rem}
 </div>
 
 <main class="wrap">
+
+<section id="cohorts">
+  <div class="sec-head">
+    <span class="eyebrow">Executive summary · segmented by buyer, not by product</span>
+    <h2>Who actually opens the tool</h2>
+  </div>
+  <div class="col"><p>Product categories are the wrong lens for a build-or-invest decision, because several products serve completely different buyers with completely different economics. Cut by who actually opens the tool, the market resolves into four cohorts.</p></div>
+  <div class="tbl-wrap"><table>
+    <thead><tr><th>Cohort</th><th>Who the user is</th><th>Cohort size</th><th>Willingness to pay</th><th>Verdict</th></tr></thead>
+    <tbody>
+      <tr><td class="co">1. Owner-operator</td><td>The business owner is the media buyer</td><td>~10M Meta + ~7M Google advertisers; 27% of US digital spend (~$225B)</td><td class="num">$27–$500/mo</td><td><span class="pill dead">Avoid standalone</span></td></tr>
+      <tr><td class="co">2. In-house growth team</td><td>Professional media buyer / creative strategist</td><td>DTC brands spending $50K–$5M/mo</td><td class="num">$1K–$10K/mo</td><td><span class="pill exit">Best risk-adjusted</span></td></tr>
+      <tr><td class="co">3. App UA manager</td><td>Quantitative UA team</td><td>$94B global app install spend (2026)</td><td class="num">Media-scale</td><td><span class="pill dead">Closed</span></td></tr>
+      <tr><td class="co">4. Enterprise &amp; agency</td><td>Marketing ops, agency account teams</td><td>Most of the $836B digital market; retail media $200.4B</td><td class="num">$100K–$1M+/yr</td><td><span class="pill">Agency slice only</span></td></tr>
+    </tbody>
+  </table></div>
+  <div class="verdict" style="border-left-color:var(--critical)">
+    <div class="who"><h4>Cut 1 — The owner-operator</h4><span class="role">The business owner <em>is</em> the media buyer</span></div>
+    <p><strong>Cohort size:</strong> ~10M active advertisers on Meta, ~7M on Google Ads. SMBs are 27% of the US digital ad market — roughly <strong>$225B of US spend</strong>, growing 22% in 2025.</p>
+    <p><strong>Willingness to pay:</strong> $27–$500/month. No expertise, no time, no dedicated marketer.</p>
+    <p><strong>Top players:</strong> Meta Advantage+ (free, and the default), LocaliQ/WordStream, Podium ($3B), Birdeye, Blaze, Kliken (embedded in Wix/WooCommerce), Eulerity (franchise), Plai, Ryze, AdAmigo</p>
+    <p><strong>Worst unit economics in the market.</strong> Huge logo count, tiny ACV, savage churn. Every venture-backed pure-play here is stuck under $5M ARR. Meta's URL-plus-budget product lands directly on this cohort around Q4 2026, for free.</p>
+  </div>
+  <div class="verdict" style="border-left-color:var(--good)">
+    <div class="who"><h4>Cut 2 — The in-house growth team</h4><span class="role">A professional media buyer or creative strategist</span></div>
+    <p><strong>Cohort size:</strong> DTC and consumer brands spending $50K–$5M/month. The core of Meta and TikTok direct-response revenue; TikTok alone is ~$44B globally.</p>
+    <p><strong>Willingness to pay:</strong> $1K–$10K/month, and they buy several tools at once.</p>
+    <p><strong>Top players:</strong> Motion (~$50M ARR), Foreplay, Atria, Superads, Triple Whale, Northbeam, Haus, Prescient AI, Madgicx, Arcads ($15M ARR), Creatify, AdManage.ai</p>
+    <p><strong>The best risk-adjusted cohort.</strong> Sophisticated buyers with existing budget and low education cost. Creative volume is a permanent constraint the platforms do not solve — they redistribute your assets, they do not invent concepts. Motion reached ~$50M ARR on $42M raised; Arcads ~$15M ARR reportedly with eight people.</p>
+  </div>
+  <div class="verdict" style="border-left-color:var(--critical)">
+    <div class="who"><h4>Cut 3 — The app UA manager</h4><span class="role">A quantitative user-acquisition team</span></div>
+    <p><strong>Cohort size:</strong> <strong>$94B of global app install spend in 2026</strong>, up from $81B in 2025. Non-gaming grew 18% to $53B. iOS CPI $5.84, Android $1.92.</p>
+    <p><strong>Willingness to pay:</strong> Six to eight figures of annual spend, bought as media not software.</p>
+    <p><strong>Top players:</strong> AppLovin AXON (~$104B market cap), Moloco (~$400M revenue), Liftoff ($4.3B, IPO filed), AppsFlyer ($1B Series E), Adjust, Branch, Remerge, Bidease</p>
+    <p><strong>Effectively closed.</strong> Winner-take-most, decided by data scale and network effects. A new entrant without proprietary inventory or a supply-side asset has no wedge.</p>
+  </div>
+  <div class="verdict" style="border-left-color:var(--rule-strong)">
+    <div class="who"><h4>Cut 4 — The enterprise brand & agency</h4><span class="role">Marketing ops, agency account teams, procurement</span></div>
+    <p><strong>Cohort size:</strong> The majority of the $836B digital ad market by value. Retail media alone is <strong>$200.4B in 2026</strong>, +17.6% YoY, heading to $312B by 2030.</p>
+    <p><strong>Willingness to pay:</strong> $100K–$1M+ per year, long cycles, heavy governance requirements.</p>
+    <p><strong>Top players:</strong> Smartly ($101M ARR), Skai, Pixis, StackAdapt ($500M+ revenue), Fluency ($3B spend under management), Adobe GenStudio, VidMob, Celtra, The Trade Desk, Zeta Global</p>
+    <p><strong>Slow, sticky, and PE roll-up territory.</strong> But the agency sub-segment is genuinely defensible: the platforms will never build well for agencies, because agencies are precisely who platform automation is designed to disintermediate.</p>
+  </div>
+  <div class="col">
+    <h3 style="margin:30px 0 8px">A fifth, smaller cut worth knowing</h3>
+    <p><strong>B2B demand generation.</strong> US B2B digital ad spend is only ~$19&ndash;23B, and LinkedIn ad revenue is ~$9.7&ndash;11.4B depending on the source (trackers disagree materially). Small, but the least AI-disrupted cohort here, because the hard problem is identity and intent data rather than creative generation. Metadata.io, Influ2, Primer, HockeyStack, Dreamdata, RollWorks, Demandbase, 6sense.</p>
+  </div>
+  <div class="callout">
+    <p><strong>Where a new player should play: Cut 2, in the creative supply chain rather than the analytics layer.</strong></p>
+    <p>Creative volume is the only input the platforms structurally cannot supply. Advantage+ and Performance Max redistribute the assets you give them; they do not originate concepts, actors or campaigns. It is also the one thing a general-purpose assistant cannot do from a chat window. And the buyer already has budget, so education cost is near zero.</p>
+    <p>The evidence backs it: Motion reached ~$50M ARR on $42M raised; Arcads ~$15M ARR, profitable, reportedly with eight people; HeyGen $200M ARR having burned ~$25M. Capital efficiency in this cohort is the best in the dataset.</p>
+    <p><strong>The caution:</strong> the analytics half of Cut 2 is crowding fast &mdash; Motion, Foreplay, Atria and Superads converging on one buyer &mdash; and analytics is exactly what an assistant absorbs first. Sell production and rights, not dashboards.</p>
+    <p><strong>The contrarian alternative: sell to the retailer, not the advertiser.</strong> The fastest-growing line in this report is retail media at $200.4B, +17.6% YoY, and the tooling that lets a retailer run its own network is strikingly under-built. Koddi bootstrapped to $28.2M ARR with no outside capital; Topsort raised $43.2M at $150M. Every mid-size retailer, marketplace and delivery app now wants an ad business and cannot build the auction itself. Picks and shovels, enterprise buyer, nowhere near Meta's roadmap.</p>
+    <p><strong>What to avoid:</strong> a standalone SMB ad tool (Cut 1) unless you already own distribution &mdash; the Podium and Kliken model of embedding where the SMB already works, ads as a feature rather than the product. And app UA (Cut 3) without proprietary inventory.</p>
+  </div>
+</section>
 
 <section id="squeeze">
   <div class="sec-head">
